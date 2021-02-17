@@ -1,6 +1,7 @@
 package com.scr.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +16,9 @@ public interface AssetMonthlyTargetRepository extends JpaRepository<AssetMonthly
 	List<AssetMonthlyTarget> findAll();
 
 	List<AssetMonthlyTarget> findByFacilityIdAndYear(String facilityId, String year);
+	
+	Optional<AssetMonthlyTarget> findByFacilityId(String facilityId);
+
 
 	@Query(nativeQuery = true, value = "select total_target_year from v_asset_monthly_targets where asset_type = :assetType AND schedule_type = :schCode   AND year = :financialYear AND facility_id = :facilityId ")
 	String cumTargetBasedOnAssetTypeScheduleCodeFacilityIdYear(@Param("assetType") String assetType,

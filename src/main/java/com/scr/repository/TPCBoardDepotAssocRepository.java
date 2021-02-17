@@ -5,8 +5,6 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import com.scr.model.Facility;
 import com.scr.model.TpcBoardReportingFacility;
 
 public interface TPCBoardDepotAssocRepository extends JpaRepository<TpcBoardReportingFacility, Long>{
@@ -22,6 +20,7 @@ public interface TPCBoardDepotAssocRepository extends JpaRepository<TpcBoardRepo
 	
 	List<TpcBoardReportingFacility> findByTpcBoardAndUnitType(String tpcBoard, String unitType);
 
+	List<TpcBoardReportingFacility> getAllByDataDivIn(List<String> fac);
 
 	  
 }

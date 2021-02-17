@@ -6,6 +6,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.scr.model.TpcBoard;
 import com.scr.model.TpcBoardReportingFacility;
 import com.scr.repository.TPCBoardDepotAssocRepository;
 
@@ -42,5 +44,12 @@ public class TPCBoardDepotAssocService {
 	public Optional<TpcBoardReportingFacility> findByTpcBoardAndUnitName(String tpcBoard,String unitName) {
 		// TODO Auto-generated method stub
 		return tpcBoardDepotAssocRepository.findByTpcBoardAndUnitName(tpcBoard,unitName);
+	}
+	
+    
+
+	public List<TpcBoardReportingFacility> getAllOrderByTpcBoardAsc(List<String> fac) {
+		// TODO Auto-generated method stub
+		return tpcBoardDepotAssocRepository.getAllByDataDivIn(fac);
 	}
 }

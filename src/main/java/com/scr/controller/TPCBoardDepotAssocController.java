@@ -1,8 +1,10 @@
 package com.scr.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.apache.log4j.Logger;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import com.scr.jobs.CommonUtility;
 import com.scr.message.response.ResponseStatus;
-import com.scr.model.TpcBoard;
+import com.scr.model.Facility;
 import com.scr.model.TpcBoardReportingFacility;
 import com.scr.services.TPCBoardDepotAssocService;
 import com.scr.util.Constants;
@@ -28,6 +31,9 @@ public class TPCBoardDepotAssocController {
 
 	@Autowired
 	private TPCBoardDepotAssocService tpcBoardDepotAssocService;
+	
+	@Autowired
+	private CommonUtility  commonUtility;
 	
 	
 	@RequestMapping(value = "/findAllTPCBoardDepotAssoc" , method = RequestMethod.GET , headers = "Accept=application/json")
@@ -47,7 +53,27 @@ public class TPCBoardDepotAssocController {
 		log.info("Exit from findAllTPCBoardDepotAssoc function");
 		return tpcBoardDepotAssoc;
 	}
-	
+	@RequestMapping(value = "/findAllTPCBoardDepotAssocOnDivision/{loggedUserData}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public List<TpcBoardReportingFacility> findAllTPCBoardDepotAssocBasedOnDivision(@PathVariable("loggedUserData") String loggedUserData) throws JSONException {
+		List<TpcBoardReportingFacility> tpcBoardList = null;
+		List<String> fac= new ArrayList<>();
+		try {
+			List<Facility> facility = commonUtility.findUserHierarchy(loggedUserData);
+			for (Facility facility2 : facility) {
+				
+				fac.add(facility2.getDivision());
+				
+			}
+			tpcBoardList = tpcBoardDepotAssocService.getAllOrderByTpcBoardAsc(fac);
+		return tpcBoardList;
+		} catch (NullPointerException e) {
+			log.error(e);
+		}
+		catch (Exception e) {
+			log.error(e);
+		}
+		return tpcBoardList;	
+	}
 	@RequestMapping(value = "/addTPCBoardDeotAssoc" , method = RequestMethod.POST , headers = "Accept=application/json")
 	public ResponseStatus addTPCBoardDeotAssoc(@RequestBody TpcBoardReportingFacility tpcBoardReportingFacility) {
 		log.info("Enter into addTPCBoardDeotAssoc function with below request parameters ");

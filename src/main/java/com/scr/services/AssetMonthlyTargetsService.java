@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.scr.model.AssetMonthlyTarget;
 import com.scr.model.AssetScheduleAssoc;
 import com.scr.model.WPASectionTargets;
+import com.scr.model.WorkPhaseActivity;
 import com.scr.model.WorkPhases;
 import com.scr.repository.AssetMonthlyTargetRepository;
 import com.scr.repository.AssetSchAssoRepository;
@@ -33,27 +34,29 @@ static Logger logger = LogManager.getLogger(AssetMonthlyTargetsService.class);
 	}
 	public void updateAssetMonthlyTarget(List<AssetMonthlyTarget> assetMonthlyTargetList) {
 		for (AssetMonthlyTarget assetMonthlyTargetData : assetMonthlyTargetList) {
-			List<AssetMonthlyTarget> assetMonTarget = assetTargetRepository.findByFacilityIdAndYear(assetMonthlyTargetData.getFacilityId(),assetMonthlyTargetData.getYear());
-			          AssetMonthlyTarget assetMonthlyTarget = assetMonTarget.get(0);
+			Optional<AssetMonthlyTarget> assetMonTarget = assetTargetRepository.findByFacilityId(assetMonthlyTargetData.getFacilityId());
+			if (assetMonTarget.isPresent()) {
+				
+				AssetMonthlyTarget updateAssetMonthlyTargetData = assetMonTarget.get();
+				updateAssetMonthlyTargetData.setAssetType(assetMonthlyTargetData.getAssetType());
+				updateAssetMonthlyTargetData.setScheduleType(assetMonthlyTargetData.getScheduleType());
+				updateAssetMonthlyTargetData.setTotalPopulation(assetMonthlyTargetData.getTotalPopulation());
+				updateAssetMonthlyTargetData.setTargetApr(assetMonthlyTargetData.getTargetApr());
+				updateAssetMonthlyTargetData.setTargetMay(assetMonthlyTargetData.getTargetMay());
+				updateAssetMonthlyTargetData.setTargetJune(assetMonthlyTargetData.getTargetJune());
+				updateAssetMonthlyTargetData.setTargetJuly(assetMonthlyTargetData.getTargetJuly());
+				updateAssetMonthlyTargetData.setTargetAug(assetMonthlyTargetData.getTargetAug());
+				updateAssetMonthlyTargetData.setTargetSep(assetMonthlyTargetData.getTargetSep());
+				updateAssetMonthlyTargetData.setTargetOct(assetMonthlyTargetData.getTargetOct());
+				updateAssetMonthlyTargetData.setTargetNov(assetMonthlyTargetData.getTargetNov());
+				updateAssetMonthlyTargetData.setTargetDec(assetMonthlyTargetData.getTargetDec());
+				updateAssetMonthlyTargetData.setTargetJan(assetMonthlyTargetData.getTargetJan());
+				updateAssetMonthlyTargetData.setTargetFeb(assetMonthlyTargetData.getTargetFeb());
+				updateAssetMonthlyTargetData.setTargetMar(assetMonthlyTargetData.getTargetMar());
 
-						assetMonthlyTarget.setAssetType(assetMonthlyTargetData.getAssetType());
-						assetMonthlyTarget.setScheduleType(assetMonthlyTargetData.getScheduleType());
-						assetMonthlyTarget.setTotalPopulation(assetMonthlyTargetData.getTotalPopulation());
-						assetMonthlyTarget.setTargetApr(assetMonthlyTargetData.getTargetApr());
-						assetMonthlyTarget.setTargetMay(assetMonthlyTargetData.getTargetMay());
-						assetMonthlyTarget.setTargetJune(assetMonthlyTargetData.getTargetJune());
-						assetMonthlyTarget.setTargetJuly(assetMonthlyTargetData.getTargetJuly());
-						assetMonthlyTarget.setTargetAug(assetMonthlyTargetData.getTargetAug());
-						assetMonthlyTarget.setTargetSep(assetMonthlyTargetData.getTargetSep());
-						assetMonthlyTarget.setTargetOct(assetMonthlyTargetData.getTargetOct());
-						assetMonthlyTarget.setTargetNov(assetMonthlyTargetData.getTargetNov());
-						assetMonthlyTarget.setTargetDec(assetMonthlyTargetData.getTargetDec());
-						assetMonthlyTarget.setTargetJan(assetMonthlyTargetData.getTargetJan());
-						assetMonthlyTarget.setTargetFeb(assetMonthlyTargetData.getTargetFeb());
-						assetMonthlyTarget.setTargetMar(assetMonthlyTargetData.getTargetMar());
-
-						assetTargetRepository.save(assetMonthlyTarget);
+						assetTargetRepository.save(updateAssetMonthlyTargetData);
 					}
+		}
 		}
 		
 	

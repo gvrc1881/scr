@@ -119,7 +119,7 @@ duplicateTpcBoard() {
     getAllTPCBoardDepotAssocData() {
        
         const tpcBoardDepotAssoc : TPCBoardDepotAssocModel[] = [];
-        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.GET_TPC_BOARD_ASSOC).subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.GET_TPC_BOARD_ASSOC_BASED_ON_DIV+this.loggedUserData.username).subscribe((data) => {
             this.tpcBoardDepotAssocList = data;
             for (let i = 0; i < this.tpcBoardDepotAssocList.length; i++) {
                 this.tpcBoardDepotAssocList[i].sno = i+1;

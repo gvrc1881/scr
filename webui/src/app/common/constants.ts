@@ -379,6 +379,7 @@ export const Constants = {
             },
             TPC_BOARD_ASSOC:{
                 GET_TPC_BOARD_ASSOC:"/findAllTPCBoardDepotAssoc",
+                GET_TPC_BOARD_ASSOC_BASED_ON_DIV:"/findAllTPCBoardDepotAssocOnDivision/",
                 GET_TPC_BOARD_ASSOC_ID:"/findTPCBoardDepotAssocById/",
                 SAVE_TPC_BOARD_ASSOC:"/addTPCBoardDeotAssoc",
                 UPDATE_TPC_BOARD_ASSOC:"/updateTPCBoardDepotAssoc",
