@@ -729,7 +729,7 @@ export const FieldLabelsConstant = {
     TEST_INSPECTION_FORM:'Test Inspection',
     TEST_INSPECTION_DATA:'Test Inspection Data',
     RETEST_MEASUREMENTS: 'Retest Measurements',
-    PRODUCT_ASSOCIATION_FORM:'Product Association',
+    PRODUCT_ASSOCIATION_FORM:'Product Association Form',
     PRODUCT_ASSOCIATION_DATA:'Product Association',
    }
 };
