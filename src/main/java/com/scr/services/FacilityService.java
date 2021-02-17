@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.scr.model.AssetMasterData;
 import com.scr.model.Facility;
 import com.scr.model.Make;
 import com.scr.repository.FacilityRepository;
@@ -79,5 +80,17 @@ public class FacilityService {
 		// TODO Auto-generated method stub
 		return facilityRepository.findByFacilityName(facilityName);
 	}
+
+	public Optional<Facility> findByFacilityId(AssetMasterData assetMasterData) {
+		
+		return facilityRepository.findByFacilityId(assetMasterData);
+	}
+
+	public Optional<Facility> findById(String subStation) {
+		
+		return facilityRepository.findById(subStation);
+	}
+
+	
 
 }

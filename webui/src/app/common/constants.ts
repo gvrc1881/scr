@@ -633,7 +633,9 @@ export const Constants = {
             UNUSUALOCCURENCE_FAILURE_ATTACHMENT_LIST:"/unUsualOccurenceFailureAttachedDocumentList/",
             GET_FACILITYID_BASEDON_ASSETID:"/findFaciltiyBasedOnAssetId/",
             FAILUREANALYSIS_ATTACHMENT_LIST:"/failureAnalysisAttachedDocumentList/",
-            FAILUREANALYSIS_UPLOAD_FILES:"/failureAnalysisUploadFiles"
+            FAILUREANALYSIS_UPLOAD_FILES:"/failureAnalysisUploadFiles",
+            FAILURE_CASCADES:'/getCascades/',
+	        GET_SP_SSP_BASEDON_TSS:"/getSpSSpBasedOnTss/"
 
              
         },

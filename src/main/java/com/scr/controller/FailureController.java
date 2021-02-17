@@ -32,11 +32,15 @@ import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Model;
 import com.scr.model.ProductCategoryMember;
 import com.scr.model.TssFeederMaster;
+import com.scr.model.TssSpSspAssoc;
 import com.scr.model.UserDefualtFacConsIndEtc;
 import com.scr.model.Works;
+import com.scr.repository.FacilityRepository;
 import com.scr.services.ContentManagementService;
+import com.scr.services.FacilityService;
 import com.scr.services.FailureActionsCausesImpactService;
 import com.scr.services.FailureService;
+import com.scr.services.TssSpSspAssocService;
 import com.scr.services.UserDefualtFacConsIndEtcService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -62,6 +66,14 @@ public class FailureController {
 	
 	@Autowired
 	private CommonUtility  commonUtility;
+	@Autowired
+	private FacilityService facilityService;
+	
+	@Autowired
+	private FacilityRepository facilityRepository;
+	
+	@Autowired
+	private TssSpSspAssocService tssSpSspService;
 	
 	@RequestMapping(value = "/failuresByType/{failureType}", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<Failure>> findFailureByType(
@@ -189,6 +201,16 @@ public class FailureController {
 		return new ResponseEntity<List<AssetMasterData>>(assetId,HttpStatus.OK);	
 		
 	}
+	@RequestMapping(value = "/getCascades/{subStation}", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<AssetMasterData>> findByAssetIdBasedOnFacility(@PathVariable("subStation") Long subStation){
+		logger.info("subStation==="+subStation);
+		Optional<Facility> fac = facilityRepository.findById(subStation);
+		logger.info("facility==="+fac);
+		List<AssetMasterData> assetId= failureService.findByAssetIdBasedOnFacility(fac.get().getFacilityId());
+		logger.info("Fetched assets data = "+assetId.size());
+		return new ResponseEntity<List<AssetMasterData>>(assetId,HttpStatus.OK);	
+		
+	}
 	/*@RequestMapping(value = "/findFaciltiyBasedOnAssetId/{assetId}", method = RequestMethod.GET ,headers = "accept=application/json")	
 	public ResponseEntity<List<AssetMasterData>> findFaciltiyBasedOnAssetId(@PathVariable("assetId") String assetId){
 		List<AssetMasterData> facilityId= failureService.findByAssetId(assetId);
@@ -198,20 +220,26 @@ public class FailureController {
 	}*/
 	
 	@RequestMapping(value = "/findFaciltiyBasedOnAssetId/{assetId}", method = RequestMethod.GET, headers = "accept=application/json")
-	public ResponseEntity<AssetMasterData> findFaciltiyBasedOnAssetId(@PathVariable("assetId") String assetId) {
+	public ResponseEntity<TssSpSspAssoc> findFaciltiyBasedOnAssetId(@PathVariable("assetId") String assetId) {
 		logger.info("** Enter into findFaciltiyBasedOnAssetId function ***");
 		Optional<AssetMasterData> amd = null;
+		Optional<Facility> fac = null;
+		Optional<TssSpSspAssoc> sspList =null;
 		try {
 			logger.info("** assetId = " + assetId);
 			amd = failureService.findByAssetId(assetId);
 			if (amd.isPresent()) {
-				return new ResponseEntity<AssetMasterData>(amd.get(), HttpStatus.OK);
+				 fac  = facilityRepository.findByFacilityId(amd.get().getFacilityId());
+				 logger.info("facility==="+fac);
+				 sspList = tssSpSspService.findBySspSpFacilityId(Long.toString(fac.get().getId()));
+				 logger.info("** ssplist === " + sspList);
+				return new ResponseEntity<TssSpSspAssoc>(sspList.get(), HttpStatus.OK);
 			} else
-				return new ResponseEntity<AssetMasterData>(amd.get(), HttpStatus.CONFLICT);
+				return new ResponseEntity<TssSpSspAssoc>(sspList.get(), HttpStatus.CONFLICT);
 
 		} catch (Exception e) {
 			logger.error("Error >>  while find facility Details by assetId, " + e.getMessage());
-			return new ResponseEntity<AssetMasterData>(amd.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<TssSpSspAssoc>(sspList.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}

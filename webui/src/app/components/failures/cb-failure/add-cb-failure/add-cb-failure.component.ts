@@ -106,7 +106,7 @@ export class AddCbFailureComponent implements OnInit {
     this.findCbInternal();
     this.findCbExternal();
     this.findFacilities();
-    this.findSubStation();
+    //this.findSubStation();
     this.id = +this.route.snapshot.params['id'];   
   
       if (!isNaN(this.id)) {
@@ -143,7 +143,7 @@ export class AddCbFailureComponent implements OnInit {
   }
   findCascades(){
     let station= this.addCbFailFromGroup.controls['station'].value;
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_EQUIPMENT+station)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_CASCADES+station)
     .subscribe((data) => {
       
       this.failurecasList = data;
@@ -246,10 +246,10 @@ export class AddCbFailureComponent implements OnInit {
 
         this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_FACILITYID_BASEDON_ASSETID+this.resp.cascadeAssets)
         .subscribe((data) => {          
-          this.switchingStationList = data;        
-          this.addCbFailFromGroup.patchValue({station: this.switchingStationList.facilityId})
+          this.switchingStationList = data;              
+          this.addCbFailFromGroup.patchValue({station: this.switchingStationList.sspSpFacilityId})
         })
-
+          
         this.addCbFailFromGroup.patchValue({
           id: this.resp.id,
           subStation:this.resp.subStation,
@@ -277,8 +277,8 @@ export class AddCbFailureComponent implements OnInit {
           cascadeRemarks:this.resp.cascadeRemarks
          
         });
-     //  this. updatesubStation();  
-     this.findSubStation();    
+     //  this. updatesubStation(); 
+     this.findSubStation();   
         this.spinnerService.hide();
        
 
@@ -372,44 +372,27 @@ export class AddCbFailureComponent implements OnInit {
 
 findSubStation(){
 
-  this.depotList=[]; 
+//   this.depotList=[]; 
 
-  for (let i = 0; i < this.facilityHierarchy.length; i++) {
+//   for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
-    if( this.facilityHierarchy[i].depotType == 'SP'|| this.facilityHierarchy[i].depotType == 'SSP' ){
+//     if( this.facilityHierarchy[i].depotType == 'SP'|| this.facilityHierarchy[i].depotType == 'SSP' ){
        
-       this.depotList.push(this.facilityHierarchy[i]);
+//        this.depotList.push(this.facilityHierarchy[i]);
       
-       // this.facilityHierarchy.facilityList;
+//        // this.facilityHierarchy.facilityList;
         
-    }
- } 
+//     }
+//  }
+ let subStation = this.addCbFailFromGroup.controls['subStation'].value;
+ this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_SP_SSP_BASEDON_TSS +subStation)
+    .subscribe((resp) => {
+      this.depotList = resp;
+    });
+    this.findEquipments()
 }
-timeDuration(){
-    
-  //   var fromDateTime=this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addCbFailFromGroup.value.fromDateTime);
-    
-  //   var thruDateTime=this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addCbFailFromGroup.value.thruDateTime);
-   
-   
-  //  if(this.addCbFailFromGroup.value.fromDateTime.getTime()!="" && this.addCbFailFromGroup.value.thruDateTime.getTime()!=""){
-   
-    
-  //   let diff=this.addCbFailFromGroup.value.thruDateTime.getTime()-this.addCbFailFromGroup.value.fromDateTime.getTime();
-  
-
-  //  let days=Math.floor(diff / (60*60*24*1000));
-   
-  //  let hours=Math.floor(diff / (60*60*1000))-(days*24);
-  //  let hour=hours+(days*24);
-  
-  //  let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
-   
-  //  let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
-  
-  //  this.duration=String(hour)+":" + String(minutes)+":" +String(seconds) ;
-   
-  //   }
+timeDuration(){   
+ 
 
     var ffdate=this.addCbFailFromGroup.value.fromDateTime;
   

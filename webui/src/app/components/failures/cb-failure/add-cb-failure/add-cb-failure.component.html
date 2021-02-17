@@ -59,8 +59,8 @@
                                                     <div *ngIf="!enableStation; else StationElseBlock">
                                                         <div class="col-md-3">
                                                             <mat-form-field fxFlex="30" class="example-full-width">
-                                                                <mat-select placeholder="{{FiledLabels.SUB_STATION}}" (ngModelChange)="findEquipments()"
-                                                                    [formControl]="addCbFailFromGroup.controls['subStation']" required>
+                                                                <mat-select placeholder="{{FiledLabels.SUB_STATION}}" 
+                                                                (ngModelChange)="findSubStation()"  [formControl]="addCbFailFromGroup.controls['subStation']" required>
                                                                     <mat-option *ngFor="let depot of facilityList"
                                                                         [value]="depot.facilityId">
                                                                         {{ depot.facilityName }}
@@ -72,7 +72,8 @@
                                                     <ng-template #StationElseBlock>
                                                         <div class="col-md-3">
                                                             <mat-form-field fxFlex="30" class="example-full-width">
-                                                                <mat-select placeholder="{{FiledLabels.SUB_STATION}}" (ngModelChange)="findEquipments()"
+                                                                <mat-select placeholder="{{FiledLabels.SUB_STATION}}" 
+                                                                (ngModelChange)="findSubStation()"
                                                                     [formControl]="addCbFailFromGroup.controls['subStation']" required>
                                                                     <mat-option *ngFor="let depot of facilityList"
                                                                         [value]="depot.facilityId">
@@ -98,8 +99,8 @@
                                                             <mat-select placeholder="{{FiledLabels.SWITCHING_STATION}}" (ngModelChange)="findCascades()"
                                                                 [formControl]="addCbFailFromGroup.controls['station']" >
                                                                 <mat-option *ngFor="let depot of depotList"
-                                                                    [value]="depot.facilityId">
-                                                                    {{ depot.facilityName }}
+                                                                    [value]="depot.sspSpFacilityId">
+                                                                    {{ depot.connectedSpSsp }}
                                                                 </mat-option>
                                                             </mat-select>                                                            
                                                         </mat-form-field>

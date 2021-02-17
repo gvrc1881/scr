@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.scr.model.AssetMasterData;
+import com.scr.model.Facility;
 
 public interface AssetMastersRepository extends JpaRepository<AssetMasterData, Long>, JpaSpecificationExecutor<AssetMasterData>{
 	List<AssetMasterData> findAll();
@@ -64,6 +65,10 @@ public interface AssetMastersRepository extends JpaRepository<AssetMasterData, L
 	
 	Optional<AssetMasterData>findByFacilityIdAndAssetTypeAndAssetId(String facilityId,String assetType,String assetId);
 	Optional<AssetMasterData> findByAssetId(String assetId);
+	
+	@Query(value = "select * from asset_master_data amd,product_category_member pcm where amd.facility_id=:facilityId and product_category_id ='CIRCUIT_BREAKER' and amd.asset_type=pcm.product_id",
+            nativeQuery=true )
+	List<AssetMasterData> getAssetIdBasedOnFacilityId(@Param("facilityId")String facilityId);
 	
 	
 }

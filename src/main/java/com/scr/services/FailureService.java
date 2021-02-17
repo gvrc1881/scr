@@ -267,6 +267,11 @@ public class FailureService {
 	
 	public Optional<AssetMasterData> findByAssetId(String assetId) {
 		return assetMasterdataRepository.findByAssetId(assetId);
+	}	
+	
+	public List<AssetMasterData> findByAssetIdBasedOnFacility(String facilityId) {
+		logger.info("facilityId==="+facilityId);
+		return assetMasterdataRepository.getAssetIdBasedOnFacilityId(facilityId);
 	}
 
 

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 //import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
+import com.scr.model.AssetMasterData;
 import com.scr.model.Facility;
 
 
@@ -68,6 +69,10 @@ public interface FacilityRepository extends JpaRepository<Facility, Long> {
 	List<Facility> findByParentDepotOrderByFacilityNameAsc(String facilityName);
 	List<Facility> findByParentFacilityIdOrderByFacilityNameAsc(String facilityName);
 	List<Facility> findByfacilityId(List<String> fac);
+	Optional<Facility> findByFacilityId(AssetMasterData assetMasterData);
+	Optional<Facility> findById(String subStation);
+	
+	
 	
 	
 	
