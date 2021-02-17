@@ -164,7 +164,7 @@ export class ThermovisionMeasureComponent implements OnInit{
         this.sendAndRequestService.requestForGET(Constants.app_urls.THERMOVISION.THERMOVISION_MEASURE.GET_THERMO_MEASURES
             +this.datePipe.transform(this.inputFormGroup.value.dateTime, 'yyyy-MM-dd')+'/'+this.inputFormGroup.value.facilityId
             ).subscribe((data)=>{
-                //console.log('infor***'+JSON.stringify(data));
+                console.log('infor***'+JSON.stringify(data));
                 this.thermovisionMeasureData = data;
                 if(this.thermovisionMeasureData.length > 0){
                     this.enableSave = true;
@@ -172,15 +172,18 @@ export class ThermovisionMeasureComponent implements OnInit{
                         this.thermovisionMeasureData[i].sno = i+1;
                         this.thermovisionMeasureData[i].tempDiff = this.thermovisionMeasureData[i].fDiff;
                         if(this.thermovisionMeasureData[i].pre1MTcpsDate){
-                            this.thermovisionMeasureData[i].previous1 =  this.datePipe.transform(this.thermovisionMeasureData[i].pre1MTcpsDate, 'dd-MMM-yyyy') +  '('+this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint1 +'-'+this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint2+') '+Math.abs(this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint2).toFixed(2) ;
+                            this.thermovisionMeasureData[i].previous1 =   this.thermovisionMeasureData[i].prev1Events;
+                            //this.thermovisionMeasureData[i].previous1 =  this.datePipe.transform(this.thermovisionMeasureData[i].pre1MTcpsDate, 'dd-MMM-yyyy') +  '('+this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint1 +'-'+this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint2+') '+Math.abs(this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint2).toFixed(2) ;
                             this.thermovisionMeasureData[i].previousDiff1 = Math.abs(this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint2).toFixed(2);
                         } 
                         if(this.thermovisionMeasureData[i].pre2MTcpsDate) {
-                            this.thermovisionMeasureData[i].previous2 =  this.datePipe.transform(this.thermovisionMeasureData[i].pre2MTcpsDate, 'dd-MMM-yyyy')  +'('+this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint1 +'-'+this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint2+') '+ Math.abs(this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint2).toFixed(2) ;
+                            this.thermovisionMeasureData[i].previous2 =   this.thermovisionMeasureData[i].prev2Events;
+                            //this.thermovisionMeasureData[i].previous2 =  this.datePipe.transform(this.thermovisionMeasureData[i].pre2MTcpsDate, 'dd-MMM-yyyy')  +'('+this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint1 +'-'+this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint2+') '+ Math.abs(this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint2).toFixed(2) ;
                             this.thermovisionMeasureData[i].previousDiff2 = Math.abs(this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint2).toFixed(2);
                         } 
                         if(this.thermovisionMeasureData[i].pre3MTcpsDate) {
-                            this.thermovisionMeasureData[i].previous3 = this.datePipe.transform(this.thermovisionMeasureData[i].pre3MTcpsDate, 'dd-MMM-yyyy')  +'('+this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint1 +'-'+this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint2+') '+  Math.abs(this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint2).toFixed(2) ;
+                            this.thermovisionMeasureData[i].previous3 =   this.thermovisionMeasureData[i].prev3Events;
+                            //this.thermovisionMeasureData[i].previous3 = this.datePipe.transform(this.thermovisionMeasureData[i].pre3MTcpsDate, 'dd-MMM-yyyy')  +'('+this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint1 +'-'+this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint2+') '+  Math.abs(this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint2).toFixed(2) ;
                             this.thermovisionMeasureData[i].previousDiff3 = Math.abs(this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint2).toFixed(2);
                         }
                         if(this.thermovisionMeasureData[i].tcpmMeasurePoint1 == 0) {
@@ -289,6 +292,7 @@ export class retestDialogComponent implements OnInit  {
     resp: any;
     point1: any;
     point2: any;
+    maxDate = new Date();
     
     constructor(
     private formBuilder: FormBuilder,

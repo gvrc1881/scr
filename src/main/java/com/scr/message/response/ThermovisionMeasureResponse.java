@@ -40,6 +40,9 @@ public class ThermovisionMeasureResponse {
 	private String tcpsLocation;
 	private Date tcpmDateOfRetest;
 	private Long tcpmThermovisionMeasureId;
+	private String prev1Events;
+	private String prev2Events;
+	private String prev3Events;
 
 	public String getRsId() {
 		return rsId;
@@ -319,6 +322,30 @@ public class ThermovisionMeasureResponse {
 
 	public void setTcpmThermovisionMeasureId(Long tcpmThermovisionMeasureId) {
 		this.tcpmThermovisionMeasureId = tcpmThermovisionMeasureId;
+	}
+
+	public String getPrev1Events() {
+		return prev1Events;
+	}
+
+	public void setPrev1Events(String prev1Events) {
+		this.prev1Events = prev1Events;
+	}
+
+	public String getPrev2Events() {
+		return prev2Events;
+	}
+
+	public void setPrev2Events(String prev2Events) {
+		this.prev2Events = prev2Events;
+	}
+
+	public String getPrev3Events() {
+		return prev3Events;
+	}
+
+	public void setPrev3Events(String prev3Events) {
+		this.prev3Events = prev3Events;
 	}
 
 }

@@ -79,6 +79,9 @@ public class ThermovisionMeasureUtilRepository {
 					response.setfDiff(resultSet.getDouble("f_diff"));
 					response.setTcpmDateOfRetest(resultSet.getDate("tcpm_date_of_retest"));
 					response.setTcpmThermovisionMeasureId(resultSet.getLong("tcpm_thermovision_measure_id"));
+					response.setPrev1Events(resultSet.getString("prev1_events"));
+					response.setPrev2Events(resultSet.getString("prev2_events"));
+					response.setPrev3Events(resultSet.getString("prev3_events"));
 					list.add(response);
 				}
 		}catch (Exception e) {
