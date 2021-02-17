@@ -97,4 +97,10 @@ public class ThermovisionCheckPointsService {
 		// TODO Auto-generated method stub
 		return thermovisionCheckPointsRepository.findByFacilityIdAndCheckPointPartAndCheckPoint2Description(facilityId,checkPointPart,checkPoint2Description);
 	}
+
+	public Optional<ThermovisionCheckPoints> findByCheckPoint1DescriptionAndCheckPoint2DescriptionAndFacilityIdAndCheckPointPart(
+			String tcpCheckPoint1Description, String tcpCheckPoint2Description, Facility facility,
+			String tcpCheckPointPart) {
+		return thermovisionCheckPointsRepository.findByCheckPoint1DescriptionAndCheckPoint2DescriptionAndFacilityIdAndCheckPointPart(tcpCheckPoint1Description,tcpCheckPoint2Description,facility,tcpCheckPointPart);
+	}
 }

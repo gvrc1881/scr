@@ -206,6 +206,11 @@ pagination = Constants.PAGINATION_NUMBERS;
       .subscribe((response) => {
         this.feedersList = response;
         this.feedersOriginalList = response;
+          if(this.feedersOriginalList) {
+            this.feedersList = this.feedersOriginalList.filter(value => {
+                return value.dataDiv.toLowerCase() == this.selectedDivision.toLowerCase();
+              });    
+            }
         this.spinnerService.hide();
       })
   }
