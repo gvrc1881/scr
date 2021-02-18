@@ -142,6 +142,9 @@ public class ReportResource {
 		
 		parameters.put("depot", report.getCheckPointsDepot());
 		parameters.put("equipmentno", report.getEquipmentno());
+		
+		parameters.put("tempDiff", report.getTempDiff());
+		
 
 		log.info(" ****** PARAMETERS BODY ***** " + parameters);
 		

@@ -77,6 +77,7 @@ export class ReportByQueryComponent implements OnInit {
        checkZoneUser: boolean;
        checkDivisionUser: boolean;
        checkSubDivUser: boolean;
+       tempDiff:any;
     
        constructor(
               private Activatedroute: ActivatedRoute,
@@ -182,8 +183,8 @@ this.workName();
                      'feederName': [null],
                      'location': [null],
                      'checkPointsDepot':[null],
-                     'equipmentno':[null]
-                     
+                     'equipmentno':[null],
+                     'tempDiff':[null]
               });
        }
        selectedValue($event, Type) {
@@ -467,7 +468,7 @@ this.workName();
               this.reportModel.location = this.reportsByQuery.controls.location.value;
               this.reportModel.checkPointsDepot = this.reportsByQuery.controls.checkPointsDepot.value;
               this.reportModel.equipmentno =this.reportsByQuery.controls.equipmentno.value;
-
+              this.reportModel.tempDiff =this.reportsByQuery.controls.tempDiff.value;
               console.log("generateReport" + this.id)
               this.submitedForm = "";
               this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_REPORT, this.reportModel, true)

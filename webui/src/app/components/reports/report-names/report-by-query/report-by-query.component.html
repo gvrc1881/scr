@@ -181,7 +181,7 @@
                                                                  </mat-select>
                                                             </mat-form-field>
                                                        </div>
-                                                       <div *ngIf="(names.parameterName=='equipmentno')">
+                                                       <div *ngIf="(names.parameterName=='equipmmentno')">
                                                             <mat-form-field fxFlex="30">
                                                                  <mat-select placeholder="Equipment" 
                                                                       [formControl]="reportsByQuery.controls['equipmentno']">
@@ -473,8 +473,14 @@
                                                                       [formControl]="reportsByQuery.controls['location']">
                                                             </mat-form-field>
                                                        </div>
-
-
+                                                       <div *ngIf="(names.parameterName=='tempDiff')">
+                                                            <mat-form-field fxFlex="30" class="example-full-width">
+                                                                 <input matInput placeholder="Temp Variation >="
+                                                                      [formControl]="reportsByQuery.controls['tempDiff']">
+                                                            </mat-form-field>
+                                                       </div>
+                                                      
+    
 
                                                   </div>
                                                   <div class="col-md-3">

@@ -46,4 +46,6 @@ export class ReportModel{
     location:any;
     checkPointsDepot:any;
     equipmentno:any;
+    tempDiff:any;
+ 
 }

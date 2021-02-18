@@ -59,6 +59,7 @@ public class ReportRequest {
 	private String driveName;
 	private Long checkPointsDepot;
 	private String equipmentno;
+	private String tempDiff;
 
 	
 	public ObservationsCheckList getObservationCategory() {
@@ -403,6 +404,14 @@ public class ReportRequest {
 
 	public void setEquipmentno(String equipmentno) {
 		this.equipmentno = equipmentno;
+	}
+
+	public String getTempDiff() {
+		return tempDiff;
+	}
+
+	public void setTempDiff(String tempDiff) {
+		this.tempDiff = tempDiff;
 	}
 
 	
