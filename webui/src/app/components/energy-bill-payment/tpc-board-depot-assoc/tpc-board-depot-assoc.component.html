@@ -81,7 +81,18 @@
                                                             </mat-form-field>
                                                      </div>
 
-
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="{{FiledLabels.DIVISION}}"
+                                                                [formControl]="tpcBoardDepotAssocFormGroup.controls['dataDiv']" required>
+                                                                <mat-option *ngFor="let division of division"
+                                                                    [value]="division.division">
+                                                                    {{ division.division }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            
+                                                        </mat-form-field>
+                                                    </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
                                                                     <textarea matInput placeholder="{{FiledLabels.DESCRIPTION}}" [formControl]="tpcBoardDepotAssocFormGroup.controls['description']" ></textarea>  

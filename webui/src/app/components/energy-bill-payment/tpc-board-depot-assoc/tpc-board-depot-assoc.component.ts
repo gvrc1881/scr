@@ -34,6 +34,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     facilityData:any;
     loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     originalDepotsData: any = JSON.parse(sessionStorage.getItem('depotData'));
+    division:any = JSON.parse(sessionStorage.getItem('divisionData'));
 
     depotsList:any;
 
@@ -137,6 +138,7 @@ duplicateTpcBoard() {
         let tpcBoard: string = this.tpcBoardDepotAssocFormGroup.value.tpcBoard;
         let unitType: string = this.tpcBoardDepotAssocFormGroup.value.unitType;
         let unitName: string = this.tpcBoardDepotAssocFormGroup.value.unitName;
+        let dataDiv:string   =this.tpcBoardDepotAssocFormGroup.value.dataDiv;
         let description: string = this.tpcBoardDepotAssocFormGroup.value.description
 
         this.addTPCBoardDepotAssoc = false;
@@ -146,7 +148,9 @@ duplicateTpcBoard() {
                 'tpcBoard':tpcBoard,
                 'unitType':unitType,
                 'unitName':unitName,
-                'description':description
+                'dataDiv':dataDiv,
+                'description':description,
+                
             }
             this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.SAVE_TPC_BOARD_ASSOC, saveTPCBoardAssocModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
@@ -160,6 +164,7 @@ duplicateTpcBoard() {
                 'tpcBoard':tpcBoard,
                 'unitType':unitType,
                 'unitName':unitName,
+                'dataDiv':dataDiv,
                 'description':description
             }       
             this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.UPDATE_TPC_BOARD_ASSOC, updateTPCBoardAssocModel, false).subscribe(response => {
@@ -184,6 +189,7 @@ duplicateTpcBoard() {
             'tpcBoard':[null, Validators.compose([Validators.required])],
             'unitType':[null],
             'unitName':[null,Validators.required,this.duplicateTpcBoardUnitNameAndId.bind(this)],
+            'dataDiv':[null],
             'description':[null, Validators.maxLength(250)],
             
         });
@@ -194,6 +200,7 @@ duplicateTpcBoard() {
                 tpcBoard:this.editTpcBoardDepotAssocResponse.tpcBoard,
                 unitType:this.editTpcBoardDepotAssocResponse.unitType,
                 unitName:this.editTpcBoardDepotAssocResponse.unitName,
+                dataDiv:this.editTpcBoardDepotAssocResponse.dataDiv,
                 description:this.editTpcBoardDepotAssocResponse.description
 
             })
@@ -271,6 +278,7 @@ duplicateTpcBoard() {
             'tpcBoard':[null, Validators.compose([Validators.required])],
             'unitType':[null],
             'unitName':[null,Validators.required, this.duplicateTpcBoard.bind(this)],
+            'dataDiv':[null],
             'description':[null, Validators.maxLength(250)],
             
         });
@@ -284,6 +292,7 @@ duplicateTpcBoard() {
                         { label:FieldLabelsConstant.LABELS.TPC_BOARD, value:data.tpcBoard },
                         { label:FieldLabelsConstant.LABELS.UNIT_TYPE, value:data.unitType },
                         { label:FieldLabelsConstant.LABELS.UNIT_NAME, value:data.unitName },
+                        { label:FieldLabelsConstant.LABELS.DIVISION, value:data.dataDiv },
                         { label:FieldLabelsConstant.LABELS.DESCRIPTION, value:data.description }
                         
                     
