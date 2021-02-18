@@ -219,8 +219,8 @@ public class FailureController {
 		
 	}*/
 	
-	@RequestMapping(value = "/findFaciltiyBasedOnAssetId/{assetId}", method = RequestMethod.GET, headers = "accept=application/json")
-	public ResponseEntity<TssSpSspAssoc> findFaciltiyBasedOnAssetId(@PathVariable("assetId") String assetId) {
+	@RequestMapping(value = "/findFaciltiyBasedOnAssetId/{assetId}/{subStation}", method = RequestMethod.GET, headers = "accept=application/json")
+	public ResponseEntity<TssSpSspAssoc> findFaciltiyBasedOnAssetId(@PathVariable("assetId") String assetId,@PathVariable("subStation") String subStation) {
 		logger.info("** Enter into findFaciltiyBasedOnAssetId function ***");
 		Optional<AssetMasterData> amd = null;
 		Optional<Facility> fac = null;
@@ -230,9 +230,10 @@ public class FailureController {
 			amd = failureService.findByAssetId(assetId);
 			if (amd.isPresent()) {
 				 fac  = facilityRepository.findByFacilityId(amd.get().getFacilityId());
-				 logger.info("facility==="+fac);
-				 sspList = tssSpSspService.findBySspSpFacilityId(Long.toString(fac.get().getId()));
-				 logger.info("** ssplist === " + sspList);
+				 Optional<Facility> facility  = facilityRepository.findByFacilityId(subStation);
+				 logger.info("facility==="+fac.toString());
+				 sspList = tssSpSspService.findBySspSpFacilityIdAndTssFacilityId(Long.toString(fac.get().getId()),facility.get());
+				 logger.info("** ssplist === " + sspList.toString());
 				return new ResponseEntity<TssSpSspAssoc>(sspList.get(), HttpStatus.OK);
 			} else
 				return new ResponseEntity<TssSpSspAssoc>(sspList.get(), HttpStatus.CONFLICT);
@@ -372,12 +373,15 @@ public Boolean findBySubStationAndEquipmentAndFromDateTimeAndId(@PathVariable("i
 			Failure fai = faiData.get();
 			logger.info("***id ***"+fai.getId());
 			if (id.equals(fai.getId())) {
+				
 				return result = false;
 			} else {
+				
 				return result = true;
 			}
 		}
 		else 
+			
 			return  result = false;
 	} catch (Exception e) {
 		logger.error("Error while checking exists id and subStation..."+e.getMessage());

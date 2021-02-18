@@ -28,7 +28,7 @@ export class FailureOccurrenceComponent implements OnInit {
   userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'occurrence','trainNo','place', 'fromDateTime', 'thruDateTime',
-    'duration','divisionLocal','internalExternal', 'remarks', 'actions'];
+    'duration','cbInternalFailure','cbExternalFailure', 'remarks', 'actions'];
   dataSource: MatTableDataSource<any>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
@@ -67,8 +67,8 @@ export class FailureOccurrenceComponent implements OnInit {
         { "Key": 'fromDateTime', "Value": " " },
         { "Key": 'thruDateTime', "Value": " " },
         { "Key": 'duration', "Value": " " },  
-        { "Key": 'divisionLocal', "Value": " " },
-        { "Key": 'internalExternal', "Value": " " },
+        { "Key": 'cbInternalFailure', "Value": " " },
+        { "Key": 'cbExternalFailure', "Value": " " },
         { "Key": 'remarks', "Value": " " },
       
        
@@ -154,8 +154,8 @@ export class FailureOccurrenceComponent implements OnInit {
       { label:FieldLabelsConstant.LABELS.FAILURE_FROM_DATE, value:data.fromDateTime },
       { label:FieldLabelsConstant.LABELS.FAILURE_TO_DATE, value:data.thruDateTime },
       { label:FieldLabelsConstant.LABELS.DURATION, value:data.duration },
-      { label:FieldLabelsConstant.LABELS.DIVISION_LOCAL, value:data.divisionLocal },
-      { label:FieldLabelsConstant.LABELS.INTERNAL_EXTERNAL, value:data.internalExternal },
+      { label:FieldLabelsConstant.LABELS.INTERNAL, value:data.cbInternalFailure },
+      { label:FieldLabelsConstant.LABELS.EXTERNAL, value:data.cbExternalFailure },
       { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks }
       
     

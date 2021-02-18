@@ -191,7 +191,7 @@ export class AddFailureOccurrenceComponent implements OnInit {
   findFacilities(){
    
     this.facilityList=[];   
-    let division = this.addFailureOccurrenceFailFromGroup.value.dataDiv; 
+    let division = this.addFailureOccurrenceFailFromGroup.controls['dataDiv'].value; 
 
     for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
@@ -234,8 +234,9 @@ findDivisions(){
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+id)
       .subscribe((resp) => {
         this.resp = resp;
-        console.log(this.resp);
+        console.log("response==="+JSON.stringify(this.resp));
         this.minDate = new Date(this.resp.fromDateTime);
+        this.findFacilities();
         this.addFailureOccurrenceFailFromGroup.patchValue({
           id: this.resp.id,
           occurrence:this.resp.occurrence,
@@ -252,13 +253,8 @@ findDivisions(){
           dataDiv:this.resp.dataDiv,
         subStation:this.resp.subStation
         });
-        this.feedersList.map(element => {
-          if(element.id != this.resp.id){
-            this.extendedFromList.push(element);
-          }
-        });
-        this.spinnerService.hide();
-
+        
+        this.spinnerService.hide();        
       })
   }
   addEvent($event) {

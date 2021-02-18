@@ -37,12 +37,20 @@ public class TssSpSspAssocService {
 		
 		logger.info("in service ===="+facility);
 		return tssSpSSpRepository.findByTssFacilityId(facility);
-	}
+	}	
 
 
-	public Optional<TssSpSspAssoc> findBySspSpFacilityId(String string) {
-		// TODO Auto-generated method stub
-		return tssSpSSpRepository.findBySspSpFacilityId(string);
+	/*public Optional<TssSpSspAssoc> findBySspSpFacilityIdAndTssFacilityId(String string, String string2) {
+		
+		logger.info("in service ===="+string);
+		
+		return tssSpSSpRepository.findBySspSpFacilityIdAndTssFacilityId(string,string2);
+	}*/
+
+
+	public Optional<TssSpSspAssoc> findBySspSpFacilityIdAndTssFacilityId(String string, Facility facility) {
+	
+		return tssSpSSpRepository.findBySspSpFacilityIdAndTssFacilityId(string,facility);
 	}
 
 }

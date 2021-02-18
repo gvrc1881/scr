@@ -18,6 +18,8 @@ public interface TssSpSspAssocRepository extends JpaRepository<TssSpSspAssoc, Lo
 
 	List<TssSpSspAssoc> findByTssFacilityId(Facility facility);
 
-	Optional<TssSpSspAssoc> findBySspSpFacilityId(String string);
+	Optional<TssSpSspAssoc> findBySspSpFacilityIdAndTssFacilityId(String string, String string2);
+
+	Optional<TssSpSspAssoc> findBySspSpFacilityIdAndTssFacilityId(String string, Facility facility);
 
 }

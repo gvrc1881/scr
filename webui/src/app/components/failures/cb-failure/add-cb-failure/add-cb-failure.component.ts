@@ -244,7 +244,7 @@ export class AddCbFailureComponent implements OnInit {
         //     }
         // });
 
-        this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_FACILITYID_BASEDON_ASSETID+this.resp.cascadeAssets)
+        this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_FACILITYID_BASEDON_ASSETID+this.resp.cascadeAssets+'/'+this.resp.subStation)
         .subscribe((data) => {          
           this.switchingStationList = data;              
           this.addCbFailFromGroup.patchValue({station: this.switchingStationList.sspSpFacilityId})

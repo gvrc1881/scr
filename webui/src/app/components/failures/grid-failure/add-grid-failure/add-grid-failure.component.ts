@@ -316,8 +316,8 @@ timDuration(){
         console.log(this.resp);
 
         this.minDate=new Date(this.resp.fromDateTime),
-        this.toMinDate=new Date(this.resp.efdate),
-        this.fMinDate=new Date(this.resp.ftdate),
+        this.toMinDate=new Date(this.resp.fromDateTime),
+        this.fMinDate=new Date(this.resp.fromDateTime),
         this.addGridFailFromGroup.patchValue({
           id: this.resp.id,
           feedOff: this.resp.feedOf,
@@ -351,12 +351,10 @@ timDuration(){
     this.fMinDate  = new Date($event.value);
   }
   addEventTargetDate($event) {
-    //this.fMinDate  = new Date($event.value);
-
+    //this.fMinDate  = new Date($event.value);   
     this.toMinDate  = new Date($event.value);
-  
-   
   }
+  
 
   onAddFailureAnalysisFormSubmit() {
     if (this.addGridFailFromGroup.invalid) {

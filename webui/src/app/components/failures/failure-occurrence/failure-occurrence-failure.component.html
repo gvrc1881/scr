@@ -97,21 +97,21 @@
                                             <mat-cell *matCellDef="let row"> {{row.duration}}</mat-cell>
                                         </ng-container>
                                         
-                                        <ng-container matColumnDef="divisionLocal">
+                                         <ng-container matColumnDef="cbInternalFailure">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>{{FiledLabels.DIVISION_LOCAL}}</span>
+                                                <span>{{FiledLabels.INTERNAL}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[7].Value" [filter]="filterData"/>
                                             </mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.divisionLocal}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.cbInternalFailure}}</mat-cell>
                                         </ng-container>
                                        
-                                        <ng-container matColumnDef="internalExternal">
+                                        <ng-container matColumnDef="cbExternalFailure">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>{{FiledLabels.INTERNAL_EXTERNAL}}</span>
+                                                <span>{{FiledLabels.EXTERNAL}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[8].Value" [filter]="filterData"/>
                                             </mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.internalExternal}}</mat-cell>
-                                        </ng-container>
+                                            <mat-cell *matCellDef="let row"> {{row.cbExternalFailure}}</mat-cell>
+                                        </ng-container> 
                                        
                                         <ng-container matColumnDef="remarks">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>

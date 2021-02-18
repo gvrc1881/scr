@@ -104,7 +104,7 @@ findFacilities(){
     this.enableStation=true;
     for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
-      if( this.facilityHierarchy[i].depotType == 'RCC'){     
+      if( this.facilityHierarchy[i].depotType == 'TSS'|| this.facilityHierarchy[i].depotType == 'SP'|| this.facilityHierarchy[i].depotType == 'SSP'){     
          
        this.facilityList.push(this.facilityHierarchy[i]);
           
@@ -115,7 +115,7 @@ findFacilities(){
     this.enableStation=true;
     for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
-      if( this.facilityHierarchy[i].depotType == 'RCC'){     
+      if( this.facilityHierarchy[i].depotType == 'TSS'||this.facilityHierarchy[i].depotType == 'SP'||this.facilityHierarchy[i].depotType == 'SSP'){     
          
        this.facilityList.push(this.facilityHierarchy[i]);
           
