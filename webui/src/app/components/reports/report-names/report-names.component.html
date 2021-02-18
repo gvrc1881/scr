@@ -21,7 +21,7 @@
                             <div *ngIf="(item.active=='Yes')">
                             <a [routerLink]="[reportUrl,item.reportCategory,item.reportId]"
                                 routerLinkActive="router-link-active">
-                                <mat-grid-tile style="box-shadow: 0 6px 12px rgba(0,0,0,.175)">{{item.reportId | uppercase}}</mat-grid-tile>
+                                <mat-grid-tile style="box-shadow: 0 6px 12px rgba(0,0,0,.175)">{{item.reportId}}</mat-grid-tile>
                             </a>
                         </div>
                         </ul>
