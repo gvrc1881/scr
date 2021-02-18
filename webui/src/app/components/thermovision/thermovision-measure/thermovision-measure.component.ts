@@ -164,7 +164,7 @@ export class ThermovisionMeasureComponent implements OnInit{
         this.sendAndRequestService.requestForGET(Constants.app_urls.THERMOVISION.THERMOVISION_MEASURE.GET_THERMO_MEASURES
             +this.datePipe.transform(this.inputFormGroup.value.dateTime, 'yyyy-MM-dd')+'/'+this.inputFormGroup.value.facilityId
             ).subscribe((data)=>{
-                console.log('infor***'+JSON.stringify(data));
+                //console.log('infor***'+JSON.stringify(data));
                 this.thermovisionMeasureData = data;
                 if(this.thermovisionMeasureData.length > 0){
                     this.enableSave = true;

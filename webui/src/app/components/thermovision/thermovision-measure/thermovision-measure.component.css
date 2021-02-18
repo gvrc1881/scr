@@ -42,7 +42,13 @@
 /*
 .mat-row {
      background-color: white;
+      #84e35d 
 }*/
 .retestRow {
-    background-color: #84e35d;
+    background-color: 	#90EE90 !important;
 }
+/*
+.mat-cell {
+    color: white;
+}
+*/
