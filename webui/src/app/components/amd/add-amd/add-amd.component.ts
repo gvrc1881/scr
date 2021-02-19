@@ -28,8 +28,9 @@ export class AddAmdComponent implements OnInit {
   Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   zoneHierarchy:any = JSON.parse(sessionStorage.getItem('zoneData'));
-  divisionData:any = JSON.parse(sessionStorage.getItem('divisionData'));
-  subDivData:any = JSON.parse(sessionStorage.getItem('subDivData'));
+  divisionHierarchy:any = JSON.parse(sessionStorage.getItem('divisionData'));
+  subDivisionHierarchy:any = JSON.parse(sessionStorage.getItem('subDivData'));
+  depotHierarchy:any = JSON.parse(sessionStorage.getItem('depotData'))
   save: boolean = true;
   update: boolean = false;
   title: string = Constants.EVENTS.ADD;
@@ -44,7 +45,7 @@ export class AddAmdComponent implements OnInit {
   allFunctionalUnitsList: any;
   amdFormErrors: any;
   zoneList: any;
-  divisionsList: any;
+  divisionList: any;  
   subDivisionList: any;
   resp: any;
   assetsList: any;
@@ -61,6 +62,10 @@ export class AddAmdComponent implements OnInit {
   makeName: any;
   modelName: any;
   subDivList:any;
+  enableZone :boolean;
+   enableDivision :boolean;  
+   enableSubDivision :boolean;
+   enableDepot : boolean;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -347,6 +352,7 @@ export class AddAmdComponent implements OnInit {
           this.functionalUnitList = data;
     });
   }
+  /*
   getDepot(){
     var zone = this.assetMasterFormGroup.value.zone ;
     this.depotsList = this.divisionData.filter(value => {
@@ -360,7 +366,7 @@ export class AddAmdComponent implements OnInit {
       return value.division == dataDiv;
     });
     console.log("subDivList"+JSON.stringify(this.subDivList))
-  }
+  }*/
   getAssetMasterDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSET_MASTER_DATA_ID + id)
     .subscribe((resp) => {
@@ -374,7 +380,7 @@ export class AddAmdComponent implements OnInit {
         this.getFunctionalUnits(this.resp.type['code'] );
         this.assetMasterFormGroup.patchValue({
         id: this.resp.id,
-        type: !!this.resp.type ? this.resp.type['code'] : '',          
+        type: !!this.resp.type ? this.resp.type['id'] : '',          
         facilityId: this.resp.facilityId,
         adeeSection: this.resp.adeeSection,
         majorSection: this.resp.majorSection,
@@ -467,6 +473,11 @@ export class AddAmdComponent implements OnInit {
         }
         this.spinnerService.hide();
       })
+      this.findFunctionalUnits();
+    this.findZones();
+    this.findDepoTypeList();
+    this.findMakeDetails();
+    this.findModelDetails();
   }
   
   onAddAmdFormSubmit() {
@@ -688,6 +699,11 @@ export class AddAmdComponent implements OnInit {
         }else{
           this.commonService.showAlertMessage("Asset Master Data Updating Failed.");
         }
+         this.findFunctionalUnits();
+    this.findZones();
+    this.findDepoTypeList();
+    this.findMakeDetails();
+    this.findModelDetails();
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
@@ -696,11 +712,13 @@ export class AddAmdComponent implements OnInit {
 
     }
   }
+  /*
   findZones() {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_LIST).subscribe((data) => {
-      this.zoneList = data;
-    }
-    );
+    // this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_LIST).subscribe((data) => {
+    //   this.zoneList = data;
+    // }
+    // );
+    
 
   }
   getDivisions() {
@@ -720,13 +738,13 @@ export class AddAmdComponent implements OnInit {
     });
 
 
-  }
+  }*/
   findDepoTypeList() {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES)
       .subscribe((depoTypes) => {
         this.depoTypeList = depoTypes;
       })
-  }
+  } 
   findAssetTypeList(assertType) {
     this.assetTypeList = [];
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES + assertType)
@@ -800,7 +818,73 @@ export class AddAmdComponent implements OnInit {
     });
     return q;
   }
+
+
+
+findZones(){
+  this.zoneList = [];
+  this.divisionList = [];
+  this.subDivisionList = [];
+  this.depotsList = [];
+
+  this.zoneHierarchy.zoneList;
+   this.enableZone = true;
+     
+  if(this.zoneHierarchy.length>0)
+  {
+ 
+    this.enableZone=true;
+  }
+  else if(this.divisionHierarchy.length>0){
+  
+    this.enableZone=false;
+    this.enableDivision=true;    
+   
+  }
+  else if(this.subDivisionHierarchy.length>0){
+   this.enableZone=false;
+   this.enableDivision=false;    
+   this.enableSubDivision=true;
+  }
+  else{
+   this.enableZone=false;
+   this.enableDivision=false;  
+   this.enableSubDivision=false;
+   this.enableDepot=true;
+  }
+
+ 
+}
+findDivisions(){
+let zone: string = this.assetMasterFormGroup.value.zone;
+this.divisionList=[];    
+
+for (let i = 0; i < this.divisionHierarchy.length; i++) {
+  
+     if(this.divisionHierarchy[i].zone == zone&& this.divisionHierarchy[i].depotType == 'DIV'){
+               
+         this.divisionHierarchy.divisionList;
+         this.enableDivision = true;
+     }
+  }
+}
+
+findSubDivision(){     
+
+let  division: string = this.assetMasterFormGroup.value.dataDiv; 
+this.subDivisionList=[];  
+for (let i = 0; i < this.subDivisionHierarchy.length; i++) {
+    
+       if(this.subDivisionHierarchy[i].division == division && this.subDivisionHierarchy[i].depotType == 'SUB_DIV'){
+       
+          // this.subDivisionList.push(this.subDivisionHierarchy[i]); 
+           this.subDivisionHierarchy.subDivisionList; 
+           
+           this.enableSubDivision = true;             
+       }
+    }
 }
 
 
 
+}

@@ -178,13 +178,14 @@ public class AssetStatusUpdateMapper {
 							LocalDate resultDate = currentDate.plusDays(asa.get().getDuration().longValue());
 							asur.setNextAoh(resultDate);
 							asur.setNextPoh(resultDate);
-						}
-					 }
+						}					 	
+					 }					 
+				}				
 				}
-				}
+			logger.info("before astuuuu==="+assetMasterData.getAssetType()+assetMasterData.getAssetId()+assetMasterData.getFacilityId());
 			Timestamp astu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityId
 					(assetMasterData.getAssetType(),assetMasterData.getAssetId(),assetMasterData.getFacilityId());
-			logger.info("astuuuu==="+astu.toString());
+			logger.info("astuuuu==="+astu);
 		if(astu != null)
 		{
 				logger.info("in for loop==");
@@ -208,6 +209,8 @@ public class AssetStatusUpdateMapper {
 				logger.info("*** asset staus records== ***"+asu.toString());
 		}
 			
+		
+			
 			Optional<Facility> fac = facilityRepository.findByFacilityId(assetMasterData.getFacilityId());
 			
 			logger.info("*** before set values ***");
@@ -217,12 +220,11 @@ public class AssetStatusUpdateMapper {
 			asur.setDateOfManufacture(assetMasterData.getDateOfCommision());
 			asur.setFacilityId(fac.get().getFacilityName());
 			asur.setModel(assetMasterData.getModel());
-			asur.setMake(assetMasterData.getMake());		
-			
-			
+			asur.setMake(assetMasterData.getMake());
 					
 			logger.info("*** object values****"+asur.toString());
 			assetstatus.add(asur );
+		
 	}
 		
 		return assetstatus;

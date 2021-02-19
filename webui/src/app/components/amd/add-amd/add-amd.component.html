@@ -29,8 +29,52 @@
                                                 [formGroup]="assetMasterFormGroup" (ngSubmit)="onAddAmdFormSubmit();">
 
                                                 <div class="col-md-12">
-
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-2" *ngIf = "enableZone">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                          <mat-select placeholder="{{FiledLabels.ZONE}}" 
+                                                            [formControl]="assetMasterFormGroup.controls['zone']" (ngModelChange)="findDivisions()">
+                                                            <mat-option *ngFor="let zoneData of zoneHierarchy"
+                                                              [value]="zoneData.facilityName">
+                                                              {{ zoneData.facilityName }}
+                                                            </mat-option>
+                                                          </mat-select>
+                                                        </mat-form-field>
+                                                      </div>
+                                                      <div class="col-md-2" *ngIf = "enableDivision">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                          <mat-select placeholder="{{FiledLabels.DIVISION}}" 
+                                                            [formControl]="assetMasterFormGroup.controls['dataDiv']" (ngModelChange)="findSubDivision()">
+                                                            <mat-option *ngFor="let divisionData of divisionHierarchy"
+                                                              [value]="divisionData.division">
+                                                              {{ divisionData.facilityName }}
+                                                            </mat-option>
+                                                          </mat-select>
+                                                        </mat-form-field>
+                                                      </div>
+                                                      <div class="col-md-2" *ngIf = "enableSubDivision">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                          <mat-select placeholder="{{FiledLabels.SUB_DIV}}" 
+                                                            [formControl]="assetMasterFormGroup.controls['subDivision']">
+                                                            <mat-option *ngFor="let subDivData of subDivisionHierarchy"
+                                                              [value]="subDivData.subDivision">
+                                                              {{ subDivData.facilityName }}
+                                                            </mat-option>
+                                                          </mat-select>
+                                                        </mat-form-field>
+                                                      </div>
+                                                   <!--   <div class="col-md-2" *ngIf = "enableDepot">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                          <mat-select placeholder="{{FiledLabels.DEPOT}}" 
+                                                            [formControl]="driveTargetFormGroup.controls['facility']" >
+                                                            <mat-option *ngFor="let depotData of depotsList"
+                                                              [value]="depotData.facilityName">
+                                                              {{ depotData.facilityName }}
+                                                            </mat-option>
+                                                          </mat-select>
+                                                          
+                                                        </mat-form-field>
+                                                      </div>
+                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="{{FiledLabels.ZONE}}"
                                                                 [formControl]="assetMasterFormGroup.controls['zone']"
@@ -62,7 +106,7 @@
                                                                 </mat-option>
                                                             </mat-select>
                                                         </mat-form-field>
-                                                    </div>
+                                                    </div> -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <mat-select placeholder="{{FiledLabels.DEPOT_TYPE}}"
@@ -74,7 +118,7 @@
                                                                 </mat-option>
                                                             </mat-select>
                                                         </mat-form-field>
-                                                    </div>
+                                                    </div> 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <mat-select placeholder="{{FiledLabels.DEPOT}}"
@@ -540,7 +584,7 @@
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='stag1_ton9_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="{{FiledLabels.STAG1_TON9_INSULATOR_MAKE}"
+                                                                <textarea matInput placeholder="{{FiledLabels.STAG1_TON9_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stag1Ton9InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>

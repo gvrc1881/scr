@@ -592,6 +592,22 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             currentSubMenu: !!path && path.includes("cb-failure") ? "active-item" : "",
           },
           {
+            subMenuName: "Unusual Occurrence",
+            subMenuURL: "unusual-occurrence",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Unusual Occurrence', 'submenu', 'view'),
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("unusual-occurrence") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Failure Occurrence",
+            subMenuURL: "failure-occurrence",
+            permission: this.commonService.findPermission('Failure Occurrence', 'submenu', 'view'),
+            subMenuIcon: "fa fa-file",
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("failure-occurrence") ? "active-item" : "",
+          },
+          {
             subMenuName: "Failure Analysis",
             subMenuURL: "failure-analysis",
             permission: this.commonService.findPermission('Failure Analysis', 'submenu', 'view'),
@@ -617,22 +633,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             permission: this.commonService.findPermission('RC Failures', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("rc-failure") ? "active-item" : "",
           },
-          {
-            subMenuName: "Failure Occurrence",
-            subMenuURL: "failure-occurrence",
-            permission: this.commonService.findPermission('Failure Occurrence', 'submenu', 'view'),
-            subMenuIcon: "fa fa-file",
-            rolePermission: this.rolePermission,
-            currentSubMenu: !!path && path.includes("failure-occurrence") ? "active-item" : "",
-          },
-          {
-            subMenuName: "Unusual Occurrence",
-            subMenuURL: "unusual-occurrence",
-            subMenuIcon: "fa fa-file",
-            permission: this.commonService.findPermission('Unusual Occurrence', 'submenu', 'view'),
-            rolePermission: this.rolePermission,
-            currentSubMenu: !!path && path.includes("unusual-occurrence") ? "active-item" : "",
-          }
+         
+         
         ]
       },
       {

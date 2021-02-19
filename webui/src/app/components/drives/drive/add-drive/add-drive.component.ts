@@ -246,29 +246,29 @@ export class AddDriveComponent implements OnInit {
       })
   }
 
-  updateFunctionalUnit(){
-        
+  updateFunctionalUnit(){   
+    console.log("** value***"+this.addDriveFormGroup.controls['scope'].value)     
     if(this.addDriveFormGroup.controls['scope'].value ==  'ZONE'){
-     
+      console.log("zone"+JSON.stringify(this.zoneHierarchy));
       this.functionalUnitList = this.zoneHierarchy.filter(element => {
         return element.depotType == this.addDriveFormGroup.controls['scope'].value;
       });
     }else if(this.addDriveFormGroup.controls['scope'].value ==  'DIV'){
-     
+      console.log("div"+JSON.stringify(this.divisionHierarchy))
       this.functionalUnitList = this.divisionHierarchy.filter(element => {
         return element.depotType == this.addDriveFormGroup.controls['scope'].value;
       });
     }else if(this.addDriveFormGroup.controls['scope'].value ==  'SUB_DIV'){
-      
+      console.log("sub_div"+JSON.stringify(this.subDivisionHierarchy))
       this.functionalUnitList = this.subDivisionHierarchy.filter(element => {
         return element.depotType == this.addDriveFormGroup.controls['scope'].value;
       });
-    }
-      
+    }    
+    else{
       this.functionalUnitList = this.facilityHierarchy.filter(element => {
         return element.depotType == this.addDriveFormGroup.controls['scope'].value;
       });
-    
+    }
 
   }
   updateAssertType($event) {

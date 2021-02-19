@@ -521,6 +521,7 @@ export const FieldLabelsConstant = {
       SOURCE:"Souce",
       STANDARD_PHASE_ID:"Standard Phase Id",
       STAG1_TON9_INSULATOR_BATCH:"Stag1 Ton9 Insulator Batch",
+      STAG1_TON9_INSULATOR_MAKE:"Stag1 Ton9 Insulator Make",
       STAG2_TON9_INSULATOR_BATCH:"Stag2 Ton9 Insulator Batch",
       STAG2_TON9_INSULATOR_MAKE:"Stag2 Ton9 Insulator Make",
       STAG3_TON9_INSULATOR_BATCH:"Stag3 Ton9 Insulator Batch",

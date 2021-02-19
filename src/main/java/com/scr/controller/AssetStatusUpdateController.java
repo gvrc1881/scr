@@ -206,7 +206,7 @@ public class AssetStatusUpdateController {
 				}
 
 			} else if (division != null && !subDivision.equals("null")  && facilityId != null) {
-				logger.info("*** in 2nd else if condtion ");
+				logger.info("*** in 1st else if condtion ");
 				amd = assetMasterDataService.getByFacilityId(facilityId);
 			}
 			else if (facilityId != null) {
