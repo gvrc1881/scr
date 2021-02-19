@@ -1,5 +1,6 @@
 package com.scr.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -19,7 +20,6 @@ import com.scr.message.request.OheThermovisionMeasureRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.message.response.ThermovisionMeasureResponse;
 import com.scr.model.ThermovisionMeasures;
-import com.scr.model.WPADailyProgress;
 import com.scr.services.ThermovisionMeasuresServices;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -126,6 +126,24 @@ public class ThermovisionMeasuresController {
 			logger.error("ERROR >> While adding Thermovision Measure Data. "+e.getMessage());
 			return Helper.findResponseStatus("Thermovision Measure  Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
+	}
+	
+	@RequestMapping(value = "/getOheThermoMeasuresData/{facilityId}/{fromDate}/{thruDate}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<ThermovisionMeasures>> getOheThermoMeasuresData(
+				@PathVariable("facilityId") Long facilityId,@PathVariable("fromDate") Date fromDate , @PathVariable("thruDate") Date thruDate) throws JSONException {
+		logger.info("Enter intogetOheThermoMeasuresData function");
+		List<ThermovisionMeasures> thermovisionMeasureList = null;
+		try {			
+			logger.info("Calling service for Thermovision Measure data");
+			thermovisionMeasureList = thermovisionMeasuresServices.findOheThermovisionMeasure( facilityId,fromDate,thruDate);	
+			logger.info("Fetched Thermovision Measure data = "+thermovisionMeasureList);
+		} catch (NullPointerException e) {			
+			logger.error("ERROR >>> while fetching the Thermovision Measure data = "+e.getMessage());
+		} catch (Exception e) {			
+			logger.error("ERROR >>> while fetching the Thermovision Measure data = "+e.getMessage());
+		}
+		logger.info("Exit from Thermovision Measure function");
+		return ResponseEntity.ok((thermovisionMeasureList));
 	}
 
 }

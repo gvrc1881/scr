@@ -179,4 +179,11 @@ public class ThermovisionMeasuresServices {
 		}
 	}
 
+	public List<ThermovisionMeasures> findOheThermovisionMeasure(Long facilityId, Date fromDate, Date thruDate) {
+		Optional<Facility> facility = facilityRepository.findById(facilityId);
+		List<TcpSchedule> tcpSchs = tcpScheduleService.findByFacilityIdAndDateTimeGreaterThanAndDateTimeLessThan(facility.get(),fromDate,thruDate);
+		List<ThermovisionMeasures> thermovisionMeasures = thermovisionMeasuresRepository.findByTcpScheduleIdInOrderByUpdatedOnDesc(tcpSchs);
+		return thermovisionMeasures;
+	}
+
 }

@@ -880,7 +880,8 @@ export const Constants = {
             SAVE_THERMO_MEASURE:"/saveThermovisionMeasures",
             SAVE_OHE_THERMO_MEASURE:"/saveOheThermovisionMeasure",
             GET_OHE_THERMO_MEASURES:"/getOherThermovisionMeasures/",
-            SAVE_THERMO_MEASURE_RETEST:"/saveThermoMeasureRetest"
+            SAVE_THERMO_MEASURE_RETEST:"/saveThermoMeasureRetest",
+            GET_OHE_THERMO_MEASURES_DATA:"/getOheThermoMeasuresData/"
         },
         THERMOVISION_CHECK_POINTS:{
             SAVE_CHECK_POINTS:"/addCheckPoints",

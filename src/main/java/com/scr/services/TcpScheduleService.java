@@ -29,4 +29,9 @@ public class TcpScheduleService {
 		return tcpScheduleRepository.findByFacilityId(facilityId);
 	}
 
+	public List<TcpSchedule> findByFacilityIdAndDateTimeGreaterThanAndDateTimeLessThan(Facility facility, Date fromDate,
+			Date thruDate) {
+		return tcpScheduleRepository.findByFacilityIdAndDateTimeGreaterThanAndDateTimeLessThan(facility,fromDate,thruDate);
+	}
+
 }

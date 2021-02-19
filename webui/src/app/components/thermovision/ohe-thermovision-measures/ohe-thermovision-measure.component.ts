@@ -53,6 +53,10 @@ export class OheThermovisionMeasureComponent implements OnInit{
    .filter((value, index, self) => self.indexOf(value) === index); */
     statusItems: any;
     depotType = "OHE";
+    searchInputFormGroup: FormGroup;
+    oheThermoMeasuresOrginalData: any[] = [];
+    enableDiff: boolean = false;
+    minDate: any;
   
 
     constructor(
@@ -82,6 +86,11 @@ export class OheThermovisionMeasureComponent implements OnInit{
             'measure2':[null],
             //'ambientTemp': [null,]
         });
+        this.searchInputFormGroup = this.formBuilder.group({
+            'facilityId' : [null , Validators.required ],
+            'fromDate' : [null , Validators.required ],
+            'thruDate' : [null , Validators.required ]
+        });
        
         
         this.getUserContext();
@@ -89,12 +98,6 @@ export class OheThermovisionMeasureComponent implements OnInit{
        this.depotsList = this.depotsData.filter(value => {
         return value.depotType == "OHE";
       });
-       if(this.divisionsList.length > 0) {
-            this.checkDivisionUser = true;
-        }else {
-            this.checkDivisionUser = false;
-            this.inputFormGroup.patchValue({ facilityId: this.depotsData[0] })
-        }
     }
     
     saveOheThermovisionMeasure(){
@@ -133,18 +136,30 @@ export class OheThermovisionMeasureComponent implements OnInit{
         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_USER_DEFAULT_DATA + this.loggedUserData.username).subscribe((data) => {
                                    this.userDefaultData = data;
                 if(this.userDefaultData.division) {
-                    this.divCode = this.userDefaultData.division.toUpperCase();
-                    this.inputFormGroup.patchValue({'division':this.divCode});
-                    if(this.inputFormGroup.value.division) {
-                        this.getDepots();
-                    }
+                    this.setDefaultDivision();
                 }
        });    
     }
     
+    setDefaultDivision(){
+    	if(this.divisionsList.length > 0) {
+            this.checkDivisionUser = true;
+        }else {
+            this.checkDivisionUser = false;
+            this.inputFormGroup.patchValue({ facilityId: this.depotsData[0] })
+        }
+        this.divCode = this.userDefaultData.division.toUpperCase();
+        this.inputFormGroup.patchValue({'division':this.divCode});
+        if(this.inputFormGroup.value.division) {
+            this.getDepots();
+        }
+    }
+    
     getThermoMeasuresData(){
+        this.searchInputFormGroup.reset();
         this.thermovisionMeasureData = [];
         this.thermovisionMeasuresList = [];
+        this.enableDiff = false;
         this.dataSource = new MatTableDataSource(this.thermovisionMeasuresList);
         this.spinnerService.show();
         this.sendAndRequestService.requestForGET(Constants.app_urls.THERMOVISION.THERMOVISION_MEASURE.GET_OHE_THERMO_MEASURES
@@ -173,10 +188,64 @@ export class OheThermovisionMeasureComponent implements OnInit{
         });    
     }
     
-    applyFilter(filterValue: string) {
-  		filterValue = filterValue.trim();
-  		filterValue = filterValue.toLowerCase();
-   		this.dataSource.filter = filterValue;
+    addEvent($event) {
+        this.minDate = new Date($event.value);
+    }
+    
+    getOheThermovisionMeasureData(){
+        this.inputFormGroup.reset();
+        this.setDefaultDivision();
+        this.enableDiff = false;
+    	this.thermovisionMeasureData = [];
+    	this.thermovisionMeasuresList = [];
+        this.oheThermoMeasuresOrginalData  = [];
+        this.dataSource = new MatTableDataSource(this.thermovisionMeasuresList);
+        this.spinnerService.show();
+    	this.sendAndRequestService.requestForGET(Constants.app_urls.THERMOVISION.THERMOVISION_MEASURE.GET_OHE_THERMO_MEASURES_DATA
+            +this.searchInputFormGroup.value.facilityId.id+'/'+this.searchInputFormGroup.value.fromDate+'/'+this.searchInputFormGroup.value.thruDate
+            ).subscribe((data)=>{
+              // console.log('infor***'+JSON.stringify(data));
+                this.thermovisionMeasureData = data;
+                if(this.thermovisionMeasureData.length > 0){
+                    this.enableDiff = true;
+                    for (let i = 0; i < this.thermovisionMeasureData.length; i++) {
+                        this.thermovisionMeasureData[i].sno = i+1;
+                        this.thermovisionMeasureData[i].facilityName = this.searchInputFormGroup.value.facilityId.facilityName;
+                        this.thermovisionMeasureData[i].date = this.datePipe.transform(this.thermovisionMeasureData[i].tcpScheduleId.dateTime, 'dd-MM-yyyy');
+                        this.thermovisionMeasureData[i].doneBy = this.thermovisionMeasureData[i].tcpScheduleId.by; 
+                        
+                        if( this.thermovisionMeasureData[i].measurePoint1 && this.thermovisionMeasureData[i].measurePoint2 ){
+                        	 let commpare = this.thermovisionMeasureData[i].measurePoint1 - this.thermovisionMeasureData[i].measurePoint2;
+            				 this.thermovisionMeasureData[i].diff = Math.abs(commpare).toFixed(2) ;
+                        }else{
+                        	 this.thermovisionMeasureData[i].diff = '';
+                        	 this.thermovisionMeasureData[i].measurePoint2 = '';
+                        } 
+                        this.thermovisionMeasuresList.push(this.thermovisionMeasureData[i]); 
+                        this.oheThermoMeasuresOrginalData.push(this.thermovisionMeasureData[i]);                          
+                    }
+                    this.dataSource = new MatTableDataSource(this.thermovisionMeasuresList);
+                }else {
+                    this.enableDiff = false;    
+                }
+        });
+    }
+    
+    applyFilter(filterValue: number) {
+        this.thermovisionMeasuresList = [];
+        if(filterValue){
+            this.thermovisionMeasuresList = this.oheThermoMeasuresOrginalData.filter(value => {
+                let diffValue: number = value.diff;
+                return  Math.round( value.diff ) >= filterValue;
+            });    
+        }else{
+            this.thermovisionMeasuresList = this.oheThermoMeasuresOrginalData
+        }
+        
+        this.dataSource = new MatTableDataSource(this.thermovisionMeasuresList);
+  		//filterValue = filterValue.trim();
+  		//filterValue = filterValue.toLowerCase();
+   		//this.dataSource.filter = filterValue;
 	}
     
     divisionDetails() {
