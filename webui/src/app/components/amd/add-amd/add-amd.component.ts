@@ -377,7 +377,7 @@ export class AddAmdComponent implements OnInit {
              this.assetTypeParametersData = response;
            })
        }
-        this.getFunctionalUnits(this.resp.type['code'] );
+       // this.getFunctionalUnits(this.resp.type['code'] );
         this.assetMasterFormGroup.patchValue({
         id: this.resp.id,
         type: !!this.resp.type ? this.resp.type['id'] : '',          
