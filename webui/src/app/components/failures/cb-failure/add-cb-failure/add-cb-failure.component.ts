@@ -50,6 +50,8 @@ export class AddCbFailureComponent implements OnInit {
   result:any;
   cbInternalFailList:any;
   cbExternalFailList:any;
+  cascadeAssets:any;
+  relayIndication:any;
   zoneHierarchy:any = JSON.parse(sessionStorage.getItem('zoneData'));
   divisionHierarchy:any = JSON.parse(sessionStorage.getItem('divisionData'));   
   subDivisionHierarchy:any = JSON.parse(sessionStorage.getItem('subDivData'));   
@@ -254,11 +256,11 @@ export class AddCbFailureComponent implements OnInit {
           id: this.resp.id,
           subStation:this.resp.subStation,
           equipment:this.resp.equipment,
-          cascadeAssets:this.resp.cascadeAssets.split(","),
+          cascadeAssets:!!this.resp.cascadeAssets ?this.resp.cascadeAssets.split(","): '',
           fromDateTime:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
           thruDateTime:!!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
           duration:this.resp.duration, 
-          relayIndication:this.resp.relayIndication.split(","),
+          relayIndication:!!this.resp.relayIndication ?this.resp.relayIndication.split(",") : '',
           natureOfClosure:this.resp.natureOfClosure, 
           rValue:this.resp.rValue,
           xValue:this.resp.xValue,
@@ -431,18 +433,30 @@ function(){
     var message = '';
     var failedMessage = '';
     if (this.save) {
-     
       let casc=this.addCbFailFromGroup.value.cascadeAssets;
       let relay=this.addCbFailFromGroup.value.relayIndication;
+      if(this.addCbFailFromGroup.value.cascadeAssets != null){       
+
+       this.cascadeAssets = casc.toString();
+      }else{
+        this.cascadeAssets = casc;
+      }
+      if(this.addCbFailFromGroup.value.relayIndication != null){       
+
+        this.relayIndication = relay.toString();
+       }else{
+         this.relayIndication = relay;
+       }
+     
      
       data = {
         'subStation': this.addCbFailFromGroup.value.subStation , 
         'equipment': this.addCbFailFromGroup.value.equipment , 
-        'cascadeAssets':  casc.toString(),
+        'cascadeAssets':this.cascadeAssets,
         'fromDateTime': this.addCbFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addCbFailFromGroup.value.thruDateTime,
         'duration': this.addCbFailFromGroup.value.duration, 
-        'relayIndication': relay.toString(), 
+        'relayIndication':this.relayIndication , 
         'natureOfClosure': this.addCbFailFromGroup.value.natureOfClosure, 
         'rValue':this.addCbFailFromGroup.value.rValue,
         'xValue':this.addCbFailFromGroup.value.xValue,
@@ -484,15 +498,27 @@ function(){
     }else if(this.update){
       let casc=this.addCbFailFromGroup.value.cascadeAssets;
       let relay=this.addCbFailFromGroup.value.relayIndication;
+      if(this.addCbFailFromGroup.value.cascadeAssets != null){       
+
+       this.cascadeAssets = casc.toString();
+      }else{
+        this.cascadeAssets = casc;
+      }
+      if(this.addCbFailFromGroup.value.relayIndication != null){       
+
+        this.relayIndication = relay.toString();
+       }else{
+         this.relayIndication = relay;
+       }
       data = {
         "id":this.id,
         'subStation': this.addCbFailFromGroup.value.subStation , 
         'equipment': this.addCbFailFromGroup.value.equipment , 
-        'cascadeAssets':  casc.toString(),
+        'cascadeAssets':this.cascadeAssets  ,
         'fromDateTime': this.addCbFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addCbFailFromGroup.value.thruDateTime,
         'duration': this.addCbFailFromGroup.value.duration, 
-        'relayIndication': relay.toString(),
+        'relayIndication': this.relayIndication,
         'natureOfClosure': this.addCbFailFromGroup.value.natureOfClosure, 
         'rValue': this.addCbFailFromGroup.value.rValue,
         'xValue': this.addCbFailFromGroup.value.xValue, 

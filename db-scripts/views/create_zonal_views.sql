@@ -3777,6 +3777,55 @@ ALTER TABLE public.v_tcp_schedule
     v_thermovision_check_points vtcp
   WHERE tcpm.tcp_schedule_id = vtcps.tcps_id AND tcpm.tcp_id = vtcp.tcp_id;
   
-  
+ ----------77 
+
+---drop view v_ash_daily_progress;
+create view v_ash_daily_progress as
+SELECT adp.atd_aoh,
+    adp.atd_poh,
+    adp.crossover_aoh,
+    adp.date,
+    adp.gantry_aoh,
+    adp.mcl_aoh,
+    adp.mcl_poh,
+    adp.overlap_aoh,
+    adp.ptfe_aoh,
+    adp.remark,
+    adp.scl_aoh,
+    adp.scl_poh,
+    adp.si_aoh,
+    adp.sm_aoh,
+    adp.turnout_aoh,
+    adp.facility,
+    f.facility_name,
+    f.facility_id,
+    f.id AS fac_id,
+    date_part('year'::text, adp.date) AS yyyy,
+    date_part('month'::text, adp.date) AS mm,
+    date_part('day'::text, adp.date) AS dd,
+    mod(date_part('year'::text, adp.date)::integer, 100) AS yy,
+        CASE
+            WHEN date_part('month'::text, adp.date) > 3::double precision THEN (date_part('year'::text, adp.date) || '-'::text) || (mod(date_part('year'::text, adp.date)::integer, 100) + 1)
+            ELSE ((date_part('year'::text, adp.date)::integer - 1) || '-'::text) || mod(date_part('year'::text, adp.date)::integer, 100)
+        END AS fy_yyyyyy,
+        CASE
+            WHEN date_part('month'::text, adp.date) > 3::double precision THEN (mod(date_part('year'::text, adp.date)::integer, 100) || '-'::text) || (mod(date_part('year'::text, adp.date)::integer, 100) + 1)
+            ELSE ((mod(date_part('year'::text, adp.date)::integer, 100) - 1) || '-'::text) || mod(date_part('year'::text, adp.date)::integer, 100)
+        END AS fy_yyyy,
+        CASE
+            WHEN date_part('month'::text, adp.date) > 3::double precision THEN date_part('year'::text, adp.date)
+            ELSE (date_part('year'::text, adp.date)::integer - 1)::double precision
+        END AS fy_start_yyyy,
+        CASE
+            WHEN date_part('month'::text, adp.date) > 3::double precision THEN to_date(date_part('year'::text, adp.date) || '-04-01'::text, 'yyyy-mm-dd'::text)
+            ELSE to_date((date_part('year'::text, adp.date) - 1::double precision) || '-04-01'::text, 'yyyy-mm-dd'::text)
+        END AS fy_start_date,
+        CASE
+            WHEN date_part('month'::text, adp.date) > 3::double precision THEN to_date((date_part('year'::text, adp.date) + 1::double precision) || '-03-31'::text, 'yyyy-mm-dd'::text)
+            ELSE to_date(date_part('year'::text, adp.date) || '-03-31'::text, 'yyyy-mm-dd'::text)
+        END AS fy_end_date
+   FROM ash_daily_progress adp,
+    facility f
+  WHERE f.id = adp.facility; 
   
   
