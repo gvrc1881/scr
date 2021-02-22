@@ -34,7 +34,9 @@ public class ThermovisionCheckPoints implements Serializable {
 	
 	
 	private String active;
-
+	
+	@Column(name="seq_id")
+	private String seqId;
 
 	@ManyToOne
 	@JoinColumn(name = "facility_id")
@@ -118,6 +120,16 @@ public class ThermovisionCheckPoints implements Serializable {
 
 	public void setFacilityId(Facility facilityId) {
 		this.facilityId = facilityId;
+	}
+
+
+	public String getSeqId() {
+		return seqId;
+	}
+
+
+	public void setSeqId(String seqId) {
+		this.seqId = seqId;
 	}
 	
 	
