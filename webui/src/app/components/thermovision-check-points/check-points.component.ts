@@ -170,6 +170,7 @@ export class CopyCheckPointsComponent implements OnInit {
   Titles = FieldLabelsConstant.TITLE;
 
   checkPointFormGroup: FormGroup;
+  copyCheckPointFormGroup: FormGroup;
   copyPoints = [];
   checkPointsExists: boolean;
   dataSource: MatTableDataSource<ChekPointsModel>;
@@ -177,6 +178,8 @@ export class CopyCheckPointsComponent implements OnInit {
   facilityId: any;
   createCheckPoints: boolean;
   res: any;
+  toFacilityData=[];
+  createCopyPoints: boolean;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   depotData: any = JSON.parse(sessionStorage.getItem('depotData'));
   filterDepot: any = this.depotData.filter(u => 
@@ -196,6 +199,9 @@ export class CopyCheckPointsComponent implements OnInit {
     this.checkPointFormGroup = this.formBuilder.group({
       facilityId: [null]
     })
+    this.copyCheckPointFormGroup = this.formBuilder.group({
+      facilityId: [null]
+    })
   }
 
   saveAction() {
@@ -206,6 +212,10 @@ export class CopyCheckPointsComponent implements OnInit {
     this.confirmDialogRef.componentInstance.confirmMessage = 'Do you want to copy existing documents to new Check Points ?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if(result){
+        var copyPoints={
+              "facilityId":this.copyCheckPointFormGroup.value.facilityId,
+
+        }
         this.sendAndRequestService.requestForPOST(Constants.app_urls.THERMOVISION.THERMOVISION_CHECK_POINTS.COPY_CHECK_POINTS,this.copyPoints,true).subscribe((response) => {
           this.spinnerService.hide();
          this.res = response;
@@ -232,8 +242,18 @@ export class CopyCheckPointsComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.copyPoints);
     this.sendAndRequestService.requestForGET(Constants.app_urls.THERMOVISION.THERMOVISION_CHECK_POINTS.GET_CHECK_POINTS_BASED_ON_FACILITY_ID+this.facilityId).subscribe((data) => {
       this.copyPoints = data;
-      console.log('** rseponse **'+JSON.stringify(this.copyPoints));
+      console.log('** rseponse **'+JSON.stringify(this.copyPoints.length));
+      if(this.toFacilityData.length == 0){
+        this.createCopyPoints = true;
+        for(let i =0 ; i < this.copyPoints.length ; i++ ){
+          this.copyPoints[i].facilityId = this.copyCheckPointFormGroup.controls['facilityId'].value;;
+      }
+        
+      }
+      console.log('** to copyPoints data **'+JSON.stringify(this.copyPoints));
       if(this.copyPoints.length > 0) {
+                this.createCopyPoints = true;
+
           for(let i =0 ; i < this.copyPoints.length ; i++ ){
               this.copyPoints[i].sno = i+1;
           }
@@ -243,7 +263,15 @@ export class CopyCheckPointsComponent implements OnInit {
 });
   }
 
-  
+  getCopyFacilityDetails(){
+    let facility=this.copyCheckPointFormGroup.controls['facilityId'].value.id;
+     this.sendAndRequestService.requestForGET(Constants.app_urls.THERMOVISION.THERMOVISION_CHECK_POINTS.GET_CHECK_POINTS_BASED_ON_FACILITY_ID+facility).subscribe((data) => {
+       this.toFacilityData = data;
+       console.log("toFacilityData"+JSON.stringify(data))
+ }
+     );
+
+  }
 
   onGoBack(): void {
     this.dialogRef.close();

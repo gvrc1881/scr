@@ -40,6 +40,7 @@ public class ThermovisionCheckPointsService {
   			List<ThermovisionCheckPoints> cpData = thermovisionCheckPointsRepository.findByActive(checkPoints.getActive());
  				logger.info("Enter into if Service");
   				ThermovisionCheckPoints updateCheckPointsData = cpData.get(0);
+  				updateCheckPointsData.setFacilityId(checkPoints.getFacilityId());
   				updateCheckPointsData.setCheckPointPart(checkPoints.getCheckPointPart());
   				logger.info("checkPointPart"+checkPoints.getCheckPointPart());
   				updateCheckPointsData.setCheckPoint1Description(checkPoints.getCheckPoint1Description());
