@@ -30,6 +30,8 @@ public class DrivesResponse {
 	private double performedCount;
 	private double alreadyDone;
 	private String facilityId;
+	private String population;
+	private double target;
 
 	public Long getId() {
 		return id;
@@ -213,6 +215,22 @@ public class DrivesResponse {
 
 	public void setFacilityId(String facilityId) {
 		this.facilityId = facilityId;
+	}
+
+	public String getPopulation() {
+		return population;
+	}
+
+	public void setPopulation(String population) {
+		this.population = population;
+	}
+
+	public double getTarget() {
+		return target;
+	}
+
+	public void setTarget(double target) {
+		this.target = target;
 	}
 
 	@Override

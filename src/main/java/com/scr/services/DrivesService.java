@@ -687,13 +687,13 @@ public class DrivesService {
 	}
 
 	public List<DrivesResponse> getDrivesBasedOnFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(
-			Date fromDate,Date toDate, String depotType, String requestType, String driveCategoryName ) {
-		logger.info("** depot type***"+depotType);
+			Date fromDate,Date toDate, Facility facility, String requestType ) {
+		logger.info("** depot type***"+facility);
 		List<Drives> drivesList = null;
 		List<DrivesResponse> drivesResponseList = new ArrayList<>();
-		Optional<FunctionalLocationTypes> functionalLocationType = functionalLocationTypesRepository.findByCode(depotType);
-		Optional<DriveCategory> driveCategory = driveCategoryRepository.findByDriveCategoryName(driveCategoryName);
-		if ("Schedule Progress".equals(requestType)) {
+		Optional<FunctionalLocationTypes> functionalLocationType = functionalLocationTypesRepository.findByCode(facility.getDepotType());
+		//Optional<DriveCategory> driveCategory = driveCategoryRepository.findByDriveCategoryName(driveCategoryName);
+		/*if ("Schedule Progress".equals(requestType)) {
 			if (driveCategory.isPresent()) {
 				List<DriveCategoryAsso> driveCategoryAssos = driveCategoryAssoRepository.findByDriveCategoryId(driveCategory.get());
 				if (driveCategoryAssos.size() > 0 ) {
@@ -716,9 +716,12 @@ public class DrivesService {
 			} else 
 			drivesList = driveRepository.findByDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(functionalLocationType.get(),fromDate,toDate);
 			logger.info("** in else condition size ***"+drivesList.size());
-		}
+		}*/
+		logger.info("** parameter values ***zone***"+facility.getZone()+"*** division***"+facility.getDivision()+"*** sub division***"+facility.getSubDivision()+"*** facility Name***"+facility.getFacilityName()+"*** depot type ***"+functionalLocationType.get());
+		drivesList = driveRepository.findByFunctionalUnitOrFunctionalUnitOrFunctionalUnitOrFunctionalUnitOrFunctionalUnitAndDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(facility.getZone(),facility.getDivision(),facility.getSubDivision(),facility.getFacilityName(),null,functionalLocationType.get(),fromDate,toDate);
 		if (drivesList != null) {
 			for (Drives drives : drivesList) {
+				Optional<DriveTarget> driveTarget =driveTargetRepository.findByDriveIdAndUnitTypeAndUnitName(drives,facility.getDepotType(),facility.getFacilityName());
 				DrivesResponse driveResponse = new DrivesResponse();
 				Optional<DriveDailyProgress> DDProgress = this.findByDriveIdAndPerformedDate(drives,fromDate);
 				if (DDProgress.isPresent()) {
@@ -730,6 +733,10 @@ public class DrivesService {
 				double alreadyDoneCount = 0;
 				for (DriveDailyProgress driveDailyProgress : alreadyDDProgressList) {
 					alreadyDoneCount = alreadyDoneCount+driveDailyProgress.getPerformedCount();
+				}
+				if (driveTarget.isPresent()) {
+					driveResponse.setPopulation(driveTarget.get().getPoulation());
+					driveResponse.setTarget(driveTarget.get().getTarget());
 				}
 				driveResponse.setAlreadyDone(alreadyDoneCount);
 				driveResponse.setName(drives.getName());

@@ -1,14 +1,20 @@
 .mat-column-sno {
-  flex: 0 0 80px;
+  flex: 0 0 70px;
 }
 .mat-column-drive {
-  flex: 0 0 300px;
+  flex: 0 0 250px;
 }
 .mat-column-description {
-  flex: 0 0 300px;
+  flex: 0 0 250px;
 }
 .mat-column-assetType {
-  flex: 0 0 200px;
+  flex: 0 0 150px;
+}
+.mat-column-population {
+  flex: 0 0 75px;
+}
+.mat-column-target {
+  flex: 0 0 75px;
 }
 .mat-column-alreadyDone {
   flex: 0 0 80px;

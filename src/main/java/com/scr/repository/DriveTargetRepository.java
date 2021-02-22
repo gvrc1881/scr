@@ -153,6 +153,8 @@ public interface DriveTargetRepository extends JpaRepository<DriveTarget, Long>{
 			"		group by drive_id,f.sub_division\r\n",nativeQuery=true)
 	Double getDepotsAggregation(Optional<Drives> drive, String facilityName);
 
+	Optional<DriveTarget> findByDriveIdAndUnitTypeAndUnitName(Drives drives, String depotType, String facilityName);
+
 	
 
 	

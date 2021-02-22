@@ -97,19 +97,25 @@
                                 <div class="col-md-3">
                                     <mat-form-field fxFlex="30">
                                     	<input matInput placeholder="{{FiledLabels.CONNECTION_POINT2}}" autocomplete="off"
-                                        	[formControl]="inputFormGroup.controls['connectionPoint2']" >
+                                        	[formControl]="inputFormGroup.controls['connectionPoint2']" required >
                                     </mat-form-field>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                 	<mat-form-field fxFlex="30">
                                     	<input matInput placeholder="{{FiledLabels.MEASURE1}}" autocomplete="off"
-                                        	[formControl]="inputFormGroup.controls['measure1']" decimalNumber required>
+                                        	[formControl]="inputFormGroup.controls['measure1']"  (ngModelChange)="getDiff()" decimalNumber required>
                                     </mat-form-field>
 					           	</div>
-					           	<div class="col-md-3">
+					           	<div class="col-md-2">
                                 	<mat-form-field fxFlex="30">
                                     	<input matInput placeholder="{{FiledLabels.MEASURE2}}" autocomplete="off"
-                                        	[formControl]="inputFormGroup.controls['measure2']" decimalNumber >
+                                        	[formControl]="inputFormGroup.controls['measure2']" (ngModelChange)="getDiff()" decimalNumber required >
+                                        </mat-form-field>
+					           	</div>
+					           		<div class="col-md-2">
+                                	<mat-form-field fxFlex="30">
+                                    	<input matInput placeholder="{{FiledLabels.DIFF}}" 
+                                        	[formControl]="inputFormGroup.controls['diff']" [ngClass]="{ 'highlight' : diff > 5 }" readonly >
                                         </mat-form-field>
 					           	</div>
 					           <!-- 	<div class="col-md-3">
@@ -231,7 +237,7 @@
 	                                        	{{row.connectionPoint1}}
 	                                        </mat-cell>
 	                                </ng-container>
-	                                <ng-container matColumnDef="measure2">
+	                                <ng-container matColumnDef="measure1">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.MEASURE1}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
 	                                    		{{row.measurePoint1}}
@@ -243,7 +249,7 @@
 	                                        	{{row.connectionPoint2}}
 	                                        </mat-cell>
 	                                </ng-container>
-	                                <ng-container matColumnDef="measure1">
+	                                <ng-container matColumnDef="measure2">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.MEASURE2}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
 	                                    		{{row.measurePoint2}}
@@ -251,7 +257,7 @@
 	                                </ng-container>
 	                                <ng-container matColumnDef="diff">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.DIFF}}</span></mat-header-cell>
-	                                    	<mat-cell *matCellDef="let row">
+	                                    	<mat-cell *matCellDef="let row" [ngClass]="{ 'highlight' : row.diff > 5 }">
 	                                    		{{row.diff}}
 	                                        </mat-cell>
 	                                </ng-container>

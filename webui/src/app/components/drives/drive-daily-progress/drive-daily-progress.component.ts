@@ -84,7 +84,7 @@ export class DriveDailyProgressComponent implements OnInit {
             this.FiledLabels.DRIVE = "Drive";
             this.FiledLabels.PERFORMED_COUNT = "Performed Count"
             this.FiledLabels.FROM_DATE = "Date";
-            this.displayedColumns = ['sno', 'drive','description','assetType','alreadyDone','performedCount','ids', 'actions'];    
+            this.displayedColumns = ['sno', 'drive','description','assetType','population','target','alreadyDone','performedCount','ids', 'actions'];    
         }
         this.searchInputFormGroup = this.formBuilder.group({
             'fromDate': [null],
@@ -159,32 +159,36 @@ export class DriveDailyProgressComponent implements OnInit {
         +this.searchInputFormGroup.controls['fromDate'].value +'/' + this.searchInputFormGroup.controls['facilityId'].value +'/'+this.requestType
             ).subscribe((data) => {
                 this.drivesList = data;
-          for (let i = 0; i < this.drivesList.length; i++) {
-            this.drivesList[i].sno = i + 1;
-            this.drivesList[i].drive = this.drivesList[i];
-             /*
-              this.sendAndRequestService.requestForGET(Constants.app_urls.PROGRESS_RECORD.GET_DDPROGRESS_BASED_ON_DRIVE_FROM_DATE
-              +this.drivesList[i].id+'/'+this.searchInputFormGroup.controls['fromDate'].value
-                  ).subscribe((data) =>{
-                      this.sendAndRequestService.requestForGET(Constants.app_urls.PROGRESS_RECORD.GET_ALREADY_DONE_COUNT_BASED_ON_DRIVE_FROM_DATE
-                        +this.drivesList[i].id+'/'+this.searchInputFormGroup.controls['fromDate'].value
-                          ).subscribe((data) => {
-                             this.drivesList[i].alreadyDone = data;
-                          });
-                      this.DDProgress = data;
-                      if(this.DDProgress != null) {
-                           this.drivesList[i].performedCount = this.DDProgress.performedCount;
-                          this.drivesList[i].facilityId = this.DDProgress.depot;
-                          }
-                      }); */
-          //  this.driveTargetList[i].driveId = this.driveTargetList[i].driveId['name'];
-            drivesData.push(this.drivesList[i]);
-          }
-    
-          this.dataSource = new MatTableDataSource(drivesData);
-         // this.dataSource.paginator = this.paginator;
-         // this.dataSource.sort = this.sort;
-          this.spinnerService.hide(); 
+                console.log('*** data ****'+JSON.stringify(data));
+                if(this.drivesList){
+                  for (let i = 0; i < this.drivesList.length; i++) {
+                    this.drivesList[i].sno = i + 1;
+                    this.drivesList[i].drive = this.drivesList[i];
+                     /*
+                      this.sendAndRequestService.requestForGET(Constants.app_urls.PROGRESS_RECORD.GET_DDPROGRESS_BASED_ON_DRIVE_FROM_DATE
+                      +this.drivesList[i].id+'/'+this.searchInputFormGroup.controls['fromDate'].value
+                          ).subscribe((data) =>{
+                              this.sendAndRequestService.requestForGET(Constants.app_urls.PROGRESS_RECORD.GET_ALREADY_DONE_COUNT_BASED_ON_DRIVE_FROM_DATE
+                                +this.drivesList[i].id+'/'+this.searchInputFormGroup.controls['fromDate'].value
+                                  ).subscribe((data) => {
+                                     this.drivesList[i].alreadyDone = data;
+                                  });
+                              this.DDProgress = data;
+                              if(this.DDProgress != null) {
+                                   this.drivesList[i].performedCount = this.DDProgress.performedCount;
+                                  this.drivesList[i].facilityId = this.DDProgress.depot;
+                                  }
+                              }); */
+                  //  this.driveTargetList[i].driveId = this.driveTargetList[i].driveId['name'];
+                    drivesData.push(this.drivesList[i]);
+                  }
+            
+                  this.dataSource = new MatTableDataSource(drivesData);
+                 // this.dataSource.paginator = this.paginator;
+                 // this.dataSource.sort = this.sort;
+                  this.spinnerService.show();   
+                }
+          
         }, error => {
           this.spinnerService.hide();
         });

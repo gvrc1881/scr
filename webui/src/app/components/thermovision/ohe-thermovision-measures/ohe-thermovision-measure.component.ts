@@ -57,6 +57,7 @@ export class OheThermovisionMeasureComponent implements OnInit{
     oheThermoMeasuresOrginalData: any[] = [];
     enableDiff: boolean = false;
     minDate: any;
+    diff: number;
   
 
     constructor(
@@ -81,9 +82,10 @@ export class OheThermovisionMeasureComponent implements OnInit{
             'by' : [null,Validators.required],
             'generalRemark' : [null],
             'connectionPoint1':[null, Validators.required ],
-            'connectionPoint2':[ null ],
+            'connectionPoint2':[ null , Validators.required ],
             'measure1':[null, Validators.required ],
-            'measure2':[null],
+            'measure2':[null , Validators.required ],
+            'diff': [ null ]
             //'ambientTemp': [null,]
         });
         this.searchInputFormGroup = this.formBuilder.group({
@@ -98,6 +100,13 @@ export class OheThermovisionMeasureComponent implements OnInit{
        this.depotsList = this.depotsData.filter(value => {
         return value.depotType == "OHE";
       });
+    }
+    
+    getDiff() {
+        if(this.inputFormGroup.value.measure1 && this.inputFormGroup.value.measure2){
+            this.diff = this.inputFormGroup.value.measure1 - this.inputFormGroup.value.measure2;
+            this.inputFormGroup.patchValue({'diff': Math.abs(this.diff).toFixed(2)});
+        }
     }
     
     saveOheThermovisionMeasure(){

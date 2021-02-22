@@ -70,6 +70,11 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 
 	List<Drives> findByFunctionalUnitInOrFunctionalUnitIsNullAndStatusId(List<String> fac, Integer activeStatusId);
 
+	@Query(value = " select d from Drives d where d.functionalUnit = :zone or d.functionalUnit = :division or d.functionalUnit = :subDivision or d.functionalUnit = :facilityName or d.functionalUnit = :empty and d.depotType = :functionalLocationTypes and fromDate <= :fromDate and toDate >= :toDate or toDate is null " )
+	List<Drives> findByFunctionalUnitOrFunctionalUnitOrFunctionalUnitOrFunctionalUnitOrFunctionalUnitAndDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(
+			@Param("zone") String zone,@Param("division") String division,@Param("subDivision") String subDivision,@Param("facilityName") String facilityName,@Param("empty") String empty,
+			@Param("functionalLocationTypes") FunctionalLocationTypes functionalLocationTypes,@Param("fromDate") Date fromDate,@Param("toDate") Date toDate);
+
 
 
 

@@ -1,3 +1,6 @@
 .mat-column-sno {
     max-width: 70px;
 }
+.highlight {
+    background-color: #ff6666;
+}

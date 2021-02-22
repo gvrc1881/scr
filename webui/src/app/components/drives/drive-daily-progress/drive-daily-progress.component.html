@@ -111,6 +111,18 @@
 	                                            </mat-cell>
 	                                        </ng-container>
 	                                        </div>
+	                                        <ng-container matColumnDef="population" >
+	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.POPULATION}}</mat-header-cell>
+	                                            <mat-cell *matCellDef="let row"> 
+	                                            	{{row.population}}
+	                                            </mat-cell>
+	                                        </ng-container>
+	                                        <ng-container matColumnDef="target" >
+	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TARGET}}</mat-header-cell>
+	                                            <mat-cell *matCellDef="let row"> 
+	                                            	{{row.target}}
+	                                            </mat-cell>
+	                                        </ng-container>
 	                                        <ng-container matColumnDef="alreadyDone" >
 	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ALREADY_DONE}}</mat-header-cell>
 	                                            <mat-cell *matCellDef="let row"> 

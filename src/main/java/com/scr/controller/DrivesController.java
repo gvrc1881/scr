@@ -1308,12 +1308,13 @@ public ResponseEntity<List<FailureAnalysis>> failureAnalysisBasedOnDivision(
 			logger.info("Calling service for dirves data");
 			Optional<Facility> facilityData = facilityService.findByFacilityId(facilityId);
 			if (facilityData.isPresent()) {
-				if ("OHE".equals(facilityData.get().getDepotType())) {
+				/*if ("OHE".equals(facilityData.get().getDepotType())) {
 					driveCategoryName = "OHE SCHEDULES";
 				}else {
 					driveCategoryName = "PSI SCHEDULES";
-				}
-				drivesList = service.getDrivesBasedOnFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(fromDate,toDate,facilityData.get().getDepotType(),requestType,driveCategoryName);	
+				}*/
+				//drivesList = service.getDrivesBasedOnFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(fromDate,toDate,facilityData.get(),requestType,driveCategoryName);
+				drivesList = service.getDrivesBasedOnFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(fromDate,toDate,facilityData.get(),requestType);
 			}
 			
 			logger.info("Fetched drives size = "+drivesList.size());
