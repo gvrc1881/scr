@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="uuo" pageWidth="900" pageHeight="800" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="860" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="59001b31-3ab0-4b62-83e5-32e51fe30200">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="uuo" pageWidth="1000" pageHeight="800" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="59001b31-3ab0-4b62-83e5-32e51fe30200">
 	<property name="ireport.zoom" value="0.9090909090909091"/>
-	<property name="ireport.x" value="3"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -76,15 +76,15 @@ order by sequence_id::integer , faci_id]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="101" splitType="Stretch">
+		<band height="77" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="860" height="37" uuid="15a20f55-12b2-40b0-9c45-19a71b4a9604"/>
+				<reportElement x="0" y="0" width="960" height="37" uuid="15a20f55-12b2-40b0-9c45-19a71b4a9604"/>
 				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="20" isBold="true"/>
@@ -92,107 +92,47 @@ order by sequence_id::integer , faci_id]]>
 				<text><![CDATA[Unusual Occurence Actions Report]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="100" y="37" width="100" height="20" uuid="413f377c-9a76-4435-8aee-2d87af033e4b"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{zone}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="347" y="37" width="100" height="20" uuid="26c05e74-1fcc-456d-9295-4c0e9436c0e8"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{division}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="622" y="37" width="100" height="20" uuid="bf130575-c54e-4b91-b724-322c48a9a89b"/>
+				<reportElement x="100" y="37" width="294" height="20" uuid="bf130575-c54e-4b91-b724-322c48a9a89b"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{facility_name}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="522" y="37" width="100" height="20" uuid="11ce6f49-ada6-418e-98bd-afc07dba24b8"/>
+				<reportElement x="0" y="37" width="100" height="20" uuid="11ce6f49-ada6-418e-98bd-afc07dba24b8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Depot Name :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="247" y="37" width="100" height="20" uuid="ee28fc2e-486d-46ab-b2dc-dedff943f266"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Division :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="37" width="100" height="20" uuid="f55c6565-9345-4540-a2f8-f667bf6122e9"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Zone :]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="100" y="57" width="100" height="22" uuid="2c509d57-6b66-418b-aa3c-05f0d3591f04"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{location}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="57" width="100" height="22" uuid="2aec5672-531b-4616-8cf2-b68071bf35fb"/>
+				<reportElement x="0" y="57" width="100" height="20" uuid="9e305235-f72e-42f4-a8a7-a4e38c4e8ca7"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Location :]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="100" y="79" width="100" height="22" uuid="f5913ff5-f41a-4740-a4c3-f4dd92980fde"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="860" y="37" width="100" height="20" uuid="fad0ef5b-61f3-4c15-a21b-f19616d74425"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="79" width="100" height="22" uuid="f1dded9d-cfe3-452c-ac0d-97d5f1066b4b"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement x="760" y="37" width="100" height="20" uuid="10e86ead-931b-44b0-8a38-db4bcb496e26"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[From Date :]]></text>
+				<text><![CDATA[Date :]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="347" y="57" width="100" height="22" uuid="ee504d59-fef6-47bf-8bb2-c10fa4b2433e"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{major_section}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="247" y="57" width="100" height="22" uuid="1ca07d58-6919-4468-b0e5-92522c2e0254"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Major Section : ]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="622" y="57" width="100" height="22" uuid="e0f94752-cb17-4b2d-a4fe-82359f4038e3"/>
+				<reportElement x="100" y="57" width="294" height="20" uuid="7026bcdc-8a79-4a0a-ba3f-def0239cbaa0"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{minor_section}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="522" y="57" width="100" height="22" uuid="d6c934a8-2db1-4ffc-a0d2-4dfeee61353d"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Minor Section : ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="37" width="860" height="64" uuid="727f4097-2ba6-4232-98a2-a7ae9cc7e90e"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[]]></text>
-			</staticText>
 		</band>
 	</title>
 	<pageHeader>
 		<band height="20">
 			<staticText>
-				<reportElement x="0" y="0" width="30" height="20" uuid="b8e195a9-4e14-4640-8587-3682058ca055"/>
+				<reportElement x="0" y="0" width="100" height="20" uuid="b8e195a9-4e14-4640-8587-3682058ca055"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -206,7 +146,7 @@ order by sequence_id::integer , faci_id]]>
 				<text><![CDATA[S No]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="0" width="264" height="20" uuid="d3eb64bd-4af4-4761-878e-a8477d5d01c0"/>
+				<reportElement x="100" y="0" width="294" height="20" uuid="d3eb64bd-4af4-4761-878e-a8477d5d01c0"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -220,7 +160,7 @@ order by sequence_id::integer , faci_id]]>
 				<text><![CDATA[Actions]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="294" y="0" width="566" height="20" uuid="a346dbb1-ed1b-4129-8e8a-07c83cae5ee9"/>
+				<reportElement x="394" y="0" width="566" height="20" uuid="a346dbb1-ed1b-4129-8e8a-07c83cae5ee9"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -231,7 +171,7 @@ order by sequence_id::integer , faci_id]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Special Works]]></text>
+				<text><![CDATA[Description]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
@@ -241,7 +181,7 @@ order by sequence_id::integer , faci_id]]>
 	<detail>
 		<band height="33">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="30" y="0" width="264" height="33" uuid="1241b832-4679-4d4e-8604-4ccd3914f45c"/>
+				<reportElement x="100" y="0" width="294" height="33" uuid="1241b832-4679-4d4e-8604-4ccd3914f45c"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -255,7 +195,7 @@ order by sequence_id::integer , faci_id]]>
 				<textFieldExpression><![CDATA[$F{status_code}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="294" y="0" width="566" height="33" uuid="13ed0403-18a5-45ef-b9d8-d7dbb7aa81b6"/>
+				<reportElement x="394" y="0" width="566" height="33" uuid="13ed0403-18a5-45ef-b9d8-d7dbb7aa81b6"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -267,7 +207,7 @@ order by sequence_id::integer , faci_id]]>
 				<textFieldExpression><![CDATA[$F{special_remarks}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="30" height="33" uuid="d58cc3ee-6183-4214-bd42-9faba8668ef2"/>
+				<reportElement x="0" y="0" width="100" height="33" uuid="d58cc3ee-6183-4214-bd42-9faba8668ef2"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -286,23 +226,23 @@ order by sequence_id::integer , faci_id]]>
 	<pageFooter>
 		<band height="20">
 			<staticText>
-				<reportElement x="602" y="0" width="100" height="20" uuid="01acc029-f5ba-4a9b-8967-d780e1f1d1a6"/>
+				<reportElement x="702" y="0" width="100" height="20" uuid="01acc029-f5ba-4a9b-8967-d780e1f1d1a6"/>
 				<textElement textAlignment="Right">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Generated On:- ]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="702" y="0" width="158" height="20" uuid="5563974f-7590-401f-bce0-4332324c417f"/>
+				<reportElement x="802" y="0" width="158" height="20" uuid="5563974f-7590-401f-bce0-4332324c417f"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="294" height="20" uuid="090487ed-df58-431d-a459-d4688da62ed7"/>
+				<reportElement x="0" y="0" width="394" height="20" uuid="090487ed-df58-431d-a459-d4688da62ed7"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="294" y="0" width="308" height="20" uuid="5a3dd18d-7329-4d7a-8477-f003223fb0aa"/>
+				<reportElement x="394" y="0" width="308" height="20" uuid="5a3dd18d-7329-4d7a-8477-f003223fb0aa"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -310,7 +250,7 @@ order by sequence_id::integer , faci_id]]>
 	<noData>
 		<band height="41">
 			<staticText>
-				<reportElement x="0" y="0" width="860" height="41" forecolor="#EC082B" uuid="fbb0f916-ad6b-4645-83eb-30c566158f0b"/>
+				<reportElement x="0" y="0" width="960" height="41" forecolor="#EC082B" uuid="fbb0f916-ad6b-4645-83eb-30c566158f0b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="20" isBold="true"/>
 				</textElement>
