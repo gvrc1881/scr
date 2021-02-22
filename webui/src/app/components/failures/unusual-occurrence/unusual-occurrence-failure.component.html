@@ -180,12 +180,12 @@
                                             <mat-cell *matCellDef="let row"> {{row.divisionLocal}}</mat-cell>
                                         </ng-container> -->
                                       
-                                        <ng-container matColumnDef="internalExternal">
+                                        <ng-container matColumnDef="cbInternalFailure">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>{{FiledLabels.INTERNAL_EXTERNAL}}</span>
+                                                <span>{{FiledLabels.INTERNAL}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[7].Value" [filter]="filterData"/>
                                             </mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.internalExternal}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.cbInternalFailure}}</mat-cell>
                                         </ng-container>                               
 
                                 

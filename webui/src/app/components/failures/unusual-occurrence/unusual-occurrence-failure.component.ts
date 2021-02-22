@@ -31,7 +31,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   occurenceDisplayedColumns = ['sno', 'subStation', 'location', 'causeOfFailure', 'fromDateTime', 
-  'thruDateTime',  'duration','internalExternal', 'actions','failureActions'];
+  'thruDateTime',  'duration','cbInternalFailure', 'actions','failureActions'];
   dataSource: MatTableDataSource<any>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
@@ -103,7 +103,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
      { "Key": 'thruDateTime', "Value": " " },
         { "Key": 'duration', "Value": " " },        
       //  { "Key": 'divisionLocal', "Value": " " },
-        { "Key": 'internalExternal', "Value": " " },   
+        { "Key": 'cbInternalFailure', "Value": " " },   
       
        
       ],
