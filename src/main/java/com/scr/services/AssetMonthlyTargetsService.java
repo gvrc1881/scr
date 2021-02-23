@@ -8,9 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.scr.model.AssetMonthlyTarget;
 import com.scr.model.AssetScheduleAssoc;
-import com.scr.model.WPASectionTargets;
-import com.scr.model.WorkPhaseActivity;
-import com.scr.model.WorkPhases;
 import com.scr.repository.AssetMonthlyTargetRepository;
 import com.scr.repository.AssetSchAssoRepository;
 
@@ -66,7 +63,7 @@ static Logger logger = LogManager.getLogger(AssetMonthlyTargetsService.class);
 
 	}
 	
-   public Optional<AssetScheduleAssoc> findByIsDpr(String isDpr) {
+   public List<AssetScheduleAssoc> findByIsDpr(String isDpr) {
 		return assetSchAssocRepository.findByIsDpr(isDpr);
 	}
    

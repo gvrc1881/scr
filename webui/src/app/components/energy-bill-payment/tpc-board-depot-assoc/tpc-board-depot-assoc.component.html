@@ -50,7 +50,7 @@
                                                          <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
                                                                 <mat-select placeholder="{{FiledLabels.DEPOT_TYPE}}" [formControl]="tpcBoardDepotAssocFormGroup.controls['unitType']" (selectionChange)="getFacilitys()" >
-                                                                    <mat-option *ngFor="let depotType of distinctDepotType"
+                                                                    <mat-option *ngFor="let depotType of stationType"
                                                                         [value]="depotType">
                                                                         {{ depotType}}
                                                                     </mat-option>

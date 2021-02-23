@@ -16,11 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
-import com.scr.message.response.WPASectionTargetsResponse;
 import com.scr.model.AssetMonthlyTarget;
 import com.scr.model.AssetScheduleAssoc;
-import com.scr.model.TssFeederMaster;
-import com.scr.model.WPASectionTargets;
 import com.scr.services.AssetMonthlyTargetsService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -112,25 +109,25 @@ public class AssetMonthlyTargetsController {
 					Constants.FAILURE_CODE);
 		}
 	}
-	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/getScheduleAssocOnDpr/{isDpr}", method = RequestMethod.GET, headers = "accept=application/json")
-	public ResponseEntity<AssetScheduleAssoc> getScheduleAssocOnDpr(@PathVariable("isDpr") String isDpr) {
-		log.info("** Enter into getScheduleAssocOnDpr function ***");
-		Optional<AssetScheduleAssoc> scheduleAssocList = null;
+	@RequestMapping(value = "/getScheduleAssocOnDpr/{isDpr}" , method = RequestMethod.GET , headers = "Accept=application/json")
+	public List<AssetScheduleAssoc> getScheduleAssocOnDpr(@PathVariable("isDpr") String isDpr){
+		log.info("Enter into getScheduleAssocOnDpr function");
+		List<AssetScheduleAssoc> scheduleAssocList = null;
 		try {
-			log.info("** isDpr = " + isDpr);
+			log.info("Calling service for  scheduleAssocList data");
 			scheduleAssocList = targetsService.findByIsDpr(isDpr);
-			if (scheduleAssocList.isPresent()) {
-				return new ResponseEntity<AssetScheduleAssoc>(scheduleAssocList.get(), HttpStatus.OK);
-			} else
-				return new ResponseEntity<AssetScheduleAssoc>(scheduleAssocList.get(), HttpStatus.CONFLICT);
-
-		} catch (Exception e) {
-			log.error("Error >>  while find  get ScheduleAssoc OnDpr" + e.getMessage());
-			return new ResponseEntity<AssetScheduleAssoc>(scheduleAssocList.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+			log.info("Fetched fp Inspection Item data ***"+scheduleAssocList.size());
+		}catch (NullPointerException npe) {
+			log.error("ERROR >>> while fetching the scheduleAssocList  Item data = "+npe.getMessage());
 		}
-
+		catch (Exception e) {
+			log.error("ERROR >>> while fetching the scheduleAssocList  Item data = "+e.getMessage());
+		}
+		log.info("Exit from findAllObservationItems function");
+		return scheduleAssocList;
 	}
+	
+	
 	@RequestMapping(value = "/getAssetMonthlyTargetsBasedOnFacilityIdYear/{facilityId}/{year}", method = RequestMethod.GET, headers = "Accept=application/json")
 	public List<AssetMonthlyTarget> getAssetMonthlyTargetsBasedOnFacilityIdYear(
 			@PathVariable("facilityId") String facilityId,@PathVariable("year") String year) {

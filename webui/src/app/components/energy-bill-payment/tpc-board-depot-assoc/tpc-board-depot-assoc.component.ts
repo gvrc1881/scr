@@ -35,6 +35,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     originalDepotsData: any = JSON.parse(sessionStorage.getItem('depotData'));
     division:any = JSON.parse(sessionStorage.getItem('divisionData'));
+    public stationType = ['OHE','PSI','SP','SSP','TSS','FP','RC','TRD'];
 
     depotsList:any;
 
