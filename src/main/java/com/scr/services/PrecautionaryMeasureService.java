@@ -83,7 +83,7 @@ public class PrecautionaryMeasureService {
 		
 		return precautionaryMeasureRepository.getAllByDataDivIn(fac);
 	}
-	//precautionaryMeasure Master
+	//precautionary Measure Master
 	
 	public void save(PrecautionaryMeasuresMaster precautionaryMeasureMaster) {
 		precautionaryMeasureMasterRepository.save(precautionaryMeasureMaster);

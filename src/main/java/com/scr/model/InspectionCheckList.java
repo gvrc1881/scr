@@ -26,7 +26,6 @@ public class InspectionCheckList {
 
 	@Column(columnDefinition = "TEXT")
 	private String measureActivityCode;
-
 	@Column(columnDefinition = "TEXT")
 	private String description;
 

@@ -288,7 +288,7 @@ public class PrecautionaryMeasureController {
 	
 	@RequestMapping(value = "/deletePrecautionaryMeasureMaster/{id}" ,method = RequestMethod.DELETE ,headers = "Accept=application/json")
 	public ResponseStatus deletePrecautionaryMeasureMasterById(@PathVariable Integer id) {
-		logger.info("Enter into deletePrecautionaryMeasure MasterById function");
+		logger.info("Enter into delete PrecautionaryMeasure MasterById function");
 		logger.info("Selected precautionaryMeasure Master Id = "+id);
 		List <PrecautionaryMeasure> preMeasureList = precautionaryMeasureRepository.getByPrecautionaryMeasure(precautionaryMeasureMasterRepository.findById(id).get());
 		

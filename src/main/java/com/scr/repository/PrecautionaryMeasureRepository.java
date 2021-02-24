@@ -12,7 +12,6 @@ import com.scr.model.PrecautionaryMeasuresMaster;
 
 @Repository
 public interface PrecautionaryMeasureRepository extends JpaRepository<PrecautionaryMeasure, Long>{
-	
 	@Query(value = "SELECT case when count(pm)> 0 then true else false  end  FROM PrecautionaryMeasure pm WHERE pm.facilityId = :facilityId and pm.precautionaryMeasure = :precautionaryMeasure and CAST(pm.dateOfWork AS date ) = :dateOfWork ")
 	Boolean existsByFacilityIdAndPrecautionaryMeasureAndDateOfWork(@Param("facilityId") String facilityId,@Param("precautionaryMeasure") PrecautionaryMeasuresMaster precautionaryMeasure,@Param("dateOfWork") Timestamp dateOfWork);	
 	
