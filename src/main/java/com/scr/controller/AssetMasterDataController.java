@@ -1,5 +1,6 @@
 package com.scr.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scr.jobs.CommonUtility;
 import com.scr.message.request.AssetMasterDataSearchRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetMasterData;
 import com.scr.model.AssetMasterDataFormParameter;
+import com.scr.model.Facility;
 import com.scr.services.AssetMasterDataService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -33,14 +36,27 @@ public class AssetMasterDataController {
 
 	@Autowired
 	private AssetMasterDataService assetMasterDataService;
+	
+	@Autowired
+	private CommonUtility  commonUtility;
 
-	@RequestMapping(value = "/findAllAssetMasterItems/{from}/{to}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public List<AssetMasterData> findAllAssetMasterItems(@PathVariable("from") int from, @PathVariable("to") int to) {
+	@RequestMapping(value = "/findAllAssetMasterItems/{from}/{to}/{loggedUserData}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public List<AssetMasterData> findAllAssetMasterItems(@PathVariable("from") int from, @PathVariable("to") int to,
+			@PathVariable("loggedUserData") String loggedUserData) {
 		log.info("Enter into findAllAssetMasterItems function");
 		List<AssetMasterData> assetMasterItem = null;
+		List<String> fac= new ArrayList<>();
 		try {
 			log.info("Calling service for  assetMasterItem data");
-			assetMasterItem = assetMasterDataService.findPaginated(from, to);
+			log.info("Calling service for assetStatus data");
+			List<Facility> facility = commonUtility.findUserHierarchy(loggedUserData);
+			log.info("facilities=="+facility.size());
+			for (Facility facility2 : facility) {
+				
+				fac.add(facility2.getFacilityId());
+				
+			}
+			assetMasterItem = assetMasterDataService.findPaginated(from, to,fac);
 			log.info("Fetched assetMasterItem data ***" + assetMasterItem.size());
 		} catch (NullPointerException npe) {
 			log.error("ERROR >>> while fetching the assetMaster data = " + npe.getMessage());

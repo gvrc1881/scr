@@ -3,6 +3,8 @@ package com.scr.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -69,6 +71,8 @@ public interface AssetMastersRepository extends JpaRepository<AssetMasterData, L
 	@Query(value = "select * from asset_master_data amd,product_category_member pcm where amd.facility_id=:facilityId and product_category_id ='CIRCUIT_BREAKER' and amd.asset_type=pcm.product_id",
             nativeQuery=true )
 	List<AssetMasterData> getAssetIdBasedOnFacilityId(@Param("facilityId")String facilityId);
+	
+	Page<AssetMasterData> findByFacilityIdIn(Pageable paging, List<String> fac);
 	
 	
 }

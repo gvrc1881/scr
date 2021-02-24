@@ -110,10 +110,10 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <mat-select placeholder="{{FiledLabels.DEPOT_TYPE}}"
-                                                                [formControl]="assetMasterFormGroup.controls['type']"
-                                                                required (selectionChange)="updateAssertType($event)">
+                                                                [formControl]="assetMasterFormGroup.controls['type']" 
+                                                                required (ngModelChange)="findFacilities()">
                                                                 <mat-option *ngFor="let depotType of depoTypeList"
-                                                                    [value]="depotType.id">
+                                                                    [value]="depotType.code">
                                                                     {{ depotType.code}}
                                                                 </mat-option>
                                                             </mat-select>
@@ -125,7 +125,7 @@
                                                                 [formControl]="assetMasterFormGroup.controls['facilityId']"
                                                                 required>
                                                                 <mat-option
-                                                                    *ngFor="let functionalUnit of functionalUnitList"
+                                                                    *ngFor="let functionalUnit of facilityList"
                                                                     [value]="functionalUnit.facilityId">
                                                                     {{ functionalUnit.facilityName}}
                                                                 </mat-option>

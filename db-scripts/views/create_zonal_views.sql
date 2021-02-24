@@ -3742,28 +3742,29 @@ ALTER TABLE public.v_tcp_schedule
 
 ------------------76
 
---drop view  v_thermovision_measures ; 
-	 
-	 
---select * from v_thermovision_measures
---	drop view v_thermovision_measures ;
-	create view  v_thermovision_measures as
-	 SELECT vtcp.tcp_check_point_part,
+	-- View: public.v_thermovision_measures
+
+-- DROP VIEW public.v_thermovision_measures;
+
+CREATE OR REPLACE VIEW public.v_thermovision_measures AS
+ SELECT vtcp.tcp_check_point_part,
     vtcp.tcp_check_point1_description,
-	vtcp.tcp_check_point2_description,
+    vtcp.tcp_check_point2_description,
     vtcp.tcp_display_group,
     vtcp.tcp_display_order,
     vtcp.tcp_active,
-	vtcp.tcp_id as tcp_id ,
+    vtcp.tcp_id,
     tcpm.id AS tcpm_id,
     tcpm.tcp_schedule_id AS tcpm_tcp_schedule_id,
     tcpm.tcp_id AS tcpm_tcp_id,
     tcpm.measure_point1 AS tcpm_measure_point1,
     tcpm.measure_point2 AS tcpm_measure_point2,
- --   tcpm.ambient_temp AS tcpm_ambient_temp,
     tcpm.image_id AS tcpm_image_id,
     tcpm.remark AS tcpm_remark,
     tcpm.criticality AS tcpm_criticality,
+    tcpm.date_of_retest AS tcpm_date_of_retest,
+    tcpm.thermovision_measure_id AS tcpm_thermovision_measure_id,
+	tcpm.updated_on AS tcpm_updated_on,
     vtcps.tcps_facility_id,
     vtcps.tcps_facility_name,
     vtcps.tcps_station_type,
@@ -3776,6 +3777,10 @@ ALTER TABLE public.v_tcp_schedule
     v_tcp_schedule vtcps,
     v_thermovision_check_points vtcp
   WHERE tcpm.tcp_schedule_id = vtcps.tcps_id AND tcpm.tcp_id = vtcp.tcp_id;
+
+ALTER TABLE public.v_thermovision_measures
+    OWNER TO postgres;
+
   
  ----------77 
 
