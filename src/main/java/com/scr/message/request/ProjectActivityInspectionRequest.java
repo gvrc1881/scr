@@ -20,6 +20,10 @@ public class ProjectActivityInspectionRequest implements Serializable {
 
 	private HashMap<String, String> activityMap;
 	
+	private HashMap<String, String> multiMeasureMap;
+	
+	private HashMap<String, String> multiMeasureActivityMap;
+	
 	private Date date;
 
 	public String getDoneBy() {
@@ -76,6 +80,22 @@ public class ProjectActivityInspectionRequest implements Serializable {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public HashMap<String, String> getMultiMeasureMap() {
+		return multiMeasureMap;
+	}
+
+	public void setMultiMeasureMap(HashMap<String, String> multiMeasureMap) {
+		this.multiMeasureMap = multiMeasureMap;
+	}
+
+	public HashMap<String, String> getMultiMeasureActivityMap() {
+		return multiMeasureActivityMap;
+	}
+
+	public void setMultiMeasureActivityMap(HashMap<String, String> multiMeasureActivityMap) {
+		this.multiMeasureActivityMap = multiMeasureActivityMap;
 	}
 
 }

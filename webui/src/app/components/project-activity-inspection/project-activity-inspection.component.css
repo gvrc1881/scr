@@ -11,11 +11,17 @@
     max-width: 100px;
 }
 .mat-column-units {
-    max-width: 150px;
+    max-width: 80px;
 }
 .mat-column-lowerLimit {
-    max-width: 150px;
+    max-width: 100px;
 }
 .mat-column-upperLimit {
-    max-width: 150px;
+    max-width: 100px;
+}
+.mat-column-count {
+    max-width: 50px;
+}
+.mat-column-actions {
+    max-width: 120px;
 }

@@ -215,6 +215,36 @@ public class ProjectActivityInspection {
 	@Column(columnDefinition="TEXT")
 	private String mma9;
 	
+	@Column(columnDefinition="TEXT")
+	private String mm1;
+
+	@Column(columnDefinition="TEXT")
+	private String mm10;
+
+	@Column(columnDefinition="TEXT")
+	private String mm2;
+
+	@Column(columnDefinition="TEXT")
+	private String mm3;
+
+	@Column(columnDefinition="TEXT")
+	private String mm4;
+
+	@Column(columnDefinition="TEXT")
+	private String mm5;
+
+	@Column(columnDefinition="TEXT")
+	private String mm6;
+
+	@Column(columnDefinition="TEXT")
+	private String mm7;
+
+	@Column(columnDefinition="TEXT")
+	private String mm8;
+
+	@Column(columnDefinition="TEXT")
+	private String mm9;
+	
 	private String a1;
 
 	private String a10;
@@ -2285,6 +2315,86 @@ public class ProjectActivityInspection {
 
 	public void setActivityId(WorkPhaseActivity activityId) {
 		this.activityId = activityId;
+	}
+
+	public String getMm1() {
+		return mm1;
+	}
+
+	public void setMm1(String mm1) {
+		this.mm1 = mm1;
+	}
+
+	public String getMm10() {
+		return mm10;
+	}
+
+	public void setMm10(String mm10) {
+		this.mm10 = mm10;
+	}
+
+	public String getMm2() {
+		return mm2;
+	}
+
+	public void setMm2(String mm2) {
+		this.mm2 = mm2;
+	}
+
+	public String getMm3() {
+		return mm3;
+	}
+
+	public void setMm3(String mm3) {
+		this.mm3 = mm3;
+	}
+
+	public String getMm4() {
+		return mm4;
+	}
+
+	public void setMm4(String mm4) {
+		this.mm4 = mm4;
+	}
+
+	public String getMm5() {
+		return mm5;
+	}
+
+	public void setMm5(String mm5) {
+		this.mm5 = mm5;
+	}
+
+	public String getMm6() {
+		return mm6;
+	}
+
+	public void setMm6(String mm6) {
+		this.mm6 = mm6;
+	}
+
+	public String getMm7() {
+		return mm7;
+	}
+
+	public void setMm7(String mm7) {
+		this.mm7 = mm7;
+	}
+
+	public String getMm8() {
+		return mm8;
+	}
+
+	public void setMm8(String mm8) {
+		this.mm8 = mm8;
+	}
+
+	public String getMm9() {
+		return mm9;
+	}
+
+	public void setMm9(String mm9) {
+		this.mm9 = mm9;
 	}
 
 	@Override

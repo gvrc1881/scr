@@ -1,0 +1,24 @@
+<div class="row-fluid">
+            	<div class="panel panel-primary">
+            		<div class="panel-heading">{{Titles.MULTI_MEASUREMENTS}}</div>
+            		<div class="panel-body">
+        				<div fxLayout="row" fxLayoutGap="25px"
+                            *ngFor="let measure of [].constructor(measuresCount)  ; let i = index">
+                       		<div class="col-md-3" *ngIf="activityType === 'MULTI_MEASURE'">
+                                 <mat-form-field fxFlex="25">
+                                 	<input matInput  autocomplete="off" placeholder="{{FiledLabels.ENTER_NUMBERS_ONLY}}" type="text"  (change)="changeMeasure(i,$event.target.value)"  decimalNumber>
+                                 </mat-form-field>
+                           </div>
+                           <div class="col-md-3" *ngIf="activityType === 'MULTI_MEASURE_ACTIVITY'">
+                                 <mat-form-field fxFlex="25">
+                                 	<input matInput autocomplete="off" placeholder="{{FiledLabels.ENTER_OBSERVATION}}" type="text"  (change)="changeMeasure(i,$event.target.value)"  >
+                                 </mat-form-field>
+                           </div>
+                       </div>
+                       <button class="mat-raised-button" mat-button [mat-dialog-close]="measuresData" cdkFocusInitial color="accent">
+                       	Close
+                       </button>    
+					</div>
+				</div>
+</div>						
+            			

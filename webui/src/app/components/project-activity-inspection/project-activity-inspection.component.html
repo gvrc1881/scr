@@ -66,24 +66,33 @@
 	                                    	<ng-container *matCellDef="let row" >
 		                                    	<mat-cell  *ngIf = "row.measureActivityMma == 'Activity' ; else typeElseBlock">
 		                                        	<mat-form-field floatLabel="never" [style.width.px]="180">
-		                                        		<input matInput placeholder="{{FiledLabels.ENTER_OBSERVATION}}" 
+		                                        		<input matInput autocomplete="off" placeholder="{{FiledLabels.ENTER_OBSERVATION}}" 
 			                                                   (change)="changeActivity(row,$event.target.value)" >
 													</mat-form-field>
 		                                        </mat-cell>
 	                                        <ng-template #typeElseBlock>
-	                                            	<mat-cell>
+	                                        		<mat-cell *ngIf = "row.measureActivityMma == 'MEASURE' ; else MeasureElseBlock">
 		                                        		<mat-form-field fxFlex="30">
-															<input matInput placeholder="{{FiledLabels.ENTER_NUMBERS_ONLY}}"   
+															<input matInput autocomplete="off" placeholder="{{FiledLabels.ENTER_NUMBERS_ONLY}}"   
 													               decimalNumber (change)="changeMeasure(row,$event.target.value)" >
 													    </mat-form-field>
 		                                        	</mat-cell>
+		                                        	 <ng-template #MeasureElseBlock>
+		                                        		<mat-cell>
+		                                        			<span data-toggle="tooltip" data-placement="left" title="{{row.multiMeasureData}}" >{{row.multiMeasureData}}</span>
+			                                        		<!-- <mat-form-field fxFlex="30">
+																<input matInput placeholder="{{FiledLabels.MULTI_MEASURES}}"  data-toggle="tooltip" title="{{row.multiMeasureData}}" 
+														               [value]="row.multiMeasureData" readonly>
+														    </mat-form-field> -->
+			                                        	</mat-cell>
+		                                        	</ng-template>
 	                                            </ng-template>
 	                                        </ng-container>    
 	                                </ng-container>
-	                                <ng-container matColumnDef="type">
+	                                <ng-container matColumnDef="type" class="tooltip">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.TYPE}}</span></mat-header-cell>
-	                                    	<mat-cell *matCellDef="let row">
-	                                    		{{row.measureActivityMma}}
+	                                    	<mat-cell *matCellDef="let row" class="tooltiptext">
+	                                    		<span data-toggle="tooltip" data-placement="left" title="{{row.measureActivityMma}}" >{{row.measureActivityMma}}</span>
 	                                        </mat-cell>
 	                                </ng-container>
 	                                <ng-container matColumnDef="units">
@@ -103,6 +112,31 @@
 	                                    	<mat-cell *matCellDef="let row">
 	                                        	{{row.upperLimit}}
 	                                        </mat-cell>
+	                                </ng-container>
+	                                <ng-container matColumnDef="count">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.COUNT}}</span></mat-header-cell>
+	                                    	<ng-container *matCellDef="let row">
+		                                    	<mat-cell *ngIf="row.measureActivityMma == 'MULTI_MEASURE' || row.measureActivityMma == 'MULTI_MEASURE_ACTIVITY' ; else countElseBlock" >
+		                                        	<mat-form-field fxFlex="30">
+																<input matInput autocomplete="off" placeholder="{{FiledLabels.COUNT}}"  [value]="row.measuresCount" [(ngModel)]="row.measuresCount" 
+														               decimalNumber  >
+													</mat-form-field>
+		                                        </mat-cell>
+		                                        <ng-template #countElseBlock>
+			                                        		<mat-cell></mat-cell>
+			                                    </ng-template>
+	                                        </ng-container>
+	                                </ng-container>
+	                                <ng-container matColumnDef="actions">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
+	                                	<ng-container *matCellDef="let row">
+	                                		<mat-cell *ngIf="row.measureActivityMma == 'MULTI_MEASURE' || row.measureActivityMma == 'MULTI_MEASURE_ACTIVITY' ; else buttonElseBlock" >
+	                                    		<button mat-raised-button (click)="measureDialog(row)">Measures</button>
+	                                    	</mat-cell>
+	                                    <ng-template #buttonElseBlock>
+	                                        		<mat-cell></mat-cell>
+	                                    </ng-template>
+	                                	</ng-container>
 	                                </ng-container>
 	                               	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 	                                	<mat-row *matRowDef="let row; columns: displayedColumns;">

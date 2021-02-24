@@ -1,6 +1,6 @@
-import { OnInit, Component, ViewChild,ElementRef } from '@angular/core';
+import { OnInit, Component, ViewChild,ElementRef, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatDialogRef } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
@@ -38,7 +38,7 @@ export class ProjectActivityInspectionComponent implements OnInit {
     title: any;
     resp: any;
     dataSource: MatTableDataSource<any>;
-    displayedColumns = ['activityCode','description', 'valueObservation','type','units','lowerLimit','upperLimit'];
+    displayedColumns = ['activityCode','description', 'valueObservation','type','units','lowerLimit','upperLimit','count','actions'];
 
     constructor(
         public dialog: MatDialog,
@@ -67,6 +67,14 @@ export class ProjectActivityInspectionComponent implements OnInit {
       this.activityMap.forEach((val: string, key: string) => {
       convActivityMap[key] = val;
       });
+      const convMultiMeasureMap = {};
+      this.multiMeasureMap.forEach((val: string, key: string) => {
+      convMultiMeasureMap[key] = val;
+      });
+      const convMultiMeasureActivityMap = {};
+      this.multiMeasureActivityMap.forEach((val: string, key: string) => {
+      convMultiMeasureActivityMap[key] = val;
+      });
        var saveModel = {
         "doneBy": this.prjActivityIns.controls['doneBy'].value,
         "status": this.prjActivityIns.controls['status'].value,
@@ -74,7 +82,9 @@ export class ProjectActivityInspectionComponent implements OnInit {
         "activityId": this.wpaDailyProgressData.workPhaseActivityId,
         "date":this.wpaDailyProgressData.date,
         "measureMap":convMeasureMap,
-        "activityMap":convActivityMap    
+        "activityMap":convActivityMap,
+        "multiMeasureMap":convMultiMeasureMap,
+        "multiMeasureActivityMap":convMultiMeasureActivityMap
        }
       console.log(" model for save PAI entry:::" + JSON.stringify(saveModel));
       this.sendAndRequestService.requestForPOST(Constants.app_urls.INSPECTION.PROJECT_ACTIVITY_INSPECTION.SAVE_PRJ_ACT_INS, saveModel, false).subscribe(response => {
@@ -84,7 +94,8 @@ export class ProjectActivityInspectionComponent implements OnInit {
         if (this.resp.code == Constants.CODES.SUCCESS) {
           this.commonService.showAlertMessage("Entry Data Saved Successfully");
           //this.router.navigate(['/'], { relativeTo: this.route });
-          window.location.reload;
+          //window.location.reload;
+          this.getWPADailyProgressData();
         } else {
           this.commonService.showAlertMessage("Entry Data Saving Failed.");
         }
@@ -96,6 +107,7 @@ export class ProjectActivityInspectionComponent implements OnInit {
     }
     
     getWPADailyProgressData() {
+        const insCheckListArray : any[] = [];
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WPA_DAILY_PROGRESS_BASED_ON_ID+this.wpaDailyProgressId
             ).subscribe((response) => {
                 this.wpaDailyProgressData = response; 
@@ -104,16 +116,20 @@ export class ProjectActivityInspectionComponent implements OnInit {
                     this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTION.INSPECTION_CHECK_LIST.GET_INS_CHECK_LIST_BASED_ON_TEST_INS_ID+this.wpaDailyProgressData.workPhaseActivityId.testInspectionId.id
                     ).subscribe((response) => {
                         this.insCheckListData = response;
-                        this.dataSource = new MatTableDataSource(this.insCheckListData);
-                        console.log('*** check list response ***'+JSON.stringify(response));
+                        //console.log('*** check list response ***'+JSON.stringify(response));
                         if(this.insCheckListData){
                             this.title = "Save";
+                            for (let i = 0; i < this.insCheckListData.length; i++) {
+                                this.insCheckListData[i].multiMeasureData = '';
+                                insCheckListArray.push(this.insCheckListData[i]);
+                            }   
                              this.measureList = this.insCheckListData.filter(value => {
                                 return value.measureActivityMma.toLowerCase() == "MEASURE".toLowerCase();
                              });
                              this.activityList = this.insCheckListData.filter(value => {
                                 return value.measureActivityMma.toLowerCase() == "activity".toLowerCase();
                              });
+                             this.dataSource = new MatTableDataSource(insCheckListArray);
                            // console.log('***  measureList ***'+JSON.stringify(this.measureList));
                         }
                     });    
@@ -155,5 +171,74 @@ export class ProjectActivityInspectionComponent implements OnInit {
           'status':[null]
         });    
     }
-
+    
+    multiMeasureMap = new Map<string, string>();
+    multiMeasureActivityMap = new Map<string, string>();
+    measureDialog(row){
+         const dialogRef = this.dialog.open(MultiMeasureDialogComponent, {
+          height: '400px',
+          width: '80%', 
+          data: { insCheckList : row,
+                }
+        });
+        
+        dialogRef.afterClosed().subscribe(result => {
+           let measuresData = result;
+           let finalMeasureData = '';
+            //console.log('** length ***'+result.length);
+            for(let i=0; i < measuresData.length;i++){
+               if( measuresData[i]!== undefined ){
+                   finalMeasureData = finalMeasureData + measuresData[i]+'|';    
+               }
+           }
+           if(row.measureActivityMma === 'MULTI_MEASURE'){
+               this.multiMeasureMap.set(row.activityPositionId,finalMeasureData);
+               
+           }else {
+               this.multiMeasureActivityMap.set(row.activityPositionId,finalMeasureData);        
+            }
+            row.multiMeasureData = finalMeasureData;
+            //console.log('*** row multiMeasureData data****'+row.multiMeasureData);
+            //console.log('*** final measures data****'+finalMeasureData);
+        });
+    }
+    
 }
+
+@Component({
+  selector: 'multi-measure-dialog',
+  templateUrl: 'multi-measure-dialog.component.html',
+})
+export class MultiMeasureDialogComponent implements OnInit  {
+    
+    FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;  
+    measuresCount:any;
+    measuresData = new Array();
+    activityType: any;
+    
+    constructor(
+    private formBuilder: FormBuilder,
+    private spinnerService: Ng4LoadingSpinnerService,  
+    private sendAndRequestService:SendAndRequestService,
+    private dialog: MatDialog,
+    private commonService: CommonService,
+    private dialogRef: MatDialogRef<MultiMeasureDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    ) {
+      
+      if(data) {
+          //console.log('**** data ****'+JSON.stringify(data));
+          this.measuresCount = parseInt(data.insCheckList.measuresCount);
+          this.activityType = data.insCheckList.measureActivityMma;
+      }
+  }
+    
+    ngOnInit() {
+        
+    }
+    
+    changeMeasure(i,value) {
+        this.measuresData[i] = value;
+    }
+}    

@@ -732,5 +732,6 @@ export const FieldLabelsConstant = {
     RETEST_MEASUREMENTS: 'Retest Measurements',
     PRODUCT_ASSOCIATION_FORM:'Product Association Form',
     PRODUCT_ASSOCIATION_DATA:'Product Association',
+    MULTI_MEASUREMENTS: "Multi Measurements"
    }
 };

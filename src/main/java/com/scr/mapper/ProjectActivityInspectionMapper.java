@@ -49,6 +49,26 @@ public class ProjectActivityInspectionMapper {
 				}
 				
 			}
+			HashMap<String, String> multiMeasureMap=projectActivityInspectionRequest.getMultiMeasureMap();
+			for (Map.Entry<String, String> entry : multiMeasureMap.entrySet()) {
+				for (Field field : fields) {
+					if (entry.getKey().equals(field.getName())) {
+						field.setAccessible(true);
+						field.set(prjActIns, entry.getValue());
+					}
+				}
+				
+			}
+			HashMap<String, String> multiMeasureActivityMap=projectActivityInspectionRequest.getMultiMeasureActivityMap();
+			for (Map.Entry<String, String> entry : multiMeasureActivityMap.entrySet()) {
+				for (Field field : fields) {
+					if (entry.getKey().equals(field.getName())) {
+						field.setAccessible(true);
+						field.set(prjActIns, entry.getValue());
+					}
+				}
+				
+			}
 			logger.info("Prepared PAI model object = "+prjActIns.toString());
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());

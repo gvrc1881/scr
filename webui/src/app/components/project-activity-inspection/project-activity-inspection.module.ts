@@ -1,5 +1,5 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ProjectActivityInspectionComponent } from './project-activity-inspection.component';
+import { ProjectActivityInspectionComponent,MultiMeasureDialogComponent } from './project-activity-inspection.component';
 import { Routes, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,6 +17,7 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         ProjectActivityInspectionComponent,
+        MultiMeasureDialogComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -33,6 +34,7 @@ const routes: Routes = [
     exports:[
         ProjectActivityInspectionComponent
     ],
+    entryComponents: [ MultiMeasureDialogComponent ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class ProjectActivityInspectionModule {

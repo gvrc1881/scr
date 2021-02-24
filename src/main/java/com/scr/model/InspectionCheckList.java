@@ -46,7 +46,9 @@ public class InspectionCheckList {
 
 	private String remark;
 	
-	private int versionNo;
+	private Integer versionNo;
+	
+	private Integer measuresCount;
 
 	@ManyToOne
 	@JoinColumn(name = "uom_id", foreignKey = @ForeignKey(name = "fk_ins_check_list_uom"))
@@ -170,20 +172,28 @@ public class InspectionCheckList {
 		this.uomId = uomId;
 	}
 
-	public int getVersionNo() {
-		return versionNo;
-	}
-
-	public void setVersionNo(int versionNo) {
-		this.versionNo = versionNo;
-	}
-
 	public TestInspection getTestInspectionId() {
 		return testInspectionId;
 	}
 
 	public void setTestInspectionId(TestInspection testInspectionId) {
 		this.testInspectionId = testInspectionId;
+	}
+
+	public Integer getVersionNo() {
+		return versionNo;
+	}
+
+	public void setVersionNo(Integer versionNo) {
+		this.versionNo = versionNo;
+	}
+
+	public Integer getMeasuresCount() {
+		return measuresCount;
+	}
+
+	public void setMeasuresCount(Integer measuresCount) {
+		this.measuresCount = measuresCount;
 	}
 
 	@Override
