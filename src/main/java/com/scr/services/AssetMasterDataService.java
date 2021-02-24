@@ -38,10 +38,11 @@ public class AssetMasterDataService {
 	private AssetStatusUpdateMapper assetStatusUpdateMapper;
 	
 	
-	public List<AssetMasterData> findPaginated(int from, int to) {
+	public List<AssetMasterData> findPaginated(int from, int to,List<String> fac) {
 		logger.info("Fetching data from page "+from+" to page "+to);
 		Pageable paging = PageRequest.of(from, to);
-		Page<AssetMasterData> pagedResult = assetMastersRepository.findAll(paging);
+		//Page<AssetMasterData> pagedResult = assetMastersRepository.findAll(paging);
+		Page<AssetMasterData> pagedResult = assetMastersRepository.findByFacilityIdIn(paging,fac);
 		//return assetMastersRepository.findAll();
 		List<AssetMasterData> amdList =  new ArrayList<AssetMasterData>();// pagedResult.getContent();
 		logger.info("Records size: "+amdList.size());

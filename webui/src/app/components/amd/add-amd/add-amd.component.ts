@@ -8,6 +8,7 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog,Date
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
+import { IfStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-add-amd',
@@ -62,10 +63,13 @@ export class AddAmdComponent implements OnInit {
   makeName: any;
   modelName: any;
   subDivList:any;
+  facilityList:any;
+  facility:any;
   enableZone :boolean;
    enableDivision :boolean;  
    enableSubDivision :boolean;
    enableDepot : boolean;
+   subDivision:any;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -318,10 +322,10 @@ export class AddAmdComponent implements OnInit {
       'warrantyAmcEndDate': [null],
       
     });
-    this.depotCode = 'TRD';    
+   /* this.depotCode = 'TRD';    
     this.findAssetTypeList(Constants.ASSERT_TYPE[this.depotCode]);
     this.functionalUnitsList = [];
-    this.getFunctionalUnits(this.depotCode);
+    this.getFunctionalUnits(this.depotCode); */
   }
   
    public get f() { return this.assetMasterFormGroup.controls; } 
@@ -331,7 +335,7 @@ export class AddAmdComponent implements OnInit {
     this.toMinDate = new Date($event.value);
   }
   
-  updateAssertType($event) {
+ /* updateAssertType($event) {
     if ($event.value) {
       this.depoTypeList.filter(element => {
         if(element.id === $event.value){
@@ -345,13 +349,13 @@ export class AddAmdComponent implements OnInit {
         return element.depotType == this.depotCode;
       });
     }
-  }
+  } */
 
-  getFunctionalUnits (depotType){
-       this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE+depotType).subscribe((data) => {
-          this.functionalUnitList = data;
-    });
-  }
+  // getFunctionalUnits (depotType){
+  //      this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE+depotType).subscribe((data) => {
+  //         this.functionalUnitList = data;
+  //   });
+  // }
   /*
   getDepot(){
     var zone = this.assetMasterFormGroup.value.zone ;
@@ -376,11 +380,27 @@ export class AddAmdComponent implements OnInit {
              this.spinnerService.hide();
              this.assetTypeParametersData = response;
            })
-       }
-       // this.getFunctionalUnits(this.resp.type['code'] );
+       }   
+       this.enableDivision=true;   
+      this.enableSubDivision=true;
+      console.log("response of amd==="+JSON.stringify(resp));
+       this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.FACILITY.FIND_FACILITY_BY_FACILITYID+this.resp.facilityId)
+        .subscribe((data) => {          
+          this.facility = data;              
+          this.assetMasterFormGroup.patchValue({zone:this.facility.zone,
+            dataDiv :this.facility.division,
+            subDivision :this.facility.subDivision
+            //facilityId :this.facility.subDivision
+            })           
+        })
+        if(this.resp.type != null){  
+          console.log("type=="+this.resp.type)        
+        this.findFacilities();
+        }
+        console.log("dept type=="+JSON.stringify(this.depotHierarchy));
         this.assetMasterFormGroup.patchValue({
         id: this.resp.id,
-        type: !!this.resp.type ? this.resp.type['id'] : '',          
+        type: this.resp.type,          
         facilityId: this.resp.facilityId,
         adeeSection: this.resp.adeeSection,
         majorSection: this.resp.majorSection,
@@ -457,27 +477,19 @@ export class AddAmdComponent implements OnInit {
         core3InsulatorMake: this.resp.core3InsulatorMake,
         stagger: this.resp.stagger,
         createdOn: new Date(this.resp.createdOn),
-        dateOfCommision: new Date(this.resp.dateOfCommision),
-        dateOfManufacture: new Date(this.resp.dateOfManufacture),
-        dateOfReceived: new Date(this.resp.dateOfReceived),
-        equippedDate: new Date(this.resp.equippedDate),
-        expiryDate: new Date(this.resp.expiryDate),
-        lugDate: new Date(this.resp.lugDate),
-        stripDate: new Date(this.resp.stripDate),
-        warrantyAmcEndDate: new Date(this.resp.warrantyAmcEndDate),
+        dateOfCommision: !!this.resp.dateOfCommision ? new Date(this.resp.dateOfCommision) : '',
+        dateOfManufacture:!!this.resp.dateOfManufacture ? new Date(this.resp.dateOfManufacture):'',
+        dateOfReceived:!!this.resp.dateOfReceived ? new Date(this.resp.dateOfReceived) :'',
+        equippedDate: !!this.resp.equippedDate ? new Date(this.resp.equippedDate):'',
+        expiryDate:!!this.resp.expiryDate ? new Date(this.resp.expiryDate):'',
+        lugDate:!!this.resp.lugDate ? new Date(this.resp.lugDate):'',
+        stripDate:!!this.resp.stripDate ? new Date(this.resp.stripDate):'',
+        warrantyAmcEndDate:!!this.resp.warrantyAmcEndDate ? new Date(this.resp.warrantyAmcEndDate):'',
           
-        });
-        
-        if (this.resp.depotType != null) {
-          this.findAssetTypeList(Constants.ASSERT_TYPE[this.resp.depotType['code']]);
-        }
-        this.spinnerService.hide();
+        });        
+         this.spinnerService.hide();
       })
-      this.findFunctionalUnits();
-    this.findZones();
-    this.findDepoTypeList();
-    this.findMakeDetails();
-    this.findModelDetails();
+      
   }
   
   onAddAmdFormSubmit() {
@@ -489,7 +501,7 @@ export class AddAmdComponent implements OnInit {
     this.spinnerService.show();
     if (this.save) {
       var saveAmdModel = {
-    "type" : this.depotCode,
+    "type" : this.assetMasterFormGroup.value.type,
     "facilityId" : this.assetMasterFormGroup.value.facilityId,
     "adeeSection" : this.assetMasterFormGroup.value.adeeSection,
     "majorSection" :this.assetMasterFormGroup.value.majorSection,
@@ -499,7 +511,7 @@ export class AddAmdComponent implements OnInit {
     "kilometer" : this.assetMasterFormGroup.value.kilometer,
     "assetId" : this.assetMasterFormGroup.value.assetId,
     "part1" : this.assetMasterFormGroup.value.part1,
-    " part2":  this.assetMasterFormGroup.value.part2,
+    "part2":  this.assetMasterFormGroup.value.part2,
     "part3":  this.assetMasterFormGroup.value.part3,
     "elementarySection":  this.assetMasterFormGroup.value.elementarySection,
     "line": this.assetMasterFormGroup.value.line,
@@ -543,39 +555,38 @@ export class AddAmdComponent implements OnInit {
     "stay2InsulatorBatch":  this.assetMasterFormGroup.value.stay2InsulatorBatch,
     "stay2InsulatorMake": this.assetMasterFormGroup.value.stay2InsulatorMake,
     "bracket2InsulatorBatch":  this.assetMasterFormGroup.value.bracket2InsulatorBatch,
-    " bracket2InsulatorMake":  this.assetMasterFormGroup.value.bracket2InsulatorMake,
-    " stag2Ton9InsulatorBatch":  this.assetMasterFormGroup.value.stag2Ton9InsulatorBatch,
-    " stag2Ton9InsulatorMake":  this.assetMasterFormGroup.value.stag2Ton9InsulatorMake,
-    " rod2InsulatorBatch":  this.assetMasterFormGroup.value.rod2InsulatorBatch,
-    " rod2InsulatorMake":  this.assetMasterFormGroup.value.rod2InsulatorMake,
-    " pedestal2InsulatorBatch":  this.assetMasterFormGroup.value.pedestal2InsulatorBatch,
-    " pedestal2InsulatorMake":  this.assetMasterFormGroup.value.pedestal2InsulatorMake,
-    " core2InsulatorBatch":  this.assetMasterFormGroup.value.core2InsulatorBatch,
-    " core2InsulatorMake":  this.assetMasterFormGroup.value.core2InsulatorMake,
-    " stay3InsulatorBatch":  this.assetMasterFormGroup.value.stay3InsulatorBatch,
-    " stay3InsulatorMake": this.assetMasterFormGroup.value.stay3InsulatorMake,
-    " bracket3InsulatorBatch":  this.assetMasterFormGroup.value.bracket3InsulatorBatch,
-    " bracket3InsulatorMake":  this.assetMasterFormGroup.value.bracket3InsulatorMake,
-    " stag3Ton9InsulatorBatch":  this.assetMasterFormGroup.value.stag3Ton9InsulatorBatch,
-    " stag3Ton9InsulatorMake":  this.assetMasterFormGroup.value.stag3Ton9InsulatorMake,
-    " rod3InsulatorBatch":  this.assetMasterFormGroup.value.rod3InsulatorBatch,
-    " rod3InsulatorMake": this.assetMasterFormGroup.value.rod3InsulatorMake,
-    " pedestal3InsulatorBatch":  this.assetMasterFormGroup.value.pedestal3InsulatorBatch,
-    " pedestal3InsulatorMake":  this.assetMasterFormGroup.value.pedestal3InsulatorMake,
-    " core3InsulatorBatch":  this.assetMasterFormGroup.value.core3InsulatorBatch,
-    " core3InsulatorMake":  this.assetMasterFormGroup.value.core3InsulatorMake,
-    " dateOfCommision":  this.assetMasterFormGroup.value.dateOfCommision,
-    " stagger": this.assetMasterFormGroup.value.stagger,
-    " createdOn":  this.assetMasterFormGroup.value.createdOn,
-    " dateOfManufacture":  this.assetMasterFormGroup.value.dateOfManufacture,
-    " dateOfReceived":  this.assetMasterFormGroup.value.dateOfReceived,
-    " equippedDate":  this.assetMasterFormGroup.value.equippedDate,
-    " expiryDate":  this.assetMasterFormGroup.value.expiryDate,
-    " lugDate":  this.assetMasterFormGroup.value.lugDate,
-    " stripDate":  this.assetMasterFormGroup.value.stripDate,
-    " warrantyAmcEndDate":  this.assetMasterFormGroup.value.warrantyAmcEndDate,      
-    "createdBy": this.loggedUserData.username,
-    "createdOn": new Date(),
+    "bracket2InsulatorMake":  this.assetMasterFormGroup.value.bracket2InsulatorMake,
+    "stag2Ton9InsulatorBatch":  this.assetMasterFormGroup.value.stag2Ton9InsulatorBatch,
+    "stag2Ton9InsulatorMake":  this.assetMasterFormGroup.value.stag2Ton9InsulatorMake,
+    "rod2InsulatorBatch":  this.assetMasterFormGroup.value.rod2InsulatorBatch,
+    "rod2InsulatorMake":  this.assetMasterFormGroup.value.rod2InsulatorMake,
+    "pedestal2InsulatorBatch":  this.assetMasterFormGroup.value.pedestal2InsulatorBatch,
+    "pedestal2InsulatorMake":  this.assetMasterFormGroup.value.pedestal2InsulatorMake,
+    "core2InsulatorBatch":  this.assetMasterFormGroup.value.core2InsulatorBatch,
+    "core2InsulatorMake":  this.assetMasterFormGroup.value.core2InsulatorMake,
+    "stay3InsulatorBatch":  this.assetMasterFormGroup.value.stay3InsulatorBatch,
+    "stay3InsulatorMake": this.assetMasterFormGroup.value.stay3InsulatorMake,
+    "bracket3InsulatorBatch":  this.assetMasterFormGroup.value.bracket3InsulatorBatch,
+    "bracket3InsulatorMake":  this.assetMasterFormGroup.value.bracket3InsulatorMake,
+    "stag3Ton9InsulatorBatch":  this.assetMasterFormGroup.value.stag3Ton9InsulatorBatch,
+    "stag3Ton9InsulatorMake":  this.assetMasterFormGroup.value.stag3Ton9InsulatorMake,
+    "rod3InsulatorBatch":  this.assetMasterFormGroup.value.rod3InsulatorBatch,
+    "rod3InsulatorMake": this.assetMasterFormGroup.value.rod3InsulatorMake,
+    "pedestal3InsulatorBatch":  this.assetMasterFormGroup.value.pedestal3InsulatorBatch,
+    "pedestal3InsulatorMake":  this.assetMasterFormGroup.value.pedestal3InsulatorMake,
+    "core3InsulatorBatch":  this.assetMasterFormGroup.value.core3InsulatorBatch,
+    "core3InsulatorMake":  this.assetMasterFormGroup.value.core3InsulatorMake,
+    "dateOfCommision":this.assetMasterFormGroup.value.dateOfCommision,
+    "stagger": this.assetMasterFormGroup.value.stagger,
+    "createdOn":  this.assetMasterFormGroup.value.createdOn,
+    "dateOfManufacture":this.assetMasterFormGroup.value.dateOfManufacture,
+    "dateOfReceived":  this.assetMasterFormGroup.value.dateOfReceived,
+    "equippedDate":  this.assetMasterFormGroup.value.equippedDate,
+    "expiryDate":  this.assetMasterFormGroup.value.expiryDate,
+    "lugDate":  this.assetMasterFormGroup.value.lugDate,
+    "stripDate":  this.assetMasterFormGroup.value.stripDate,
+    "warrantyAmcEndDate":  this.assetMasterFormGroup.value.warrantyAmcEndDate,      
+    "createdBy": this.loggedUserData.username,   
     "createdStamp": new Date(),
     "createdTxStamp": new Date(),
     "lastUpdatedStamp": new Date(),
@@ -584,7 +595,7 @@ export class AddAmdComponent implements OnInit {
       this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.SAVE_ASSET_MASTER_DATA, saveAmdModel, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
-        console.log("saveAmdModelresp"+JSON.stringify(this.resp));
+       
      console.log("saveAmdModel"+JSON.stringify(saveAmdModel));
         if (this.resp.code == Constants.CODES.SUCCESS) {
           this.commonService.showAlertMessage("Asset Master Data Saved Successfully");
@@ -602,7 +613,7 @@ export class AddAmdComponent implements OnInit {
       var updateAmdModel = {
 
     "id": this.id,
-    "type" : this.depotCode,
+    "type" : this.assetMasterFormGroup.value.type,
     "facilityId" : this.assetMasterFormGroup.value.facilityId,
     "adeeSection" : this.assetMasterFormGroup.value.adeeSection,
     "majorSection" :this.assetMasterFormGroup.value.majorSection,
@@ -612,7 +623,7 @@ export class AddAmdComponent implements OnInit {
     "kilometer" : this.assetMasterFormGroup.value.kilometer,
     "assetId" : this.assetMasterFormGroup.value.assetId,
     "part1" : this.assetMasterFormGroup.value.part1,
-    " part2":  this.assetMasterFormGroup.value.part2,
+    "part2":  this.assetMasterFormGroup.value.part2,
     "part3":  this.assetMasterFormGroup.value.part3,
     "elementarySection":  this.assetMasterFormGroup.value.elementarySection,
     "line": this.assetMasterFormGroup.value.line,
@@ -656,39 +667,40 @@ export class AddAmdComponent implements OnInit {
     "stay2InsulatorBatch":  this.assetMasterFormGroup.value.stay2InsulatorBatch,
     "stay2InsulatorMake": this.assetMasterFormGroup.value.stay2InsulatorMake,
     "bracket2InsulatorBatch":  this.assetMasterFormGroup.value.bracket2InsulatorBatch,
-    " bracket2InsulatorMake":  this.assetMasterFormGroup.value.bracket2InsulatorMake,
-    " stag2Ton9InsulatorBatch":  this.assetMasterFormGroup.value.stag2Ton9InsulatorBatch,
-    " stag2Ton9InsulatorMake":  this.assetMasterFormGroup.value.stag2Ton9InsulatorMake,
-    " rod2InsulatorBatch":  this.assetMasterFormGroup.value.rod2InsulatorBatch,
-    " rod2InsulatorMake":  this.assetMasterFormGroup.value.rod2InsulatorMake,
-    " pedestal2InsulatorBatch":  this.assetMasterFormGroup.value.pedestal2InsulatorBatch,
-    " pedestal2InsulatorMake":  this.assetMasterFormGroup.value.pedestal2InsulatorMake,
-    " core2InsulatorBatch":  this.assetMasterFormGroup.value.core2InsulatorBatch,
-    " core2InsulatorMake":  this.assetMasterFormGroup.value.core2InsulatorMake,
-    " stay3InsulatorBatch":  this.assetMasterFormGroup.value.stay3InsulatorBatch,
-    " stay3InsulatorMake": this.assetMasterFormGroup.value.stay3InsulatorMake,
-    " bracket3InsulatorBatch":  this.assetMasterFormGroup.value.bracket3InsulatorBatch,
-    " bracket3InsulatorMake":  this.assetMasterFormGroup.value.bracket3InsulatorMake,
-    " stag3Ton9InsulatorBatch":  this.assetMasterFormGroup.value.stag3Ton9InsulatorBatch,
-    " stag3Ton9InsulatorMake":  this.assetMasterFormGroup.value.stag3Ton9InsulatorMake,
-    " rod3InsulatorBatch":  this.assetMasterFormGroup.value.rod3InsulatorBatch,
-    " rod3InsulatorMake": this.assetMasterFormGroup.value.rod3InsulatorMake,
-    " pedestal3InsulatorBatch":  this.assetMasterFormGroup.value.pedestal3InsulatorBatch,
-    " pedestal3InsulatorMake":  this.assetMasterFormGroup.value.pedestal3InsulatorMake,
-    " core3InsulatorBatch":  this.assetMasterFormGroup.value.core3InsulatorBatch,
-    " core3InsulatorMake":  this.assetMasterFormGroup.value.core3InsulatorMake,
-    " stagger": this.assetMasterFormGroup.value.stagger,
-    " createdOn":  this.assetMasterFormGroup.value.createdOn,
-    " dateOfCommision":  this.assetMasterFormGroup.value.dateOfCommision,
-    " dateOfManufacture":  this.assetMasterFormGroup.value.dateOfManufacture,
-    " dateOfReceived":  this.assetMasterFormGroup.value.dateOfReceived,
-    " equippedDate":  this.assetMasterFormGroup.value.equippedDate,
-    " expiryDate":  this.assetMasterFormGroup.value.expiryDate,
-    " lugDate":  this.assetMasterFormGroup.value.lugDate,
-    " stripDate":  this.assetMasterFormGroup.value.stripDate,
-    " warrantyAmcEndDate":  this.assetMasterFormGroup.value.warrantyAmcEndDate,       
+    "bracket2InsulatorMake":  this.assetMasterFormGroup.value.bracket2InsulatorMake,
+    "stag2Ton9InsulatorBatch":  this.assetMasterFormGroup.value.stag2Ton9InsulatorBatch,
+    "stag2Ton9InsulatorMake":  this.assetMasterFormGroup.value.stag2Ton9InsulatorMake,
+    "rod2InsulatorBatch":  this.assetMasterFormGroup.value.rod2InsulatorBatch,
+    "rod2InsulatorMake":  this.assetMasterFormGroup.value.rod2InsulatorMake,
+    "pedestal2InsulatorBatch":  this.assetMasterFormGroup.value.pedestal2InsulatorBatch,
+    "pedestal2InsulatorMake":  this.assetMasterFormGroup.value.pedestal2InsulatorMake,
+    "core2InsulatorBatch":  this.assetMasterFormGroup.value.core2InsulatorBatch,
+    "core2InsulatorMake":  this.assetMasterFormGroup.value.core2InsulatorMake,
+    "stay3InsulatorBatch":  this.assetMasterFormGroup.value.stay3InsulatorBatch,
+    "stay3InsulatorMake": this.assetMasterFormGroup.value.stay3InsulatorMake,
+    "bracket3InsulatorBatch":  this.assetMasterFormGroup.value.bracket3InsulatorBatch,
+    "bracket3InsulatorMake":  this.assetMasterFormGroup.value.bracket3InsulatorMake,
+    "stag3Ton9InsulatorBatch":  this.assetMasterFormGroup.value.stag3Ton9InsulatorBatch,
+    "stag3Ton9InsulatorMake":  this.assetMasterFormGroup.value.stag3Ton9InsulatorMake,
+    "rod3InsulatorBatch":  this.assetMasterFormGroup.value.rod3InsulatorBatch,
+    "rod3InsulatorMake": this.assetMasterFormGroup.value.rod3InsulatorMake,
+    "pedestal3InsulatorBatch":  this.assetMasterFormGroup.value.pedestal3InsulatorBatch,
+    "pedestal3InsulatorMake":  this.assetMasterFormGroup.value.pedestal3InsulatorMake,
+    "core3InsulatorBatch":  this.assetMasterFormGroup.value.core3InsulatorBatch,
+    "core3InsulatorMake":  this.assetMasterFormGroup.value.core3InsulatorMake,
+    "stagger": this.assetMasterFormGroup.value.stagger,
+    "createdOn":  this.assetMasterFormGroup.value.createdOn,
+    "dateOfCommision":  this.assetMasterFormGroup.value.dateOfCommision,
+    "dateOfManufacture":  this.assetMasterFormGroup.value.dateOfManufacture,
+    "dateOfReceived":  this.assetMasterFormGroup.value.dateOfReceived,
+    "equippedDate":  this.assetMasterFormGroup.value.equippedDate,
+    "expiryDate":  this.assetMasterFormGroup.value.expiryDate,
+    "lugDate":  this.assetMasterFormGroup.value.lugDate,
+    "stripDate":  this.assetMasterFormGroup.value.stripDate,
+    "warrantyAmcEndDate":  this.assetMasterFormGroup.value.warrantyAmcEndDate,       
     "lastUpdatedStamp": new Date(),
     "lastUpdatedTxStamp": new Date(),
+    "createdBy":this.loggedUserData.username
   }
       this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.UPDATE_ASSET_MASTER_DATA, updateAmdModel, false).subscribe(response => {
         this.spinnerService.hide();
@@ -699,11 +711,11 @@ export class AddAmdComponent implements OnInit {
         }else{
           this.commonService.showAlertMessage("Asset Master Data Updating Failed.");
         }
-         this.findFunctionalUnits();
-    this.findZones();
-    this.findDepoTypeList();
-    this.findMakeDetails();
-    this.findModelDetails();
+        this.findFunctionalUnits();
+        this.findZones();
+        this.findDepoTypeList();
+        this.findMakeDetails();
+        this.findModelDetails();
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
@@ -751,7 +763,7 @@ export class AddAmdComponent implements OnInit {
       .subscribe((assetTypes) => {
         this.assetTypeList = assetTypes;
       })
-  }
+  } 
   findFunctionalUnits() {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES)
       .subscribe((units) => {
@@ -856,7 +868,7 @@ findZones(){
  
 }
 findDivisions(){
-let zone: string = this.assetMasterFormGroup.value.zone;
+let zone: string = this.assetMasterFormGroup.controls['zone'].value;
 this.divisionList=[];    
 
 for (let i = 0; i < this.divisionHierarchy.length; i++) {
@@ -871,7 +883,7 @@ for (let i = 0; i < this.divisionHierarchy.length; i++) {
 
 findSubDivision(){     
 
-let  division: string = this.assetMasterFormGroup.value.dataDiv; 
+let  division: string = this.assetMasterFormGroup.controls['dataDiv'].value; 
 this.subDivisionList=[];  
 for (let i = 0; i < this.subDivisionHierarchy.length; i++) {
     
@@ -886,5 +898,34 @@ for (let i = 0; i < this.subDivisionHierarchy.length; i++) {
 }
 
 
+findFacilities(){
+  
+  this.facilityList=[];
+  let  subDiv: string = this.assetMasterFormGroup.controls['subDivision'].value;
+    for (let i = 0; i < this.depotHierarchy.length; i++) {
+      if(subDiv != null){
+      if( this.depotHierarchy[i].subDivision == subDiv && this.depotHierarchy[i].depotType == this.assetMasterFormGroup.controls['type'].value)
+      {
+         
+         this.facilityList.push(this.depotHierarchy[i]);
+          //this.facilityHierarchy.facilityList;
+          
+      }
+    }else{
+      if(this.depotHierarchy[i].depotType == this.assetMasterFormGroup.controls['type'].value)
+      {
+         
+         this.facilityList.push(this.depotHierarchy[i]);
+          //this.facilityHierarchy.facilityList;
+          
+      }
+    }
+      }
+      this.updateAssertType();
+   }     
+
+   updateAssertType(){  
+    this.findAssetTypeList(Constants.ASSERT_TYPE[this.assetMasterFormGroup.controls['type'].value]);    
+   }
 
 }

@@ -98,8 +98,7 @@ public class ReportController {
 	public ResponseEntity<List<String>> findAllAssetTypes(@PathVariable("depotType") String depotType){
 		log.info("assetType"+depotType);
 		List<String> assetTypes = null;
-		
-		
+				
 		String productCategoryId = null;
 		if("OHE_FIXED_ASSET".equals(depotType) || "PSI_FIXED_ASSET".equals(depotType) || "FP".equals(depotType)|| "TowerCar".equals(depotType) || "DASH_BOARD_CATEGORY".equals(depotType)) 
 			assetTypes = reportService.findAllAssetTypes(depotType); 

@@ -10,6 +10,7 @@ import { AssetMasterDataModel } from 'src/app/models/asset-master-data.model';
 import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
 import { ReportModel } from 'src/app/models/report.model';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'amd',
@@ -29,6 +30,7 @@ export class AmdComponent implements OnInit {
   reportModel: ReportModel;
   pageSize: number;
   pageNo: number;
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   displayedColumns = ['sno', 'type', 'facilityId', 'assetType', 'assetId', 'adeeSection', 'majorSection', 'section', 'locationPosition', 'kilometer', 'elementarySection', 'actions'];
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   facilityData: any;
@@ -50,7 +52,8 @@ export class AmdComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-    private sendAndRequestService: SendAndRequestService
+    private sendAndRequestService: SendAndRequestService,
+    private datePipe: DatePipe,
   ) { }
 
   ngOnInit() {
@@ -109,10 +112,18 @@ export class AmdComponent implements OnInit {
   getAllAssetMasterData(from: number, to: number) {
     this.spinnerService.show();
     const assetMasterData: AssetMasterDataModel[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSET_MASTER_DATA + '/' + from + '/' + to).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSET_MASTER_DATA + '/' + from + '/' + to+'/'+this.loggedUserData.username).subscribe((data) => {
       this.amdList = data;
       for (let i = 0; i < this.amdList.length; i++) {
         this.amdList[i].sno = i + 1;
+        this.amdList[i].dateOfCommision = this.datePipe.transform(this.amdList[i].dateOfCommision, 'dd-MM-yyyy');
+        this.amdList[i].dateOfManufacture = this.datePipe.transform(this.amdList[i].dateOfManufacture, 'dd-MM-yyyy');
+        this.amdList[i].dateOfReceived = this.datePipe.transform(this.amdList[i].dateOfReceived, 'dd-MM-yyyy');
+        this.amdList[i].equippedDate = this.datePipe.transform(this.amdList[i].equippedDate, 'dd-MM-yyyy');
+        this.amdList[i].expiryDate = this.datePipe.transform(this.amdList[i].expiryDate, 'dd-MM-yyyy');
+        this.amdList[i].lugDate = this.datePipe.transform(this.amdList[i].lugDate, 'dd-MM-yyyy');
+        this.amdList[i].warrantyAmcEndDate = this.datePipe.transform(this.amdList[i].warrantyAmcEndDate, 'dd-MM-yyyy');
+        this.amdList[i].stripDate = this.datePipe.transform(this.amdList[i].stripDate, 'dd-MM-yyyy');
         this.amdList[i].facilityId = this.amdList[i].facilityId;
         assetMasterData.push(this.amdList[i]);
       }
@@ -207,7 +218,7 @@ export class AmdComponent implements OnInit {
       'title': this.Titles.ASSET_MASTER_DATA,
       'dataSource': [
 
-        { label: FieldLabelsConstant.LABELS.DEPOT_TYPE, value: data.depotType },
+        { label: FieldLabelsConstant.LABELS.DEPOT_TYPE, value: data.type },
         { label: FieldLabelsConstant.LABELS.DEPOT, value: data.facilityId },
         { label: FieldLabelsConstant.LABELS.ASSET_TYPE, value: data.assetType },
         { label: FieldLabelsConstant.LABELS.ASSET_ID, value: data.assetId },
@@ -216,7 +227,7 @@ export class AmdComponent implements OnInit {
         { label: FieldLabelsConstant.LABELS.LOCATION_POSITION, value: data.locationPosition },
         { label: FieldLabelsConstant.LABELS.KILOMETER, value: data.kilometer },
         { label: FieldLabelsConstant.LABELS.ELEMENTARY_SECTIONS, value: data.elementarySections },
-        { label: FieldLabelsConstant.LABELS.CREATED_ON, value: data.createdOn },
+       // { label: FieldLabelsConstant.LABELS.CREATED_ON, value: data.createdOn },
         { label: FieldLabelsConstant.LABELS.DATE_OF_COMMISSION, value: data.dateOfCommision },
         { label: FieldLabelsConstant.LABELS.DATE_OF_MANUFACTURE, value: data.dateOfManufacture },
         { label: FieldLabelsConstant.LABELS.DATE_OF_RECEIVED, value: data.dateOfReceived },
@@ -224,7 +235,9 @@ export class AmdComponent implements OnInit {
         { label: FieldLabelsConstant.LABELS.EXPIRY_DATE, value: data.expiryDate },
         { label: FieldLabelsConstant.LABELS.LUG_DATE, value: data.lugDate },
         { label: FieldLabelsConstant.LABELS.STRIP_DATE, value: data.stripDate },
-        { label: FieldLabelsConstant.LABELS.WARRANTY_AMC_ENDDATE, value: data.warrantyAmcEndDate }
+        { label: FieldLabelsConstant.LABELS.WARRANTY_AMC_ENDDATE, value: data.warrantyAmcEndDate },
+        { label: FieldLabelsConstant.LABELS.REMARK1, value: data.remark1 },
+        { label: FieldLabelsConstant.LABELS.REMARK2, value: data.remark2 }
 
       ]
     }

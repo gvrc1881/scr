@@ -1019,3 +1019,259 @@ $BODY$;
 
 ALTER FUNCTION public.tcp_measure_v_func(integer, date)
    OWNER TO postgres;
+   
+   
+   -----------------7
+   
+   -----Function
+   CREATE OR REPLACE FUNCTION public.tcp_measure_v_func_retest(
+	requested_station integer,
+	schedule_date date)
+    RETURNS TABLE(rs_id bigint, rs_facility_id character varying, rs_facility_name character varying,  rs_tcp_id bigint,
+	tcp_check_point_part character varying, tcp_check_point1_description character varying , tcp_check_point2_description character varying,
+	tcp_display_group character varying, tcp_display_order character varying, tcp_active character varying, 
+	tcpm_id bigint, tcpm_measure_point1 double precision ,  tcpm_measure_point2 double precision,
+    tcpm_image_id character varying, tcpm_remark character varying, tcpm_criticality character varying,
+	tcpm_date_of_retest  date, -- new
+	tcpm_thermovision_measure_id bigint, -- new
+ 	f_diff double precision,
+				  vtm_tcp_display_order character varying ,
+	tcpm_updated_on timestamp without time zone,
+	prev1_events text, prev2_events text, prev3_events text,
+	pre1_m_tcps_date text, pre1_m_tcpm_measure_point1 text, pre1_m_tcpm_measure_point2 text , 
+	pre2_m_tcps_date text, pre2_m_tcpm_measure_point1 text, pre2_m_tcpm_measure_point2 text ,  
+	pre3_m_tcps_date text, pre3_m_tcpm_measure_point1 text, pre3_m_tcpm_measure_point2 text ,  
+	tcps_facility_id bigint, tcps_facility_name character varying, tcps_date timestamp without time zone, tcps_date_time timestamp without time zone,
+	tcps_time text, tcps_by character varying, tcps_general_remark character varying) 
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE 
+    ROWS 1000
+AS $BODY$
+BEGIN
+   RETURN QUERY 
+
+select 
+rs.id rs_id,
+rs.facility_id rs_facility_id,
+rs.facility_name rs_facility_name,
+rs.tcp_id ,
+rs.tcp_check_point_part,
+rs.tcp_check_point1_description,
+rs.tcp_check_point2_description,
+rs.tcp_display_group,
+rs.tcp_display_order,
+rs.tcp_active,
+-- current measures v_thermovision_measures cur_m
+cur_m.tcpm_id ,
+cur_m.tcpm_measure_point1,
+cur_m.tcpm_measure_point2 ,
+cur_m.tcpm_image_id,
+cur_m.tcpm_remark,
+cur_m.tcpm_criticality,
+cur_m.tcpm_date_of_retest, -- new
+cur_m.tcpm_thermovision_measure_id , -- new
+cur_m.f_diff,
+cur_m.vtm_tcp_display_order  ,
+cur_m.tcpm_updated_on,
+
+-- previous readings
+
+	pre1_m.prev1_events,
+	pre2_m.prev2_events,
+	pre3_m.prev3_events,
+	
+	pre1_m.prev1_event1_date,
+	pre1_m.prev1_event1_measure1,
+	pre1_m.prev1_event1_measure2,
+	
+	pre2_m.prev2_event1_date,
+	pre2_m.prev2_event1_measure1,
+	pre2_m.prev2_event1_measure2,
+	
+	pre3_m.prev3_event1_date,
+	pre3_m.prev3_event1_measure1,
+	pre3_m.prev3_event1_measure2,
+	/*pre1_m.tcps_date as pre1_m_tcps_date, 
+	pre1_m.tcpm_measure_point1 as pre1_m_tcpm_measure_point1,
+	pre1_m.tcpm_measure_point2 as pre1_m_tcpm_measure_point2,
+	pre2_m.tcps_date as pre2_m_tcps_date, 
+	pre2_m.tcpm_measure_point1 as pre1_m_tcpm_measure_point1,
+	pre2_m.tcpm_measure_point2 as pre1_m_tcpm_measure_point2,
+	pre3_m.tcps_date as pre3_m_tcps_date, 
+	pre3_m.tcpm_measure_point1 as pre1_m_tcpm_measure_point1,
+	pre3_m.tcpm_measure_point2 as pre1_m_tcpm_measure_point2,
+	*/
+-- cur schedule
+cur_s.tcps_facility_id,
+cur_s.tcps_facility_name ,
+cur_s.tcps_date, cur_s.tcps_date_time, cur_s.tcps_time,
+cur_s.tcps_by,
+cur_s.tcps_general_remark
+-- facility/station tss /sp/ssp etc
+--
+/*
+select * 
+*/
+from (select id ,facility_id , facility_name , vtpc.*
+	  from v_thermovision_check_points vtpc,
+	  facility f where f.id =  requested_station 			-- 18473--- 
+	  and f.id =  vtpc.tcp_facility_id
+	  and upper(vtpc.tcp_active) = 'YES'
+	  ) rs  -- required station 
+left outer join v_tcp_schedule cur_s
+on (cur_s.tcps_date::date = 	Schedule_date 				-- '2021-02-07'-- 
+	and rs.id = cur_s.tcps_facility_id)
+left outer join ( select tcp_sch_id , 
+case when split_part(tcp_sch_id, ',',  1 ) ='' then 0 else split_part(tcp_sch_id, ',',  1 )::bigint  end 
+				 as Pre_tcp_sch_1 ,
+				 split_part(tcp_sch_id, ',',  2 )  sp2 ,
+case when split_part(tcp_sch_id, ',',  2 ) ='' then -1 else (split_part(tcp_sch_id, ',',  2 ))::bigint   
+			end	 as Pre_tcp_sch_2 ,
+case when split_part(tcp_sch_id, ',',  3 ) ='' then -2 else (split_part(tcp_sch_id, ',',  3 ))::bigint   
+			end	 as Pre_tcp_sch_3 ,
+case when split_part(tcp_sch_id, ',',  4 ) ='' then -2 else (split_part(tcp_sch_id, ',',  4 ))::bigint   
+			end	 as Pre_tcp_sch_4
+from (
+select	string_agg(tcps_id::character varying,',' order by a.tcps_date desc) tcp_sch_id
+from (select ROW_NUMBER() OVER() seq ,cur_h.tcps_date ,cur_h.tcps_id
+from v_tcp_schedule	cur_h  	-- schedule history before current schedule
+where cur_h.tcps_date < Schedule_date  						-- '2021-02-07'-- 
+	  and cur_h.tcps_facility_id =  requested_station 		-- ::integer 18473---
+order by tcps_date desc limit  4
+) a	 )b
+) p on (1=1)
+
+left outer join 
+	(	select * from
+			(select 
+				case when (vtm.tcpm_measure_point1 is not null and vtm.tcpm_measure_point2 is not null) then
+					abs(vtm.tcpm_measure_point1 - vtm.tcpm_measure_point2)  end as f_diff, 
+					 vtm.tcp_id as vtm_tcp_id , vtm.tcp_display_order vtm_tcp_display_order, tcpm_tcp_schedule_id,
+			 		 vtm.tcpm_measure_point1 ,  vtm.tcpm_measure_point2 , vtm.tcps_facility_id ,vtm.tcpm_tcp_id ,vtm.tcpm_id,
+			 		vtm.tcpm_image_id , vtm.tcpm_criticality, vtm.tcpm_remark , vtm.tcps_date::date tcps_date , 
+					vtm.tcpm_date_of_retest ,	vtm.tcpm_thermovision_measure_id,vtm.tcpm_updated_on
+					from v_thermovision_measures vtm 
+			) tm ,
+			facility f 
+		where f.id =    requested_station     		-- 18473 -- 18473 --
+		and tm.tcps_date::date = Schedule_date 		--  '2021-02-07'--
+		and f.id =  tm.tcps_facility_id 
+	) cur_m
+on (cur_s.tcps_id = cur_m.tcpm_tcp_schedule_id and  rs.tcp_id = cur_m.tcpm_tcp_id ) 
+
+left outer join 
+(
+		select tcpm_tcp_schedule_id , tcpm_tcp_id	, 
+		replace(pre_events,',','') as prev1_events ,
+		case when split_part(pre_events, ';',  1 ) ='' then ''  else split_part(pre_events, ';',  1 )  end as prev1_event1,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 1) end as prev1_event1_date,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 3) end as prev1_event1_measure1,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 5) end as prev1_event1_measure2,
+		case when split_part(pre_events, ';',  2 ) ='' then ''  else split_part(pre_events, ';',  2 )  end as prev1_event2 ,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 1) end as prev1_event2_date,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 3) end as prev1_event2_measure1,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 5) end as prev1_event2_measure2,
+		case when split_part(pre_events, ';',  3 ) ='' then ''  else split_part(pre_events, ';',  3 )  end as prev1_event3 ,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 1) end as prev1_event3_date,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 3) end as prev1_event3_measure1,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 5) end as prev1_event3_measure2,
+		case when split_part(pre_events, ';',  4 ) ='' then ''  else split_part(pre_events, ';',  4 )  end as prev1_event4 ,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 1) end as prev1_event4_date1,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 3) end as prev1_event4_measure1,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 5) end as prev1_event4_measure1,
+		case when split_part(pre_events, ';',  5 ) ='' then ''  else split_part(pre_events, ';',  5 )  end as prev1_event5 ,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 1) end as prev1_event5_date1,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 3) end as prev1_event5_measure1,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 5) end as prev1_event5_measure1
+		from
+		(
+		select string_agg (
+		case when pre1.tcpm_date_of_retest is null then pre1.tcps_date::date else pre1.tcpm_date_of_retest end||','||
+			' ['||','||pre1.tcpm_measure_point1||','||'/'||','||pre1.tcpm_measure_point2||','||']', ' ; ' order by pre1.tcpm_id)
+		 pre_events, pre1.tcpm_tcp_schedule_id , pre1.tcpm_tcp_id
+		from v_thermovision_measures  pre1
+		group by pre1.tcpm_tcp_schedule_id , pre1.tcpm_tcp_id
+		) a
+) pre1_m
+on (Pre_tcp_sch_1::bigint = pre1_m.tcpm_tcp_schedule_id and  rs.tcp_id = pre1_m.tcpm_tcp_id )
+left outer join 
+(
+		select tcpm_tcp_schedule_id , tcpm_tcp_id	, 
+		replace(pre_events,',','') as prev2_events ,
+		case when split_part(pre_events, ';',  1 ) ='' then ''  else split_part(pre_events, ';',  1 )  end as prev2_event1,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 1) end as prev2_event1_date,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 3) end as prev2_event1_measure1,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 5) end as prev2_event1_measure2,
+		case when split_part(pre_events, ';',  2 ) ='' then ''  else split_part(pre_events, ';',  2 )  end as prev2_event2 ,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 1) end as prev2_event2_date,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 3) end as prev2_event2_measure1,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 5) end as prev2_event2_measure2,
+		case when split_part(pre_events, ';',  3 ) ='' then ''  else split_part(pre_events, ';',  3 )  end as prev2_event3 ,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 1) end as prev2_event3_date,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 3) end as prev2_event3_measure1,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 5) end as prev2_event3_measure2,
+		case when split_part(pre_events, ';',  4 ) ='' then ''  else split_part(pre_events, ';',  4 )  end as prev2_event4 ,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 1) end as prev2_event4_date1,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 3) end as prev2_event4_measure1,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 5) end as prev2_event4_measure1,
+		case when split_part(pre_events, ';',  5 ) ='' then ''  else split_part(pre_events, ';',  5 )  end as prev2_event5 ,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 1) end as prev2_event5_date1,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 3) end as prev2_event5_measure1,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 5) end as prev2_event5_measure1
+		from
+		(
+		select string_agg (
+		case when pre2.tcpm_date_of_retest is null then pre2.tcps_date::date else pre2.tcpm_date_of_retest end||','||
+			' ['||','||pre2.tcpm_measure_point1||','||'/'||','||pre2.tcpm_measure_point2||','||']', ' ; ' order by pre2.tcpm_id)
+		 pre_events, pre2.tcpm_tcp_schedule_id , pre2.tcpm_tcp_id
+		from v_thermovision_measures  pre2
+		group by pre2.tcpm_tcp_schedule_id , pre2.tcpm_tcp_id
+		) a
+) pre2_m
+on (Pre_tcp_sch_2::bigint = pre2_m.tcpm_tcp_schedule_id and  rs.tcp_id = pre2_m.tcpm_tcp_id )
+
+left outer join 
+(
+		select tcpm_tcp_schedule_id , tcpm_tcp_id	, 
+		replace(pre_events,',','') as prev3_events ,
+		case when split_part(pre_events, ';',  1 ) ='' then ''  else split_part(pre_events, ';',  1 )  end as prev3_event1,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 1) end as prev3_event1_date,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 3) end as prev3_event1_measure1,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 5) end as prev3_event1_measure2,
+		case when split_part(pre_events, ';',  2 ) ='' then ''  else split_part(pre_events, ';',  2 )  end as prev3_event2 ,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 1) end as prev3_event2_date,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 3) end as prev3_event2_measure1,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 5) end as prev3_event2_measure2,
+		case when split_part(pre_events, ';',  3 ) ='' then ''  else split_part(pre_events, ';',  3 )  end as prev3_event3 ,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 1) end as prev3_event3_date,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 3) end as prev3_event3_measure1,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 5) end as prev3_event3_measure2,
+		case when split_part(pre_events, ';',  4 ) ='' then ''  else split_part(pre_events, ';',  4 )  end as prev3_event4 ,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 1) end as prev3_event4_date1,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 3) end as prev3_event4_measure1,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 5) end as prev3_event4_measure1,
+		case when split_part(pre_events, ';',  5 ) ='' then ''  else split_part(pre_events, ';',  5 )  end as prev3_event5 ,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 1) end as prev3_event5_date1,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 3) end as prev3_event5_measure1,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 5) end as prev3_event5_measure1
+		from
+		(
+		select string_agg (
+		case when pre3.tcpm_date_of_retest is null then pre3.tcps_date::date else pre3.tcpm_date_of_retest end||','||
+			' ['||','||pre3.tcpm_measure_point1||','||'/'||','||pre3.tcpm_measure_point2||','||']', ' ; ' order by pre3.tcpm_id)
+		 pre_events, pre3.tcpm_tcp_schedule_id , pre3.tcpm_tcp_id
+		from v_thermovision_measures  pre3
+		group by pre3.tcpm_tcp_schedule_id , pre3.tcpm_tcp_id
+		) a
+) pre3_m
+on (Pre_tcp_sch_3::bigint = pre3_m.tcpm_tcp_schedule_id and  rs.tcp_id = pre3_m.tcpm_tcp_id )
+order by rs.tcp_display_order::integer, cur_m.tcpm_updated_on
+;
+
+END; 
+$BODY$;
+
+ALTER FUNCTION public.tcp_measure_v_func(integer, date)
+   OWNER TO postgres;
