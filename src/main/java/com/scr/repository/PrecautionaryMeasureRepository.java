@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.scr.model.PrecautionaryMeasure;
 import com.scr.model.PrecautionaryMeasuresMaster;
-import com.scr.model.WorkPhaseActivity;
 
 @Repository
 public interface PrecautionaryMeasureRepository extends JpaRepository<PrecautionaryMeasure, Long>{

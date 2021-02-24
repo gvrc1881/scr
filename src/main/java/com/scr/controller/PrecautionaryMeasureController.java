@@ -293,7 +293,7 @@ public class PrecautionaryMeasureController {
 		List <PrecautionaryMeasure> preMeasureList = precautionaryMeasureRepository.getByPrecautionaryMeasure(precautionaryMeasureMasterRepository.findById(id).get());
 		
 		String result="";
-		logger.info("delete function==");		
+		logger.info("Delete function==");		
 		if(  preMeasureList.size() == 0  )
 		{
 			logger.info("preMeasureList=="+preMeasureList);

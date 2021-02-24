@@ -217,6 +217,4 @@ public class InspectionCheckList {
 				+ ", measuresCount=" + measuresCount + ", defaultNoOfItems=" + defaultNoOfItems + ", uomId=" + uomId
 				+ ", testInspectionId=" + testInspectionId + "]";
 	}
-
-
 }
