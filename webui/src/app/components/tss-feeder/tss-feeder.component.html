@@ -97,9 +97,9 @@
                  
                 </mat-form-field>
             </div>
-            <div class="col-md-3">
+            <!-- <div class="col-md-3">
               <mat-form-field fxFlex="30">
-                  <input matInput placeholder="{{FiledLabels.STATE_ELECTRICITY_BOARD}}" [formControl]="tssFeederFormGroup.controls['stateElectricityBoard']"/>
+                 <input matInput placeholder="{{FiledLabels.STATE_ELECTRICITY_BOARD}}" [formControl]="tssFeederFormGroup.controls['stateElectricityBoard']"/> 
                 
                <mat-error
                   *ngIf="tssFeederFormGroup.controls['stateElectricityBoard'].hasError('maxlength')"
@@ -108,7 +108,18 @@
                 </mat-error>
                
               </mat-form-field>
-          </div>
+          </div> -->
+          <div class="col-md-3">
+            <mat-form-field fxFlex="30" class="example-full-width">
+                <mat-select placeholder="{{FiledLabels.STATE_ELECTRICITY_BOARD}}" 
+                    [formControl]="tssFeederFormGroup.controls['stateElectricityBoard']"  >
+                    <mat-option *ngFor="let board of stateElectricityBoardList"
+                        [value]="board.statusCode">
+                        {{ board.statusCode }}
+                    </mat-option> 
+                </mat-select>                                                            
+            </mat-form-field>
+        </div>
             
         <div class="col-md-3 mt-15">
                 <div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline">
