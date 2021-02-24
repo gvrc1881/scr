@@ -39,7 +39,7 @@ export class AddAmdComponent implements OnInit {
   assetMasterFormGroup: FormGroup;
   id: number = 0;
   pattern = "/^[a-zA-Z ]*$/";
-  depoTypeList = [];
+  //depoTypeList = [];
   assetTypeList = [];
   functionalUnitList: any;
   functionalUnitsList: any;
@@ -70,6 +70,11 @@ export class AddAmdComponent implements OnInit {
    enableSubDivision :boolean;
    enableDepot : boolean;
    subDivision:any;
+   depoTypeList = [{ 'id': 1, "value": 'OHE' }, { 'id': 2, "value": 'PSI' },
+  { 'id': 3, "value": 'RCC' },{'id': 4, "value": 'SP'},{'id': 5, "value": 'SSP'},
+  {'id': 6, "value": 'TSS'},{'id': 7, "value": 'FP'}];
+
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -99,7 +104,7 @@ export class AddAmdComponent implements OnInit {
     this.id = +this.route.snapshot.params['id'];
     this.findFunctionalUnits();
     this.findZones();
-    this.findDepoTypeList();
+    //this.findDepoTypeList();
     this.findMakeDetails();
     this.findModelDetails();
     if (!isNaN(this.id)) {
@@ -713,7 +718,7 @@ export class AddAmdComponent implements OnInit {
         }
         this.findFunctionalUnits();
         this.findZones();
-        this.findDepoTypeList();
+        //this.findDepoTypeList();
         this.findMakeDetails();
         this.findModelDetails();
       }, error => {
@@ -750,13 +755,13 @@ export class AddAmdComponent implements OnInit {
     });
 
 
-  }*/
+  }
   findDepoTypeList() {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES)
       .subscribe((depoTypes) => {
         this.depoTypeList = depoTypes;
       })
-  } 
+  } */
   findAssetTypeList(assertType) {
     this.assetTypeList = [];
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES + assertType)

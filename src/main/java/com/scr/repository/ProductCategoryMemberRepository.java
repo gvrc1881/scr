@@ -16,7 +16,7 @@ public interface ProductCategoryMemberRepository extends JpaRepository<ProductCa
 	
 	//@Query(value = "select distinct(product_id) from product_category_member where product_category_id in('OHE_FIXED_ASSET','PSI_FIXED_ASSET','RCC_FIXED_ASSET') order by product_id ASC",
       //      nativeQuery=true )
-	@Query(value = "select distinct productId from ProductCategoryMember  where productCategoryId in :depotTypes Order by productId ASC")
+	@Query(value = "select distinct productId from ProductCategoryMember  where productCategoryId in :depotTypes Order by productId Asc")
     public List<String> findDistinctProductIdByProductCategoryIdInOrderByProductIdAsc(@Param("depotTypes")List<String> depotTypes);
 	
 	@Query(value = "SELECT case when count(pcm)> 0 then true else false  end  FROM ProductCategoryMember pcm WHERE pcm.productCategoryId = :productCategoryId and pcm.productId  = :productId")
@@ -24,6 +24,9 @@ public interface ProductCategoryMemberRepository extends JpaRepository<ProductCa
 			@Param("productId") String productId);
 	
     Optional<ProductCategoryMember>findByProductCategoryIdAndProductId(String productCategoryId,String productId);
-
+    @Query(value = "select  productId from ProductCategoryMember  where productCategoryId = :depotType Order by productId Asc ")
+	List<String> findByProductCategoryIdOrderByProductIdAsc(@Param("depotType") String depotType);
+    
+   
 
 }

@@ -644,7 +644,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         icon: "fa fa-file",
         color: "#12E1EE",
         isSelected: true,
-        permission: this.commonService.findPermission('CONFIG', 'menu', 'view'),
+        permission: this.commonService.findPermission('MAT CONFIG', 'menu', 'view'),
         currentTab: !!path && path.includes("make") || path.includes("model") || path.includes("product") || path.includes("product-category") || path.includes("product-category-member") ? "open" : "",
         subMenus: [
           {

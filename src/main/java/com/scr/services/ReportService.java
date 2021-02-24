@@ -202,8 +202,8 @@ public class ReportService {
 	public List<ReportRepository> findAllReportNames(String reportType) {	
 		return reportRepositoryRepository.findByReportCategory(reportType);
 	}
-	public List<String> findAllAssetTypes(String assetType) {	
-		return productCategoryMemberRepository.findByProductCategoryId(assetType);
+	public List<String> findAllAssetTypes(String depotType) {	
+		return productCategoryMemberRepository.findByProductCategoryIdOrderByProductIdAsc(depotType);
 	}
 	public List<String> findByProductId(List<String> depotTypes) {	
 		return productCategoryMemberRepository.findDistinctProductIdByProductCategoryIdInOrderByProductIdAsc(depotTypes);

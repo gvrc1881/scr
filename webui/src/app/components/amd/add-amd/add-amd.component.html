@@ -113,8 +113,8 @@
                                                                 [formControl]="assetMasterFormGroup.controls['type']" 
                                                                 required (ngModelChange)="findFacilities()">
                                                                 <mat-option *ngFor="let depotType of depoTypeList"
-                                                                    [value]="depotType.code">
-                                                                    {{ depotType.code}}
+                                                                    [value]="depotType.value">
+                                                                    {{ depotType.value}}
                                                                 </mat-option>
                                                             </mat-select>
                                                         </mat-form-field>
