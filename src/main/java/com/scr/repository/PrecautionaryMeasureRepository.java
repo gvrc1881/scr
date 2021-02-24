@@ -17,6 +17,7 @@ public interface PrecautionaryMeasureRepository extends JpaRepository<Precaution
 	
 	
 	Optional<PrecautionaryMeasure> findByFacilityIdAndPrecautionaryMeasureAndDateOfWork(String facilityId,PrecautionaryMeasuresMaster precautionaryMeasure,Timestamp dateOfWork);
+	
 	List<PrecautionaryMeasure> getAllByDataDivIn(List<String> fac);
 	
 	List<PrecautionaryMeasure> getByPrecautionaryMeasure(PrecautionaryMeasuresMaster precautionaryMeasure);

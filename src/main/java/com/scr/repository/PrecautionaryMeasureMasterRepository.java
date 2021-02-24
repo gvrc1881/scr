@@ -15,6 +15,7 @@ public interface PrecautionaryMeasureMasterRepository extends JpaRepository<Prec
 	Optional<PrecautionaryMeasuresMaster> findByActiveOrderByPrecautionaryMeasureAsc(String active);
 	
     Boolean existsByPrecautionaryMeasure(String precautionaryMeasure);
+    
 	Optional<PrecautionaryMeasuresMaster> findByPrecautionaryMeasure(String precautionaryMeasure);
 	
 }

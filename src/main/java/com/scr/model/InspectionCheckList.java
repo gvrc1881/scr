@@ -48,7 +48,6 @@ public class InspectionCheckList {
 	private Integer versionNo;
 	
 	private Integer measuresCount;
-	
 	@Column(name="default_no_of_items")
 	private Integer defaultNoOfItems;
 
