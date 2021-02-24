@@ -35,6 +35,7 @@ export class TssFeederComponent implements OnInit{
     editFeederResponse: any;  
     feederErrors : any;
     saveFeeder:boolean;
+    stateElectricityBoardList:any;
     value:string;
     pattern = "^[A-Za-z]+$";
     tssFeederDataSource: MatTableDataSource<TssFeederModel>;
@@ -78,8 +79,14 @@ export class TssFeederComponent implements OnInit{
     
         this.getAllFeedersData(); 
         this.displayHierarchyFields();  
+        this.findBoardsList();
     }
-    
+    findBoardsList(){
+      this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.STATE_ELECTRICITY_BOARD)
+      .subscribe((resp) => {
+        this.stateElectricityBoardList = resp;
+      });
+    }
     tssFeederSubmit(){ 
         let dataDiv:String=this.tssFeederFormGroup.value.dataDiv;
         let feederName:String=this.tssFeederFormGroup.value.feederName;
