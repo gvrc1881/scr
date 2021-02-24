@@ -49,6 +49,9 @@ public class InspectionCheckList {
 	private Integer versionNo;
 	
 	private Integer measuresCount;
+	
+	@Column(name="default_no_of_items")
+	private Integer defaultNoOfItems;
 
 	@ManyToOne
 	@JoinColumn(name = "uom_id", foreignKey = @ForeignKey(name = "fk_ins_check_list_uom"))
@@ -196,6 +199,14 @@ public class InspectionCheckList {
 		this.measuresCount = measuresCount;
 	}
 
+	public Integer getDefaultNoOfItems() {
+		return defaultNoOfItems;
+	}
+
+	public void setDefaultNoOfItems(Integer defaultNoOfItems) {
+		this.defaultNoOfItems = defaultNoOfItems;
+	}
+
 	@Override
 	public String toString() {
 		return "InspectionCheckList [id=" + id + ", active=" + active + ", measureActivityMma=" + measureActivityMma
@@ -203,7 +214,8 @@ public class InspectionCheckList {
 				+ ", activityPositionId=" + activityPositionId + ", displayOrder=" + displayOrder + ", lowerLimit="
 				+ lowerLimit + ", upperLimit=" + upperLimit + ", makeCode=" + makeCode + ", modelCode=" + modelCode
 				+ ", reportColumnHeader=" + reportColumnHeader + ", remark=" + remark + ", versionNo=" + versionNo
-				+ ", uomId=" + uomId + ", testInspectionId=" + testInspectionId + "]";
+				+ ", measuresCount=" + measuresCount + ", defaultNoOfItems=" + defaultNoOfItems + ", uomId=" + uomId
+				+ ", testInspectionId=" + testInspectionId + "]";
 	}
 
 

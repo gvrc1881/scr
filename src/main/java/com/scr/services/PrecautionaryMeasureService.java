@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import com.scr.mapper.PrecautionaryMeasureMapper;
 import com.scr.model.PrecautionaryMeasure;
 import com.scr.model.PrecautionaryMeasuresMaster;
+import com.scr.model.WorkPhaseActivity;
 import com.scr.repository.PrecautionaryMeasureMasterRepository;
 import com.scr.repository.PrecautionaryMeasureRepository;
+import com.scr.util.Constants;
 
 @Service
 public class PrecautionaryMeasureService {
@@ -87,9 +89,18 @@ public class PrecautionaryMeasureService {
 		precautionaryMeasureMasterRepository.save(precautionaryMeasureMaster);
 	}
 	
-	public void deletePrecautionaryMeasureMasterById(Integer id) {
-		// TODO Auto-generated method stub
-		precautionaryMeasureMasterRepository.deleteById(id);
+	
+	public String deletePrecautionaryMeasureMasterById(Integer id) {	
+		
+		Optional<PrecautionaryMeasuresMaster> precautionaryMeasureMaster = precautionaryMeasureMasterRepository.findById(id);
+		if (precautionaryMeasureMaster.isPresent()) {
+			precautionaryMeasureMasterRepository.deleteById(id);
+			 
+			return Constants.JOB_SUCCESS_MESSAGE;
+		}else {
+			return "Invalid precautionaryMeasureMasterRepository Id";
+		}
+		
 	}
 	public List<PrecautionaryMeasuresMaster> findAllPreMeaMaster() {
 		// TODO Auto-generated method stub

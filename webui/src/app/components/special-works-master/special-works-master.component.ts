@@ -10,6 +10,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
 import { DatePipe } from '@angular/common';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+import { FuseConfirmPopupComponent } from '../confirm-popup/confirm-popup.component';
 
 @Component({
   selector: 'app-special-works-master',
@@ -31,6 +32,7 @@ export class SpecialWorksMasterComponent implements OnInit {
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
   filterData;
   facilityData:any;
+  resp: any; 
    precautionaryMeasureData:any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -97,23 +99,39 @@ export class SpecialWorksMasterComponent implements OnInit {
     this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
       disableClose: false
     });
-    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to Delete?';
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
+
         this.spinnerService.show();
-        this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.SPECIALWORKS.DELETE_PRE_MEA_MAS ,id).subscribe(data => {
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.SPECIALWORKS.DELETE_PRE_MEA_MAS ,id).subscribe((data) => {
+          this.resp = data;
+
+          if (this.resp.code === 200) {
+
+            this.confirmDialogRef = this.dialog.open(FuseConfirmPopupComponent, {
+              disableClose: false
+
+            });
+            this.confirmDialogRef.componentInstance.confirmMessage = this.resp.message;
+          } else {
+            this.confirmDialogRef = this.dialog.open(FuseConfirmPopupComponent, {
+              disableClose: false
+            });
+            this.confirmDialogRef.componentInstance.confirmMessage = this.resp.message;
+          }
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Deleted Special Works Master Successfully");
           this.getSpecialWorksData();
         }, error => {
           console.log('ERROR >>>');
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Special Works Master Deletion Failed.");
-        });
+          this.commonService.showAlertMessage("Precautionary Measure Master Deletion Failed.");
+        })
       }
       this.confirmDialogRef = null;
     });
   }
+  
   updatePagination() {
     this.filterData.dataSource = this.filterData.dataSource;
     this.filterData.dataSource.paginator = this.paginator;

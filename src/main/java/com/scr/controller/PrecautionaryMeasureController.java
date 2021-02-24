@@ -21,6 +21,11 @@ import com.scr.message.response.ResponseStatus;
 import com.scr.model.Facility;
 import com.scr.model.PrecautionaryMeasure;
 import com.scr.model.PrecautionaryMeasuresMaster;
+import com.scr.model.WPADailyProgress;
+import com.scr.model.WPASectionPopulation;
+import com.scr.model.WPASectionTargets;
+import com.scr.repository.PrecautionaryMeasureMasterRepository;
+import com.scr.repository.PrecautionaryMeasureRepository;
 import com.scr.services.PrecautionaryMeasureService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -35,6 +40,12 @@ public class PrecautionaryMeasureController {
 	
 	@Autowired
 	private PrecautionaryMeasureService precautionaryMeasureService;
+	
+	@Autowired
+	private PrecautionaryMeasureRepository precautionaryMeasureRepository;
+	
+	@Autowired
+	private PrecautionaryMeasureMasterRepository precautionaryMeasureMasterRepository;
 	
 	@Autowired
 	private CommonUtility  commonUtility;
@@ -275,22 +286,37 @@ public class PrecautionaryMeasureController {
 		}
 	}
 	
-	@RequestMapping(value = "/deletePrecautionaryMeasureMaster/{id}" ,method = RequestMethod.DELETE , headers = "Accept=application/json")
+	@RequestMapping(value = "/deletePrecautionaryMeasureMaster/{id}" ,method = RequestMethod.DELETE ,headers = "Accept=application/json")
 	public ResponseStatus deletePrecautionaryMeasureMasterById(@PathVariable Integer id) {
 		logger.info("Enter into deletePrecautionaryMeasure MasterById function");
 		logger.info("Selected precautionaryMeasure Master Id = "+id);
+		List <PrecautionaryMeasure> preMeasureList = precautionaryMeasureRepository.getByPrecautionaryMeasure(precautionaryMeasureMasterRepository.findById(id).get());
+		
+		String result="";
+		logger.info("delete function==");		
+		if(  preMeasureList.size() == 0  )
+		{
+			logger.info("preMeasureList=="+preMeasureList);
+			
 		try {
-			precautionaryMeasureService.deletePrecautionaryMeasureMasterById(id);
-			return Helper.findResponseStatus("precautionaryMeasure Master deleted successfully", Constants.SUCCESS_CODE);
-		} catch (NullPointerException npe) {
-			logger.error("ERROR >> While deleting precautionaryMeasure Master data"+npe.getMessage());
-			return Helper.findResponseStatus("precautionaryMeasure Master Deletion is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);			
-		} catch (Exception e) {
-			logger.error("ERROR >> While deleting precautionaryMeasure Master data"+e.getMessage());
-			return Helper.findResponseStatus("precautionaryMeasure Master Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
-		}
-	}
+			String status = precautionaryMeasureService.deletePrecautionaryMeasureMasterById(id);;
+			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+				return Helper.findResponseStatus("precautionaryMeasure Master Deleted Successfully", Constants.SUCCESS_CODE);
+		
 	
+		}
+		catch (NullPointerException e) {
+			logger.error(e);
+			return Helper.findResponseStatus("precautionary Measure Master Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		} catch (Exception e) {
+			logger.error(e);
+			return Helper.findResponseStatus("precautionary Measure Master Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+		}
+		if(preMeasureList.size() > 0 )	
+			 result="This Precautionary Measure is Associated with Precautionary Measure";
+		return Helper.findResponseStatus( result , Constants.FAILURE_CODE);	
+	}
 	@RequestMapping(value = "/existPrecautionaryMeasure/{precautionaryMeasure}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existPrecautionaryMeasure(@PathVariable("precautionaryMeasure") String precautionaryMeasure ){
 			
