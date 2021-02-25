@@ -179,6 +179,11 @@ export class ProjectActivityInspectionComponent implements OnInit {
           height: '400px',
           width: '80%', 
           data: { insCheckList : row,
+                  work: this.wpaDailyProgressData.workPhaseActivityId.workPhaseId.workId.workName,
+                  phaseName: this.wpaDailyProgressData.workPhaseActivityId.workPhaseId.phaseName,
+                  activity: this.wpaDailyProgressData.workPhaseActivityId.name,
+                  section: this.wpaDailyProgressData.workGroupId.section,
+                  testInspection: this.wpaDailyProgressData.workPhaseActivityId.testInspectionId.name
                 }
         });
         
@@ -212,10 +217,16 @@ export class ProjectActivityInspectionComponent implements OnInit {
 export class MultiMeasureDialogComponent implements OnInit  {
     
     FiledLabels = FieldLabelsConstant.LABELS;
-    Titles = FieldLabelsConstant.TITLE;  
-    measuresCount:any;
+    Titles = FieldLabelsConstant.TITLE;
+    work: any;
+    phaseName: any;
+    phaseActivity: any;
+    section: any;
+    testIns: any;  
+    defaultNoOfItems:any;
     measuresData = new Array();
     activityType: any;
+    activityName: any;
     
     constructor(
     private formBuilder: FormBuilder,
@@ -228,9 +239,15 @@ export class MultiMeasureDialogComponent implements OnInit  {
     ) {
       
       if(data) {
-          //console.log('**** data ****'+JSON.stringify(data));
-          this.measuresCount = parseInt(data.insCheckList.measuresCount);
+          console.log('**** data ****'+JSON.stringify(data));
+          this.defaultNoOfItems = parseInt(data.insCheckList.defaultNoOfItems);
           this.activityType = data.insCheckList.measureActivityMma;
+          this.work = data.work;
+          this.phaseName = data.phaseName;
+          this.phaseActivity = data.activity;
+          this.section = data.section;
+          this.testIns = data.testInspection;
+          this.activityName = data.insCheckList.measureActivityCode;
       }
   }
     

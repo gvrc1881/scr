@@ -118,7 +118,7 @@
 	                                    	<ng-container *matCellDef="let row">
 		                                    	<mat-cell *ngIf="row.measureActivityMma == 'MULTI_MEASURE' || row.measureActivityMma == 'MULTI_MEASURE_ACTIVITY' ; else countElseBlock" >
 		                                        	<mat-form-field fxFlex="30">
-																<input matInput autocomplete="off" placeholder="{{FiledLabels.COUNT}}"  [value]="row.measuresCount" [(ngModel)]="row.measuresCount" 
+																<input matInput autocomplete="off" placeholder="{{FiledLabels.COUNT}}"  [value]="row.defaultNoOfItems" [(ngModel)]="row.defaultNoOfItems" 
 														               decimalNumber  >
 													</mat-form-field>
 		                                        </mat-cell>

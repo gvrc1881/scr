@@ -47,7 +47,6 @@ public class InspectionCheckList {
 	
 	private Integer versionNo;
 	
-	private Integer measuresCount;
 	@Column(name="default_no_of_items")
 	private Integer defaultNoOfItems;
 
@@ -189,14 +188,6 @@ public class InspectionCheckList {
 		this.versionNo = versionNo;
 	}
 
-	public Integer getMeasuresCount() {
-		return measuresCount;
-	}
-
-	public void setMeasuresCount(Integer measuresCount) {
-		this.measuresCount = measuresCount;
-	}
-
 	public Integer getDefaultNoOfItems() {
 		return defaultNoOfItems;
 	}
@@ -212,7 +203,9 @@ public class InspectionCheckList {
 				+ ", activityPositionId=" + activityPositionId + ", displayOrder=" + displayOrder + ", lowerLimit="
 				+ lowerLimit + ", upperLimit=" + upperLimit + ", makeCode=" + makeCode + ", modelCode=" + modelCode
 				+ ", reportColumnHeader=" + reportColumnHeader + ", remark=" + remark + ", versionNo=" + versionNo
-				+ ", measuresCount=" + measuresCount + ", defaultNoOfItems=" + defaultNoOfItems + ", uomId=" + uomId
-				+ ", testInspectionId=" + testInspectionId + "]";
+				+ ", defaultNoOfItems=" + defaultNoOfItems + ", uomId=" + uomId + ", testInspectionId="
+				+ testInspectionId + "]";
 	}
+
+	
 }

@@ -2,16 +2,26 @@
             	<div class="panel panel-primary">
             		<div class="panel-heading">{{Titles.MULTI_MEASUREMENTS}}</div>
             		<div class="panel-body">
+            			<div class="col-md-12" >
+							<div class="alert alert-info" role="alert">
+								<strong width="200"><b>Project:</b></strong>{{work}}&nbsp;&nbsp;&nbsp;
+								<strong><b>Phase:</b></strong>{{phaseName}}&nbsp;&nbsp;&nbsp;
+								<strong><b>Phase Activity:</b></strong>{{phaseActivity}}&nbsp;&nbsp;&nbsp;
+								<strong><b>Section:</b></strong>{{section}}&nbsp;&nbsp;&nbsp;
+								<strong><b>Test Inspection:</b></strong>{{testIns}}&nbsp;&nbsp;&nbsp;
+								<strong><b>Activity Name:</b></strong>{{activityName}}&nbsp;&nbsp;&nbsp;
+							</div>
+											</div>
         				<div fxLayout="row" fxLayoutGap="25px"
-                            *ngFor="let measure of [].constructor(measuresCount)  ; let i = index">
+                            *ngFor="let measure of [].constructor(defaultNoOfItems)  ; let i = index">
                        		<div class="col-md-3" *ngIf="activityType === 'MULTI_MEASURE'">
                                  <mat-form-field fxFlex="25">
-                                 	<input matInput  autocomplete="off" placeholder="{{FiledLabels.ENTER_NUMBERS_ONLY}}" type="text"  (change)="changeMeasure(i,$event.target.value)"  decimalNumber>
+                                 	<input matInput  autocomplete="off" placeholder="{{i+1}}&nbsp;&nbsp;&nbsp;{{FiledLabels.ENTER_NUMBERS_ONLY}}" type="text"  (change)="changeMeasure(i,$event.target.value)"  decimalNumber>
                                  </mat-form-field>
                            </div>
                            <div class="col-md-3" *ngIf="activityType === 'MULTI_MEASURE_ACTIVITY'">
                                  <mat-form-field fxFlex="25">
-                                 	<input matInput autocomplete="off" placeholder="{{FiledLabels.ENTER_OBSERVATION}}" type="text"  (change)="changeMeasure(i,$event.target.value)"  >
+                                 	<input matInput autocomplete="off" placeholder="{{i+1}}&nbsp;&nbsp;&nbsp;{{FiledLabels.ENTER_OBSERVATION}}" type="text"  (change)="changeMeasure(i,$event.target.value)"  >
                                  </mat-form-field>
                            </div>
                        </div>
