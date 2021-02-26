@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scr.message.request.OheThermovisionMeasureRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.message.response.ThermovisionMeasureResponse;
+import com.scr.model.Facility;
 import com.scr.model.ThermovisionMeasures;
 import com.scr.services.ThermovisionMeasuresServices;
 import com.scr.util.Constants;
@@ -144,6 +146,25 @@ public class ThermovisionMeasuresController {
 		}
 		logger.info("Exit from Thermovision Measure function");
 		return ResponseEntity.ok((thermovisionMeasureList));
+	}
+	
+	@PostMapping("/findOheThermovisionMeasurements")
+	@ResponseBody	
+	public Boolean findOheThermovisionMeasurements(
+			@RequestParam("date") Date date,
+			@RequestParam("facilityId") Long facility,
+			@RequestParam("connectionPoint1") String connectionPoint1,
+			@RequestParam("location") String location
+			){
+			
+		try {
+            logger.info("Request for checking exists feeder and start date..."+date+"*** facilityId ***"+facility+"*** connection point ***"+connectionPoint1+"*** location ***"+location);
+			return thermovisionMeasuresServices.existsByTcpScheduleIdAndlocationAndConnectionPoint1(date,facility,connectionPoint1,location);
+            //return energyMeterService.existsByFeederAndStartDate(feeder,Helper.convertStringToTimestamp(startDate));
+		} catch (Exception e) {
+			logger.error("Error while checking exists feeder and start date..."+e.getMessage());
+			return false;
+		}
 	}
 
 }

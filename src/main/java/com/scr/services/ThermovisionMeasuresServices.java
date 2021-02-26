@@ -186,4 +186,20 @@ public class ThermovisionMeasuresServices {
 		return thermovisionMeasures;
 	}
 
+
+	public Boolean existsByTcpScheduleIdAndlocationAndConnectionPoint1(Date date, Long facility,
+			String connectionPoint1, String location) {
+		Optional<TcpSchedule> tcpScheduleObj = tcpScheduleService.findByFacilityIdAndDateTime(facility,date);
+		if (tcpScheduleObj.isPresent()) {
+			Optional<ThermovisionMeasures> thermovisionMeasures = thermovisionMeasuresRepository.findByTcpScheduleIdAndConnectionPoint1AndLocation(tcpScheduleObj.get(),connectionPoint1,location);
+			if (thermovisionMeasures.isPresent()) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+		else 
+			return false;
+	}
+
 }

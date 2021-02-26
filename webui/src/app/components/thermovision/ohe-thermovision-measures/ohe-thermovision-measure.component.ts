@@ -58,6 +58,7 @@ export class OheThermovisionMeasureComponent implements OnInit{
     enableDiff: boolean = false;
     minDate: any;
     diff: number;
+    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   
 
     constructor(
@@ -104,12 +105,58 @@ export class OheThermovisionMeasureComponent implements OnInit{
     
     getDiff() {
         if(this.inputFormGroup.value.measure1 && this.inputFormGroup.value.measure2){
-            this.diff = this.inputFormGroup.value.measure1 - this.inputFormGroup.value.measure2;
+            this.diff = Math.abs(this.inputFormGroup.value.measure1 - this.inputFormGroup.value.measure2);
             this.inputFormGroup.patchValue({'diff': Math.abs(this.diff).toFixed(2)});
+        }else {
+            this.inputFormGroup.patchValue({'diff': ''});
         }
     }
     
     saveOheThermovisionMeasure(){
+        
+        let formData: FormData = new FormData();
+          formData.append('date', this.inputFormGroup.value.dateTime);
+          formData.append('facilityId', this.inputFormGroup.value.facilityId.id);
+          formData.append('connectionPoint1', this.inputFormGroup.value.connectionPoint1);
+          formData.append('location', this.inputFormGroup.value.location);
+        this.sendAndRequestService.requestForPOST(Constants.app_urls.THERMOVISION.THERMOVISION_MEASURE.FIND_OHE_THERMOVISION_MEASUREMENTS,formData,true
+            ).subscribe((response) => {
+                if(response){
+                    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+                        disableClose: false
+                      });
+                    this.confirmDialogRef.componentInstance.confirmMessage = "Old values replaced with new values?";
+                    this.confirmDialogRef.afterClosed().subscribe(result => {
+                        if(result){
+                            this.saveActionRequest();
+                        }
+                    });    
+                }else
+                    this.saveActionRequest();
+        });
+        /*
+        this.sendAndRequestService.requestForPOST(Constants.app_urls.THERMOVISION.THERMOVISION_MEASURE.SAVE_OHE_THERMO_MEASURE,OheTherMeasureObject,false).subscribe((response) => {
+            this.spinnerService.hide();
+            this.resp = response;
+            this.enableSave = false;
+            if(this.resp.code == 200 && !!this.resp) {
+                this.commonService.showAlertMessage("Measures Data Saved Successfully");
+                this.inputFormGroup.controls['connectionPoint1'].reset();
+                this.inputFormGroup.controls['connectionPoint2'].reset();
+                this.inputFormGroup.controls['measure1'].reset();
+                this.inputFormGroup.controls['measure2'].reset();
+                this.inputFormGroup.controls['location'].reset();
+                this.inputFormGroup.controls['generalRemark'].reset();
+                this.inputFormGroup.controls['diff'].reset();
+                this.diff = null;
+                this.getThermoMeasuresData();
+            }else
+                this.commonService.showAlertMessage("Measures Data Saving Failed");
+            
+        }); */
+    }
+    
+    saveActionRequest(){
         let OheTherMeasureObject = {
             'dateTime': this.inputFormGroup.value.dateTime,
             'facilityId': this.inputFormGroup.value.facilityId,
@@ -127,8 +174,16 @@ export class OheThermovisionMeasureComponent implements OnInit{
             this.resp = response;
             this.enableSave = false;
             if(this.resp.code == 200 && !!this.resp) {
-                this.commonService.showAlertMessage("Measures Data Saved Successfully"); 
-                this.getThermoMeasuresData();    
+                this.commonService.showAlertMessage("Measures Data Saved Successfully");
+                this.inputFormGroup.controls['connectionPoint1'].reset();
+                this.inputFormGroup.controls['connectionPoint2'].reset();
+                this.inputFormGroup.controls['measure1'].reset();
+                this.inputFormGroup.controls['measure2'].reset();
+                this.inputFormGroup.controls['location'].reset();
+                this.inputFormGroup.controls['generalRemark'].reset();
+                this.inputFormGroup.controls['diff'].reset();
+                this.diff = null;
+                this.getThermoMeasuresData();
             }else
                 this.commonService.showAlertMessage("Measures Data Saving Failed");
             

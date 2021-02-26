@@ -70,7 +70,7 @@
                                 </div> -->
                                 <div class="col-md-3">
                                     <mat-form-field fxFlex="30" class="example-full-width">
-                                        <mat-select placeholder="{{FiledLabels.STATION}}" [formControl]="inputFormGroup.controls['facilityId']"  required>
+                                        <mat-select placeholder="{{FiledLabels.DEPOT}}" [formControl]="inputFormGroup.controls['facilityId']"  required>
                                             <mat-option *ngFor="let depot of depotsList "
                                                 [value]="depot">
                                                 {{ depot.facilityName}}
