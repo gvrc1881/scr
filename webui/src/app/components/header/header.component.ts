@@ -498,14 +498,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             rolePermission: this.rolePermission,
             currentSubMenu: !!path && path.includes("progress-record") ? "active-item" : "",
           },
-          {
-            subMenuName: "Drive Daily Progress",
-            subMenuURL: "drive-daily-progress",
-            subMenuIcon: "fa fa-file",
-            permission: this.commonService.findPermission('Drive Daily Progress', 'submenu', 'view'),
-            rolePermission: this.rolePermission,
-            currentSubMenu: !!path && path.includes("drive-daily-progress") ? "active-item" : "",
-          },
+          
           {
             subMenuName: "Drive Target",
             subMenuURL: "drive-target",
@@ -809,13 +802,21 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             currentSubMenu: !!path && path.includes("work-daily-progress") ? "active-item" : "",
           },
           {
-            subMenuName: "Special Works",
-            subMenuURL: "Special-works",
+            subMenuName: "Special Works Master",
+            subMenuURL: "Special-works-master",
             subMenuIcon: "fa fa-track",
             rolePermission: this.rolePermission,
-            permission: this.commonService.findPermission('PRECAUTIONARY MEASURES', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("Special-works") ? "active-item" : "",
+            permission: this.commonService.findPermission('PRECAUTIONARY MEASURE MASTER', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("Special-works-master") ? "active-item" : "",
           },
+          {
+            subMenuName: "Asset Monthly Targets",
+            subMenuURL:  "asset-monthly-targets",
+            subMenuIcon: "fa fa-file",
+            permission: true,
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("asset-monthly-targets") ? "active-item" : "",
+          }
         ]
       },
       {
@@ -1109,14 +1110,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
            permission: this.commonService.findPermission('ASSET STATUS CHANGE', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("asset-status-change") ? "active-item" : "",
           },
-          {
-            subMenuName: "Special Works Master",
-            subMenuURL: "Special-works-master",
-            subMenuIcon: "fa fa-track",
-            rolePermission: this.rolePermission,
-            permission: this.commonService.findPermission('PRECAUTIONARY MEASURE MASTER', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("Special-works-master") ? "active-item" : "",
-          },
+         
           {
             subMenuName: "Special Works",
             subMenuURL: "Special-works",
@@ -1135,13 +1129,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             currentSubMenu: !!path && path.includes("asset-schedule-progress") ? "active-item" : "",
           },
           {
-            subMenuName: "Asset Monthly Targets",
-            subMenuURL:  "asset-monthly-targets",
+            subMenuName: "Drive Daily Progress",
+            subMenuURL: "drive-daily-progress",
             subMenuIcon: "fa fa-file",
-            permission: true,
+            permission: this.commonService.findPermission('Drive Daily Progress', 'submenu', 'view'),
             rolePermission: this.rolePermission,
-            currentSubMenu: !!path && path.includes("asset-monthly-targets") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("drive-daily-progress") ? "active-item" : "",
           },
+          
         ]
       },
       {

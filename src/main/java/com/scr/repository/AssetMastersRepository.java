@@ -72,7 +72,7 @@ public interface AssetMastersRepository extends JpaRepository<AssetMasterData, L
             nativeQuery=true )
 	List<AssetMasterData> getAssetIdBasedOnFacilityId(@Param("facilityId")String facilityId);
 	
-	Page<AssetMasterData> findByFacilityIdIn(Pageable paging, List<String> fac);
+	Page<AssetMasterData> findByFacilityIdInOrderByCreatedTxStampDesc(Pageable paging, List<String> fac);
 	
 	
 }

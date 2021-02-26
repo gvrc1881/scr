@@ -6,7 +6,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
-                        <li class="breadcrumb-item"><a [routerLink]="['/electrification-targets']">Electrification Targets </a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/amd']">Register </a></li>
                         <li class="breadcrumb-item active" aria-current="page">Asset Master</li>
                     </ol>
                 </nav>
@@ -156,7 +156,7 @@
                                         <mat-row *matRowDef="let row; columns: displayedColumns;">
                                         </mat-row>
                                     </mat-table>
-                                    <mat-paginator [pageSize]="pageSize" [pageIndex]="pageNo" [pageSizeOptions]="pagination"
+                                    <mat-paginator [pageSize]="from" [pageIndex]="to" [pageSizeOptions]="pagination"
                                     (page)="getServerData($event)" showFirstLastButtons></mat-paginator>
                                 </div>
                             </div>

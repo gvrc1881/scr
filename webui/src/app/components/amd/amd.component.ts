@@ -28,8 +28,8 @@ export class AmdComponent implements OnInit {
   amdList: any;
   filterData;
   reportModel: ReportModel;
-  pageSize: number;
-  pageNo: number;
+  from: number;
+  to: number;
   loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   displayedColumns = ['sno', 'type', 'facilityId', 'assetType', 'assetId', 'adeeSection', 'majorSection', 'section', 'locationPosition', 'kilometer', 'elementarySection', 'actions'];
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
@@ -57,8 +57,8 @@ export class AmdComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.pageSize = 0;
-    this.pageNo = 0;
+    this.from = 0;
+    this.to = 0;
     this.reportModel = new ReportModel();
     this.getAllAssetMasterData(0, 30);
     var permissionName = this.commonService.getPermissionNameByLoggedData("ASSET REGISTER", "OHE ASSET MASTER");

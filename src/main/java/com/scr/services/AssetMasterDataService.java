@@ -42,11 +42,13 @@ public class AssetMasterDataService {
 		logger.info("Fetching data from page "+from+" to page "+to);
 		Pageable paging = PageRequest.of(from, to);
 		//Page<AssetMasterData> pagedResult = assetMastersRepository.findAll(paging);
-		Page<AssetMasterData> pagedResult = assetMastersRepository.findByFacilityIdIn(paging,fac);
+		Page<AssetMasterData> pagedResult = assetMastersRepository.findByFacilityIdInOrderByCreatedTxStampDesc(paging,fac);
 		//return assetMastersRepository.findAll();
 		List<AssetMasterData> amdList =  new ArrayList<AssetMasterData>();// pagedResult.getContent();
 		logger.info("Records size: "+amdList.size());
-		for (AssetMasterData assetMasterData : pagedResult.getContent()) {
+		
+		for (AssetMasterData assetMasterData : pagedResult) {
+			logger.info("page content==="+pagedResult.getContent());
 			assetMasterData = assetMasterDataMapper.prepareAssetMasterData(assetMasterData);
 			amdList.add(assetMasterData);
 		}

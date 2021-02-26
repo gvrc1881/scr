@@ -301,7 +301,7 @@ public class PrecautionaryMeasureController {
 		try {
 			String status = precautionaryMeasureService.deletePrecautionaryMeasureMasterById(id);;
 			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
-				return Helper.findResponseStatus("precautionaryMeasure Master Deleted Successfully", Constants.SUCCESS_CODE);
+				return Helper.findResponseStatus("Special works Master Deleted Successfully", Constants.SUCCESS_CODE);
 		
 	
 		}
@@ -314,7 +314,7 @@ public class PrecautionaryMeasureController {
 		}
 		}
 		if(preMeasureList.size() > 0 )	
-			 result="This Precautionary Measure is Associated with Precautionary Measure";
+			 result="This Special Work Master is Associated with Special Works";
 		return Helper.findResponseStatus( result , Constants.FAILURE_CODE);	
 	}
 	@RequestMapping(value = "/existPrecautionaryMeasure/{precautionaryMeasure}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	

@@ -401,8 +401,7 @@ export class AddAmdComponent implements OnInit {
         if(this.resp.type != null){  
           console.log("type=="+this.resp.type)        
         this.findFacilities();
-        }
-        console.log("dept type=="+JSON.stringify(this.depotHierarchy));
+        }        
         this.assetMasterFormGroup.patchValue({
         id: this.resp.id,
         type: this.resp.type,          
@@ -507,6 +506,7 @@ export class AddAmdComponent implements OnInit {
     if (this.save) {
       var saveAmdModel = {
     "type" : this.assetMasterFormGroup.value.type,
+    "dataDiv":this.assetMasterFormGroup.value.dataDiv,
     "facilityId" : this.assetMasterFormGroup.value.facilityId,
     "adeeSection" : this.assetMasterFormGroup.value.adeeSection,
     "majorSection" :this.assetMasterFormGroup.value.majorSection,
@@ -619,6 +619,7 @@ export class AddAmdComponent implements OnInit {
 
     "id": this.id,
     "type" : this.assetMasterFormGroup.value.type,
+    "dataDiv":this.assetMasterFormGroup.value.dataDiv,
     "facilityId" : this.assetMasterFormGroup.value.facilityId,
     "adeeSection" : this.assetMasterFormGroup.value.adeeSection,
     "majorSection" :this.assetMasterFormGroup.value.majorSection,
@@ -705,6 +706,8 @@ export class AddAmdComponent implements OnInit {
     "warrantyAmcEndDate":  this.assetMasterFormGroup.value.warrantyAmcEndDate,       
     "lastUpdatedStamp": new Date(),
     "lastUpdatedTxStamp": new Date(),
+    "createdStamp": new Date(),
+    "createdTxStamp": new Date(),
     "createdBy":this.loggedUserData.username
   }
       this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.UPDATE_ASSET_MASTER_DATA, updateAmdModel, false).subscribe(response => {
