@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="energyConsuEntryPendingOnDate" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="780c6431-5e5c-4ccd-8428-58c24acfde5f">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="energyConsuEntryPendingOnDate" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="780c6431-5e5c-4ccd-8428-58c24acfde5f">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="division" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="depot" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="date" class="java.lang.String">
@@ -18,16 +15,14 @@ from
 (select $P{date}::date date_of_energy_data_pending , data_div ,  feeder_name  from tss_feeder_master
 where case when  $P{division}!='' then data_div = $P{division}
 else data_div is not null end
-and case when $P{depot}!='' then feeder_name=$P{depot}
-else feeder_name is not null end
+
 )a
 except
 (select $P{date}::date date_of_energy_data_facilitated ,  data_div  , location from energy_consumption
 where energy_reading_date =$P{date}::date
 and case when $P{division}!='' then upper(data_div) = $P{division}
 else data_div is not null end
-and case when $P{depot}!='' then location=$P{depot}
-else location is not null end
+
 )
 order by 2]]>
 	</queryString>
