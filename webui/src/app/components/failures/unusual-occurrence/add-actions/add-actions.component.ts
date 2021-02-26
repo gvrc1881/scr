@@ -198,6 +198,12 @@ getOccurence(){
         this.updateActions(false, false, false, false, false,true, false, false);
       } else if(action === 'INVESTIGATION'){
         this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'TRAINS EFFECTED'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      } else if(action === 'TEMPORARY FITNESS'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      } else if(action === 'FINAL FITNESS OF OHE'){
+        this.updateActions(false, false, false, false, false,true, false, false);
       }
     }
   }

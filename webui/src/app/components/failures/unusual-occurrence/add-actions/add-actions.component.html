@@ -32,14 +32,14 @@
                                                 <div class="col-md-12">
 
                                                     <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                        <mat-form-field fxFlex="30" >
                                                             <input matInput placeholder="{{FiledLabels.LOCATION}}" [formControl]="addActionsFailFromGroup.controls['failureSeqId']" 
 												    	[(ngModel)]="occurenceLocation" readonly>                                                             
                                                         </mat-form-field>
                                                     </div>
                                                      
                                                     <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                        <mat-form-field fxFlex="30" >
                                                             <mat-select placeholder="{{FiledLabels.ACTIONS}}" (selectionChange)="updateFeedOff()"
                                                                 [formControl]="addActionsFailFromGroup.controls['failureActivity']">
                                                                 <mat-option *ngFor="let actions of actionsList"
