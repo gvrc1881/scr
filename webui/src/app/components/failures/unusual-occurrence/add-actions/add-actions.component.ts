@@ -159,7 +159,6 @@ getOccurence(){
     this.rootCause=rt;
     this.trainNo=tn;
   }
-  
   updateFeedOff(){
     let action=this.addActionsFailFromGroup.controls['failureActivity'].value;
     if (action) {
@@ -198,11 +197,77 @@ getOccurence(){
         this.updateActions(false, false, false, false, false,true, false, false);
       } else if(action === 'INVESTIGATION'){
         this.updateActions(false, false, false, false, false,true, false, false);
-      }else if(action === 'TRAINS EFFECTED'){
+      }else if(action === 'RB_EVENT'){
         this.updateActions(false, false, false, false, false,true, false, false);
-      } else if(action === 'TEMPORARY FITNESS'){
+      }else if(action === 'RB_TRIPPING DETAILS'){
         this.updateActions(false, false, false, false, false,true, false, false);
-      } else if(action === 'FINAL FITNESS OF OHE'){
+      }else if(action === 'RB_SEGRGATION IF ANY'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'RB_FIR DETAILS'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'RB_TOWER WAGON MOVEMENT'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'RB_ROAD VEHICLE MOVEMENT'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'RB_OFFICERS AT SITE & IN CONTROL ROOM'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'RB_BLOCK DETAILS & COMPLETION'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'RB_LAST MAINTENANCE DETAILS AND FOOT PATROLLING'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'RB_LAST MAINTENANCE DETAILS AND FOOT PATROLLING'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'RB_MAKE & YEAR OF FAILED EQUIPMENT'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'RB_SITE PHOTOGRAPHS'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'RB_INVESTIGATION'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'RB_REPURCUSSIONS'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'RB_WORK DONE'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'RB_REMARKS IF ANY'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_DAMAGE'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_SUPERVISORS AT SITE'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_TRAINS EFFECTED'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_TEMPORARY FITNESS'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_FINAL FITNESS OF OHE'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_EVENT'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_TRIPPING DETAILS'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_SEGRGATION IF ANY'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_FIR DETAILS'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_TOWER WAGON MOVEMENT'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_ROAD VEHICLE MOVEMENT'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_OFFICERS AT SITE & IN CONTROL ROOM'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_BLOCK DETAILS & COMPLETION'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_LAST MAINTENANCE DETAILS AND FOOT PATROLLING'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_MAKE & YEAR OF FAILED EQUIPMENT'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_SITE PHOTOGRAPHS'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_INVESTIGATION'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_REPURCUSSIONS'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_WORK DONE'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if(action === 'HQ_REMARKS IF ANY'){
         this.updateActions(false, false, false, false, false,true, false, false);
       }
     }
@@ -270,12 +335,13 @@ getOccurence(){
     });
   }
   findActions(){
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM +Constants.STATUS_ITEMS.ACTION)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM +Constants.STATUS_ITEMS.ACTION+Constants.STATUS_ITEMS.RB_ACTIVITY+Constants.STATUS_ITEMS.HQ_ACTIVITY)
     .subscribe((resp) => {
       
       this.actionsList = resp;
     });
   }
+
 
 
 

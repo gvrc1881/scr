@@ -74,7 +74,8 @@ public class FailureService {
 		logger.info("failure reqst=="+failureRequest.getTypeOfFailure());
 		Failure failure = failuresRepository.save(failureRequest);
 		failureRequest.setFailureSeqId(failure.getId().toString());
-		if (failureRequest.getTypeOfFailure().equals("FAILURE_OCCURENCE")) {
+		//if (failureRequest.getTypeOfFailure().equals("FAILURE_OCCURENCE")) {
+		if (failureRequest.getTypeOfFailure().equals("UNUSUAL_OCCURENCE")) {
 			logger.info("in if condition");
 			 
 			FailureAnalysis	failureAnalysis = new FailureAnalysis();
