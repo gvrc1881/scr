@@ -6,9 +6,6 @@
 	<parameter name="division" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="depot" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -16,17 +13,15 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select data_div , feeder_name , count(*) no_of_pending_days , string_agg(to_char(date1,'dd-mon-yy'),'; ') dates
+		<![CDATA[select data_div , feeder_name , count(*) no_of_pending_days , string_agg(to_char(date1,'dd-mon-yy'),'; ') dates,$P{fromDate} as fromDate,$P{toDate} as toDate
 from
 (
-select generate_series( $P{fromDate}::date,$P{toDate}::date , interval '1 day')::date date1,data_div , feeder_name  from tss_feeder_master
+select generate_series( $P{fromDate}::date,$P{toDate}::date, interval '1 day')::date date1,data_div , feeder_name  from tss_feeder_master
 except
 select energy_reading_date date1 ,  upper(data_div) div , location from energy_consumption
-where energy_reading_date between  $P{fromDate}::Date and $P{toDate}::date
+where energy_reading_date between  $P{fromDate}::date and $P{toDate}::date
 ) a
 where data_div =$P{division}
-and case when $P{depot}!='' then feeder_name=$P{depot}
-else feeder_name is not null end
  group by data_div , feeder_name
  order by 1,2]]>
 	</queryString>
@@ -34,6 +29,8 @@ else feeder_name is not null end
 	<field name="feeder_name" class="java.lang.String"/>
 	<field name="no_of_pending_days" class="java.lang.Long"/>
 	<field name="dates" class="java.lang.String"/>
+	<field name="fromdate" class="java.lang.String"/>
+	<field name="todate" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -86,19 +83,12 @@ else feeder_name is not null end
 				<text><![CDATA[To Date:]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="79" y="0" width="242" height="20" uuid="081b86a3-81b9-4fb0-a105-ad9f7e4037b2"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{fromDate}]]></textFieldExpression>
+				<reportElement x="79" y="0" width="242" height="20" uuid="dc68307f-38cd-4b6c-afef-4d1cc500f9e5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" "+$F{fromdate}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="586" y="0" width="144" height="20" uuid="01224b2e-1737-436c-b28c-fc04f307de55"/>
+				<reportElement x="586" y="0" width="144" height="20" uuid="a5c5b562-966c-46de-846e-c4f301779283"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -106,8 +96,8 @@ else feeder_name is not null end
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{toDate}]]></textFieldExpression>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" "+$F{todate}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -186,9 +176,9 @@ else feeder_name is not null end
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
-			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="79" height="20" uuid="50ed9195-50d5-48b1-9ab3-011cd02e278a"/>
+		<band height="34" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="79" height="34" uuid="50ed9195-50d5-48b1-9ab3-011cd02e278a"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -199,8 +189,8 @@ else feeder_name is not null end
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="79" y="0" width="109" height="20" uuid="f3b32a3b-672d-4d1d-b964-9a7af10df67c"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="79" y="0" width="109" height="34" uuid="f3b32a3b-672d-4d1d-b964-9a7af10df67c"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -211,8 +201,8 @@ else feeder_name is not null end
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{data_div}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="188" y="0" width="133" height="20" uuid="bf4df928-66f6-4136-8ba7-f549209865e7"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="188" y="0" width="133" height="34" uuid="bf4df928-66f6-4136-8ba7-f549209865e7"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -223,20 +213,8 @@ else feeder_name is not null end
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{feeder_name}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="321" y="0" width="265" height="20" uuid="773d615f-f803-49db-9d08-28d918a358ae"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{dates}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="586" y="0" width="144" height="20" uuid="31c442d0-3a68-433a-92f4-3ad9cb01c620"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="586" y="0" width="144" height="34" uuid="31c442d0-3a68-433a-92f4-3ad9cb01c620"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -246,6 +224,18 @@ else feeder_name is not null end
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{no_of_pending_days}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="321" y="0" width="265" height="34" uuid="ecbf6c78-441e-45e4-820c-57184bfdb86f"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dates}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
