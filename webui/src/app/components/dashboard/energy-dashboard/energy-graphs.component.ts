@@ -23,6 +23,11 @@ export class EnergyGraphsComponent implements OnInit {
 	  showEnergyChart : boolean = false;
 	  type = "scrollstackedcolumn2d";
   	dataFormat = "json";
+    divWiseEntryPendingResponse: any;
+    divWiseEntryPendingDataSource: any = {};
+    divWiseWidth: any;
+    showDivWiseEnergyConsumEntryPending: boolean = false;
+    pieType = "pie2d";
     
 
     constructor(
@@ -39,7 +44,7 @@ export class EnergyGraphsComponent implements OnInit {
   
   ngOnInit() {
     this.energyData();
-   
+    this.divWiseEnergyConsumEntryPending();
   }
   
   energyData(){
@@ -83,8 +88,8 @@ export class EnergyGraphsComponent implements OnInit {
           value:data[i].canbeconsume
         })
     }
-    console.log("locations=="+JSON.stringify(location))
-    console.log("data consumed==="+consumed);
+    //console.log("locations=="+JSON.stringify(location))
+    //console.log("data consumed==="+consumed);
     return {
         chart: {
         caption: "Energy",
@@ -120,7 +125,49 @@ export class EnergyGraphsComponent implements OnInit {
     }
    
 }
+    
+    divWiseEnergyConsumEntryPending () {
+        this.requestBody = {
+              queryType:'DIV_WIS_ENERGY_CONSUM_ENTRY_PENDING'    
+          }
+          this.sendAndRequestService.requestForPOST(Constants.app_urls.DASHBOARD.GET_GRAPHS_DATA, this.requestBody, false).subscribe((data) => {
+            console.log(data);
+            this.divWiseEntryPendingResponse = data; 
+             // console.log('*** log***'+JSON.stringify(this.divWiseEntryPendingResponse));   
+            if(this.divWiseEntryPendingResponse) {
+              this.divWiseEntryPendingDataSource = this.prepareEnergyConsumEntryPendingData(this.divWiseEntryPendingResponse);
+               //console.log('*** log***'+JSON.stringify(this.divWiseEntryPendingDataSource));
+                if(this.divWiseEntryPendingDataSource){
+                  this.showDivWiseEnergyConsumEntryPending = true;    
+                }
+            }
+          });
+    }
   
+    prepareEnergyConsumEntryPendingData(data: any) {
+        let dataValues =[];
+        for(let i=0;i<data.length;i++){
+            this.divWiseWidth = this.divWiseWidth +200;
+            dataValues.push({               
+                        label: data[i].division,
+                        value: data[i].energyDataPending
+            });
+        }
+    return {
+         chart: {
+            caption: "Energy Consumption Entry Pending",
+            plottooltext: "<b>$label</b> of energy consumption Entry Pending <b>$value</b>",
+            //showlegend: "1",
+            showpercentvalues: "0",
+            //legendposition: "bottom",
+            //usedataplotcolorforlabels: "1",
+            valuePosition: "inside",
+            //showPercentInTooltip: "0",
+            theme: "fusion"
+          },   
+         data: dataValues
+        } 
+    }
 }
 
   

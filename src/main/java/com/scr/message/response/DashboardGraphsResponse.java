@@ -36,6 +36,7 @@ public class DashboardGraphsResponse {
 	private String location;
 	private Long count;
 	private Double sum;
+	private Long energyDataPending;
 	
 	
 	
@@ -231,6 +232,12 @@ public class DashboardGraphsResponse {
 	}
 	public void setSum(Double sum) {
 		this.sum = sum;
+	}
+	public Long getEnergyDataPending() {
+		return energyDataPending;
+	}
+	public void setEnergyDataPending(Long energyDataPending) {
+		this.energyDataPending = energyDataPending;
 	}
 	
 }

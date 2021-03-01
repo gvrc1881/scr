@@ -61,13 +61,38 @@ public class DashboardUtility {
 		case Constants.ENERGY:
 			return fetchEnergyData(request);
 		case Constants.CB_FAILURE:
-			return fetchCBFailuresData(request);	
+			return fetchCBFailuresData(request);
+		case Constants.DIV_WIS_ENERGY_CONSUM_ENTRY_PENDING:
+			return fetchDivWisEnergyConsumEntryPendingData(request);
 		default:
 			break;
 		}
 		return null;
 	}
 	
+
+
+	private List<DashboardGraphsResponse> fetchDivWisEnergyConsumEntryPendingData(
+			@Valid DashboardParametersRequest request) {
+		Connection connection = null;
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connection = dataSource.getConnection();
+			preparedStatement = connection.prepareStatement(DashboardQueries.DIV_WIS_ENERGY_CONSUM_ENTRY_PENDING);
+			preparedStatement.setString(1, new Date().toString());//new Date().toString()
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet != null) {
+				return prepareListForDivWiseEnergyConsumEntryPendingFromResultSet(resultSet, request.getQueryType());
+			}
+
+		} catch (SQLException e) {
+			logger.error("ERROR >>> while fetching data " + e.getLocalizedMessage());
+		} finally {
+			closeJDBCObjects.releaseResouces(connection, preparedStatement, resultSet);
+		}
+		return null;
+	}
 
 
 	private List<DashboardGraphsResponse> fetchCBFailuresData(@Valid DashboardParametersRequest request) {
@@ -77,7 +102,7 @@ public class DashboardUtility {
 		try {
 			connection = dataSource.getConnection();
 			preparedStatement = connection.prepareStatement(DashboardQueries.CB_FAILURE);
-			preparedStatement.setString(1, "2021-02-05");//new Date().toString()
+			preparedStatement.setString(1, new Date().toString());//new Date().toString()
 			resultSet = preparedStatement.executeQuery();
 			if (resultSet != null) {
 				return prepareListForCBFailuresFromResultSet(resultSet, request.getQueryType());
@@ -500,6 +525,21 @@ public class DashboardUtility {
 			response.setCanbeconsume(resultSet.getString("canbeconsume"));
 			response.setLocation(resultSet.getString("location"));
 			//response.setEnergyReadingDate(energyReadingDate);			
+			responseList.add(response);
+		}
+		
+		return responseList;
+	}
+	
+
+	private List<DashboardGraphsResponse> prepareListForDivWiseEnergyConsumEntryPendingFromResultSet(
+			ResultSet resultSet, String queryType) throws SQLException  {
+		List<DashboardGraphsResponse> responseList = new ArrayList<DashboardGraphsResponse>();
+		DashboardGraphsResponse response = null;
+		while (resultSet != null && resultSet.next()) {
+			response = new DashboardGraphsResponse();
+			response.setDivision(resultSet.getString("div"));
+			response.setEnergyDataPending(resultSet.getLong("energy_data_pending"));
 			responseList.add(response);
 		}
 		

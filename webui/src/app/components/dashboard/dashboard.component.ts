@@ -20,6 +20,11 @@ export class DashboardComponent implements OnInit {
     type = "mscolumn3d";
     dataFormat = "json";
     showTowerCarChart : boolean = false;
+    divWiseEntryPendingResponse: any;
+    divWiseEntryPendingDataSource: any = {};
+    divWiseWidth: any;
+    showDivWiseEnergyConsumEntryPending: boolean = false;
+    pieType = "pie2d";
 
     constructor(
     private formBuilder: FormBuilder,
@@ -31,6 +36,7 @@ export class DashboardComponent implements OnInit {
   
   ngOnInit() {
     this.getTowerCarGraphsData();
+    this.divWiseEnergyConsumEntryPending();
   }
   
   getTowerCarGraphsData(){
@@ -54,7 +60,7 @@ export class DashboardComponent implements OnInit {
     prepareTowerCarGraphData(data: any){
         let dataSet = [];
         for(let i=0;i<data.length;i++){
-            this.width = this.width +200;
+            this.width = this.width +100;
             dataSet.push({
                 seriesname: data[i].fStatus+data[i].productCategoryId,
                 data:[
@@ -117,6 +123,50 @@ export class DashboardComponent implements OnInit {
           ],
           dataset: dataSet  
         }
+    }
+    
+    
+    divWiseEnergyConsumEntryPending () {
+        this.requestBody = {
+              queryType:'DIV_WIS_ENERGY_CONSUM_ENTRY_PENDING'    
+          }
+          this.sendAndRequestService.requestForPOST(Constants.app_urls.DASHBOARD.GET_GRAPHS_DATA, this.requestBody, false).subscribe((data) => {
+            console.log(data);
+            this.divWiseEntryPendingResponse = data; 
+             // console.log('*** log***'+JSON.stringify(this.divWiseEntryPendingResponse));   
+            if(this.divWiseEntryPendingResponse) {
+              this.divWiseEntryPendingDataSource = this.prepareEnergyConsumEntryPendingData(this.divWiseEntryPendingResponse);
+               //console.log('*** log***'+JSON.stringify(this.divWiseEntryPendingDataSource));
+                if(this.divWiseEntryPendingDataSource){
+                  this.showDivWiseEnergyConsumEntryPending = true;    
+                }
+            }
+          });
+    }
+  
+    prepareEnergyConsumEntryPendingData(data: any) {
+        let dataValues =[];
+        for(let i=0;i<data.length;i++){
+            this.divWiseWidth = this.divWiseWidth +200;
+            dataValues.push({               
+                        label: data[i].division,
+                        value: data[i].energyDataPending
+            });
+        }
+    return {
+         chart: {
+            caption: "Energy Consumption Entry Pending",
+            plottooltext: "<b>$label</b> of energy consumption Entry Pending <b>$value</b>",
+            //showlegend: "1",
+            showpercentvalues: "0",
+            //legendposition: "bottom",
+            //usedataplotcolorforlabels: "1",
+            valuePosition: "inside",
+            //showPercentInTooltip: "0",
+            theme: "fusion"
+          },   
+         data: dataValues
+        } 
     }
     
     

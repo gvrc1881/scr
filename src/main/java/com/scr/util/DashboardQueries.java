@@ -838,6 +838,15 @@ public class DashboardQueries {
 			"Group by  " + 
 			"facility_name, " + 
 			"FAC.division";
+	
+	public static String DIV_WIS_ENERGY_CONSUM_ENTRY_PENDING = "select tot.div, tss_div_wise div_wise_tss_count, tss_div_wise - case when perf_tss is null then 0 else perf_tss end as energy_data_pending  , " + 
+			"case when perf_tss is null then 0 else perf_tss end as  energy_data_recorded  from " + 
+			"(select count(*) tss_div_wise, data_div div " + 
+			"from tss_feeder_master group by data_div)  Tot " + 
+			"left outer join " + 
+			"(select count(*) perf_tss, upper(data_div) div " + 
+			"from energy_consumption where energy_reading_date = ? ::date  group by data_div) perf " + 
+			"on perf.div = tot.div";
 
 	
 

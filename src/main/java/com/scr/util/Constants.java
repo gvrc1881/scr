@@ -106,4 +106,6 @@ public class Constants {
 	public static final String ENERGY = "ENERGY";
 	
 	public static final String CB_FAILURE = "CB_FAILURE";
+	
+	public static final String DIV_WIS_ENERGY_CONSUM_ENTRY_PENDING = "DIV_WIS_ENERGY_CONSUM_ENTRY_PENDING";
 }
