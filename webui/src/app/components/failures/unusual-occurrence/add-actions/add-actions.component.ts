@@ -351,7 +351,7 @@ getOccurence(){
   }
   getActionsFailureData() {
     const ActionsFail: any[] = [];
-  
+  //console.log('*** failure ***'+this.failureId);
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_ACTIONS_ID+this.failureId).subscribe((data) => {
       this.ActionsFailListActions = data;   
       for (let i = 0; i < this.ActionsFailListActions.length; i++) {
@@ -402,7 +402,7 @@ getOccurence(){
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Actions Fail Data "+message+" Successfully");
-     
+        this.getActionsFailureData();
         this.addActionsFailFromGroup.reset();
       
         console.log("failure=="+this.failureId);
