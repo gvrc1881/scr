@@ -16,6 +16,9 @@ public class CommonUtilService {
 	public List<StatusItem> findStatusItem(String statusTypeId) {
 		return statusItemRepository.findByStatusTypeId(statusTypeId);
 	}
+	public List<StatusItem> findMutipleStatusItems(List<String> statusTypeList) {
+		return statusItemRepository.findByStatusTypeIdIn(statusTypeList);
+	}
 	
 	
 }

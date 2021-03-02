@@ -335,7 +335,7 @@ getOccurence(){
     });
   }
   findActions(){
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM +Constants.STATUS_ITEMS.ACTION+Constants.STATUS_ITEMS.RB_ACTIVITY+Constants.STATUS_ITEMS.HQ_ACTIVITY)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_MULTIPLE_STATUS_ITEMS +Constants.STATUS_ITEMS.ACTION+','+Constants.STATUS_ITEMS.RB_ACTIVITY+','+Constants.STATUS_ITEMS.HQ_ACTIVITY)
     .subscribe((resp) => {
       
       this.actionsList = resp;

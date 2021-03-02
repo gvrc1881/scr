@@ -473,6 +473,7 @@ export const Constants = {
                 GET_CHECK_LIST:'/checklist',
                 GET_CHECKLIST_BY_ID:'/checkListById/',
                 GET_STATUS_ITEM:'/statusItem/',
+                GET_MULTIPLE_STATUS_ITEMS:'/getMultipleStatusItems/',
                 GET_MEASURE_ACTIVITY_LIST:'/measureActivityList',
                 SAVE_CHECK_LIST:'/saveCheckList',
                 UPDATE_CHECK_LIST:'/updateCheckList',
