@@ -70,10 +70,10 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 
 	List<Drives> findByFunctionalUnitInOrFunctionalUnitIsNullAndStatusId(List<String> fac, Integer activeStatusId);
 
-	@Query(value = " select d from Drives d where d.functionalUnit = :zone or d.functionalUnit = :division or d.functionalUnit = :subDivision or d.functionalUnit = :facilityName or d.functionalUnit = :empty and d.depotType = :functionalLocationTypes and fromDate <= :fromDate and toDate >= :toDate or toDate is null " )
-	List<Drives> findByFunctionalUnitOrFunctionalUnitOrFunctionalUnitOrFunctionalUnitOrFunctionalUnitAndDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(
-			@Param("zone") String zone,@Param("division") String division,@Param("subDivision") String subDivision,@Param("facilityName") String facilityName,@Param("empty") String empty,
-			@Param("functionalLocationTypes") FunctionalLocationTypes functionalLocationTypes,@Param("fromDate") Date fromDate,@Param("toDate") Date toDate);
+	@Query(value = " select * from drives d where   d.depot_type = :functionalLocationTypes and ( d.functional_unit is null or d.functional_unit = :zone or d.functional_unit = :division or d.functional_unit = :subDivision or d.functional_unit = :facilityName ) and from_date <= :fromDate and (to_date >= :toDate or to_date is null) ",nativeQuery=true )
+	List<Drives> findByFunctionalUnitOrFunctionalUnitOrFunctionalUnitOrFunctionalUnitAndDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(
+			@Param("zone") String zone,@Param("division") String division,@Param("subDivision") String subDivision,@Param("facilityName") String facilityName,
+			@Param("functionalLocationTypes") Long functionalLocationTypes,@Param("fromDate") Date fromDate,@Param("toDate") Date toDate);
 
 
 

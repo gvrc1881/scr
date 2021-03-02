@@ -159,7 +159,7 @@ export class DriveDailyProgressComponent implements OnInit {
         +this.searchInputFormGroup.controls['fromDate'].value +'/' + this.searchInputFormGroup.controls['facilityId'].value +'/'+this.requestType
             ).subscribe((data) => {
                 this.drivesList = data;
-                console.log('*** data ****'+JSON.stringify(data));
+                // console.log('*** data ****'+JSON.stringify(data));
                 if(this.drivesList){
                   for (let i = 0; i < this.drivesList.length; i++) {
                     this.drivesList[i].sno = i + 1;

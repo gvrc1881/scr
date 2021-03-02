@@ -474,6 +474,8 @@ this.workName();
               this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_REPORT, this.reportModel, true)
                      .subscribe((response) => {
                             this.submitedForm = response;
+                            console.log('*** log ****'+JSON.stringify(this.submitedForm));
+                            let fileName = this.submitedForm.reportId;
                             let pdfWindow = window.open("download", "");
                             let content = encodeURIComponent(this.submitedForm.outputData);
                             let iframeEnd = "'><\/iframe>";
@@ -481,7 +483,8 @@ this.workName();
                                 let iframeStart = "<\iframe width='100%' height='100%' src='data:application/vnd.ms-excel;base64, ";
                                 pdfWindow.document.write(iframeStart + content + iframeEnd); 
                              }else {
-                                let iframeStart = "<\iframe width='100%' height='100%' src='data:application/pdf;base64, ";
+                                //let iframeStart = "<\iframe width='100%' height='100%' src='data:application/pdf;base64, ";application/octet-stream
+                             let iframeStart = "<\iframe  id= 'download' width='100%' height='100%' src='data:application/octet-stream;base64, ";
                                 pdfWindow.document.write(iframeStart + content + iframeEnd); 
                              }
                      },

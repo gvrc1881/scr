@@ -718,7 +718,7 @@ public class DrivesService {
 			logger.info("** in else condition size ***"+drivesList.size());
 		}*/
 		logger.info("** parameter values ***zone***"+facility.getZone()+"*** division***"+facility.getDivision()+"*** sub division***"+facility.getSubDivision()+"*** facility Name***"+facility.getFacilityName()+"*** depot type ***"+functionalLocationType.get());
-		drivesList = driveRepository.findByFunctionalUnitOrFunctionalUnitOrFunctionalUnitOrFunctionalUnitOrFunctionalUnitAndDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(facility.getZone(),facility.getDivision(),facility.getSubDivision(),facility.getFacilityName(),null,functionalLocationType.get(),fromDate,toDate);
+		drivesList = driveRepository.findByFunctionalUnitOrFunctionalUnitOrFunctionalUnitOrFunctionalUnitAndDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(facility.getZone(),facility.getDivision(),facility.getSubDivision(),facility.getFacilityName(),functionalLocationType.get().getId(),fromDate,toDate);
 		if (drivesList != null) {
 			for (Drives drives : drivesList) {
 				Optional<DriveTarget> driveTarget =driveTargetRepository.findByDriveIdAndUnitTypeAndUnitName(drives,facility.getDepotType(),facility.getFacilityName());
