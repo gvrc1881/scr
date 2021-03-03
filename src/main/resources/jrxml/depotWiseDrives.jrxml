@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="drives" pageWidth="1460" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="1420" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9dc6e324-fa21-4062-821e-33bcc6ca98b4">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="1012"/>
+	<property name="ireport.x" value="714"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="Depots" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="facilityId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="driveName" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -22,7 +25,7 @@ from
 	select code , drv_id ,  drv_name , drv_frequency,drive_category_name,report_sub_heading , report_order  ,report_display_id
 	from ( select code from division where zone_id = 10) div ,
 		  ( select dca.drv_id ,  dca.drv_name , drv_frequency,drive_category_name,dca.report_sub_heading , dca.report_order  ,
-		   dca.report_display_id  from v_drive_category_asso dca ) a
+		   dca.report_display_id  from v_drive_category_asso dca where drive_category_name = $P{driveName}) a
 	)b
 	left outer join
 		(select  drive_id ,  drv_name , unit_type, unit_name ,
@@ -64,7 +67,7 @@ from
 		<groupHeader>
 			<band height="20">
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="1420" height="20" uuid="1fcf54e5-c790-48c7-a752-a6e478a698eb"/>
+					<reportElement stretchType="RelativeToTallestObject" x="50" y="0" width="608" height="20" uuid="1fcf54e5-c790-48c7-a752-a6e478a698eb"/>
 					<box>
 						<pen lineWidth="0.75"/>
 						<topPen lineWidth="0.75"/>
@@ -75,8 +78,14 @@ from
 					<textElement textAlignment="Justified" verticalAlignment="Middle" markup="html">
 						<font size="12" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[" "+" "+$F{report_sub_heading}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{report_sub_heading}]]></textFieldExpression>
 				</textField>
+				<line>
+					<reportElement x="0" y="0" width="1" height="20" uuid="ff2a4ac0-206a-4613-a1ff-245035414ee1"/>
+				</line>
+				<line>
+					<reportElement x="1420" y="0" width="1" height="20" uuid="26b177da-0ef0-49a6-964e-534ded9b63e4"/>
+				</line>
 			</band>
 		</groupHeader>
 	</group>
@@ -120,11 +129,11 @@ from
 			<staticText>
 				<reportElement x="50" y="0" width="608" height="20" uuid="466d8d29-5307-49ff-b598-9c5a2a57eb6c"/>
 				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
@@ -213,7 +222,7 @@ from
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Div Code]]></text>
+				<text><![CDATA[Div]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="658" y="20" width="160" height="20" uuid="be0ab7e6-5ed5-46bc-a309-37011d7f4679"/>
