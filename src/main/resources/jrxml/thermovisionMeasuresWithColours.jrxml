@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="thermovisionMeasuresWithColours" pageWidth="1300" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="1260" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e579d3bc-e695-4d03-903b-d97ddd2e90d8">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="thermovisionMeasuresWithColours" pageWidth="1200" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="1160" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e579d3bc-e695-4d03-903b-d97ddd2e90d8">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -24,49 +24,241 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select
+		<![CDATA[Select tcps_facility_name ,  tcps_date , f_diff , tcpm_remark ,--cur.tcpm_tcp_schedule_id ,
+tcpm_date_of_retest ,	tcpm_thermovision_measure_id ,
+prev2_events, prev3_events,  prev4_events,
+cur_tcp_sch_id1, cur_tcp_sch_date1, Pre_tcp_sch_id1,Pre_tcp_sch_date1 , Pre_tcp_sch_id2, Pre_tcp_sch_date2 , Pre_tcp_sch_id3, Pre_tcp_sch_date3,tcpm_measure_point1 ,  tcpm_measure_point2
+
+from
+(
+select vtm.tcps_facility_id , vtm.tcps_facility_name , 	vtm.tcp_id as vtm_tcp_id ,
 case when (vtm.tcpm_measure_point1 is not null and vtm.tcpm_measure_point2 is not null) then
 abs(vtm.tcpm_measure_point1 - vtm.tcpm_measure_point2)  end as f_diff,
- vtm.tcp_id as vtm_tcp_id , vtm.tcp_display_order vtm_tcp_display_order, tcpm_tcp_schedule_id,
-vtm.tcpm_measure_point1 ,  vtm.tcpm_measure_point2 , vtm.tcps_facility_id ,vtm.tcpm_tcp_id ,vtm.tcpm_id,
-vtm.tcpm_image_id , vtm.tcpm_criticality, vtm.tcpm_remark , vtm.tcps_date::date tcps_date ,
-vtm.tcpm_date_of_retest ,	vtm.tcpm_thermovision_measure_id , tcps_date
+ vtm.tcp_display_order vtm_tcp_display_order, vtm.tcpm_tcp_schedule_id,
+vtm.tcpm_measure_point1 ,  vtm.tcpm_measure_point2  ,vtm.tcpm_tcp_id ,vtm.tcpm_id,
+--vtm.tcpm_image_id , vtm.tcpm_criticality,
+	vtm.tcpm_remark ,
+	vtm.tcps_date::date tcps_date , vtm.tcpm_tcp_schedule_id ,-- pre.tcpm_tcp_schedule_id ,
+vtm.tcpm_date_of_retest ,	vtm.tcpm_thermovision_measure_id , --,
+cur_tcp_sch_id1, cur_tcp_sch_date1, Pre_tcp_sch_id1,Pre_tcp_sch_date1 , Pre_tcp_sch_id2, Pre_tcp_sch_date2 , Pre_tcp_sch_id3, Pre_tcp_sch_date3
+--Pre_tcp_sch_id2, Pre_tcp_sch_date2 --, Pre_tcp_sch_id3, Pre_tcp_sch_date3,  Pre_tcp_sch_id4, Pre_tcp_sch_date4
 from v_thermovision_measures vtm
-where tcps_facility_id in ( select id from facility
-				      	where division = $P{division}
- and depot_type in ('SP', 'SSP', 'TSS')
+	--v_thermovision_measures pre1 ,
+inner join
+	(
+			select tcp_sch_id_date , tcps_facility_id ,-- tcpm_tcp_schedule_id,
+	prev_sch_count ,
+				case when split_part(tcp_sch_id_date, ',',  1 ) is not null then split_part( split_part(tcp_sch_id_date, ',',  1 ), ';', 1)::bigint end
+					 as cur_tcp_sch_id1,
+					case when split_part(tcp_sch_id_date, ',',  1 ) is not null then split_part( split_part(tcp_sch_id_date, ',',  1 ), ';', 2)::date
+					end as cur_tcp_sch_date1,
+				case when prev_sch_count >=2 then
+					case when split_part(tcp_sch_id_date, ',',  2 ) is not null then split_part( split_part(tcp_sch_id_date, ',', 2 ), ';', 1)::bigint end
+				else -1 end as Pre_tcp_sch_id1,
 
-and case when $P{Depots} != '' then id = $P{Depots}::integer
-else id is not null or id is null end)
-				and tcps_date::date  between $P{fromDate}::date and $P{toDate}::date
-				and case when (vtm.tcpm_measure_point1 is not null and vtm.tcpm_measure_point2 is not null) then
+				case when prev_sch_count >=2 then
+					case when split_part(tcp_sch_id_date, ',',  2 ) is not null then split_part( split_part(tcp_sch_id_date, ',',  2 ), ';', 2) end
+				else '' end as Pre_tcp_sch_date1 ,
+				case when prev_sch_count >=3 then
+					case when split_part(tcp_sch_id_date, ',',  3 ) is not null then split_part( split_part(tcp_sch_id_date, ',',  3 ), ';', 1)::bigint end
+				else -2 end as Pre_tcp_sch_id2,
+				case when prev_sch_count >=3 then
+					case when split_part(tcp_sch_id_date, ',',  3 ) is not null then split_part( split_part(tcp_sch_id_date, ',',  3 ), ';', 2) end
+				else '' end as Pre_tcp_sch_date2 ,
+				case when prev_sch_count >=4 then
+					case when split_part(tcp_sch_id_date, ',',  4 ) is not null then split_part( split_part(tcp_sch_id_date, ',',  4 ), ';', 1)::bigint end
+				else -3	end as Pre_tcp_sch_id3,
+				case when prev_sch_count >=4 then
+					case when split_part(tcp_sch_id_date, ',',  4 ) is not null then split_part( split_part(tcp_sch_id_date, ',',  4 ), ';', 2) end
+				else '' end as Pre_tcp_sch_date3
+
+				from (
+								select	string_agg(pre_tcps_id::character varying||';'||tcps_date::date , ',' order by tcps_date desc) tcp_sch_id_date
+								,tcps_facility_id ,tcpm_tcp_schedule_id , count(*) as prev_sch_count--,tcps_id
+								from (
+								select tcpm_tcp_schedule_id , tcps_date::date , a.tcps_id::character varying pre_tcps_id, tcps_facility_id --, sch_all.*, a.*
+									from
+									(select distinct tcpm_tcp_schedule_id from v_thermovision_measures vtm
+									where tcps_facility_id in  ( select id from facility
+where division = $P{division}
+and depot_type in ('SP', 'SSP', 'TSS')
+																--and id = 18473 ---  requested_station
+)
+and tcps_date::date  between $P{fromDate}::date and $P{toDate}::date
+and case when (vtm.tcpm_measure_point1 is not null and vtm.tcpm_measure_point2 is not null) then
+abs(vtm.tcpm_measure_point1 - vtm.tcpm_measure_point2) end > $P{tempDiff}::float  -- difference of measure1 and measure2
+												) sch_all,
+								(select ROW_NUMBER() OVER() seq ,cur_h.tcps_date::date ,cur_h.tcps_id ,tcps_facility_id
+								from v_tcp_schedule	cur_h 	-- schedule history before current schedule
+								order by tcps_id desc limit  4
+								) a
+								where tcpm_tcp_schedule_id >= tcps_id
+								order by tcpm_tcp_schedule_id, seq
+							)b
+							group by tcps_facility_id , tcpm_tcp_schedule_id  --, tcps_id
+						) psch
+) pre on (  vtm.tcpm_tcp_schedule_id = pre.cur_tcp_sch_id1)
+
+where  vtm.tcps_facility_id in  ( select id from facility
+				      		where division = $P{division}
+and depot_type in ('SP', 'SSP', 'TSS')
+				   	  		and case when $P{Depots} != '' then id = $P{Depots}::integer
+else id is not null or id is null end ---  requested_station
+							)
+and tcps_date::date  between $P{fromDate}::date and $P{toDate}::date
+and case when (vtm.tcpm_measure_point1 is not null and vtm.tcpm_measure_point2 is not null) then
 	abs(vtm.tcpm_measure_point1 - vtm.tcpm_measure_point2) end > $P{tempDiff}::float
+) cur
+
+left outer join
+(
+		select tcpm_tcp_schedule_id ,
+	tcpm_tcp_id::bigint ,--  tcpm_measure_point1 , tcpm_measure_point2,
+	replace(pre_events,',','') as prev2_events ,
+		case when split_part(pre_events, ';',  1 ) ='' then ''  else split_part(pre_events, ';',  1 )  end as prev2_event1,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 1) end as prev2_event1_date,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 3) end as prev2_event1_measure1,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 5) end as prev2_event1_measure2,
+		case when split_part(pre_events, ';',  2 ) ='' then ''  else split_part(pre_events, ';',  2 )  end as prev2_event2 ,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 1) end as prev2_event2_date,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 3) end as prev2_event2_measure1,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 5) end as prev2_event2_measure2,
+		case when split_part(pre_events, ';',  3 ) ='' then ''  else split_part(pre_events, ';',  3 )  end as prev2_event3 ,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 1) end as prev2_event3_date,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 3) end as prev2_event3_measure1,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 5) end as prev2_event3_measure2,
+		case when split_part(pre_events, ';',  4 ) ='' then ''  else split_part(pre_events, ';',  4 )  end as prev2_event4 ,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 1) end as prev2_event4_date1,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 3) end as prev2_event4_measure1,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 5) end as prev2_event4_measure1,
+		case when split_part(pre_events, ';',  5 ) ='' then ''  else split_part(pre_events, ';',  5 )  end as prev2_event5 ,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 1) end as prev2_event5_date1,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 3) end as prev2_event5_measure1,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 5) end as prev2_event5_measure1
+	from
+		(
+		select
+			string_agg(
+			case when pre2.tcpm_date_of_retest is NULL then pre2.tcps_date::date else pre2.tcpm_date_of_retest end||
+			' ['||pre2.tcpm_measure_point1||'/'||pre2.tcpm_measure_point2||']', ' ; ' order by pre2.tcpm_id)
+		 pre_events, pre2.tcpm_tcp_schedule_id , pre2.tcpm_tcp_id
+		from v_thermovision_measures  pre2
+		group by pre2.tcpm_tcp_schedule_id , pre2.tcpm_tcp_id
+	) a
+) pre2_m
+on (cur.Pre_tcp_sch_id1::bigint = pre2_m.tcpm_tcp_schedule_id and  cur.vtm_tcp_id = pre2_m.tcpm_tcp_id )
 
 
-]]>
+left outer join
+(
+		select tcpm_tcp_schedule_id , tcpm_tcp_id	,
+		replace(pre_events,',','') as prev3_events ,
+		case when split_part(pre_events, ';',  1 ) ='' then ''  else split_part(pre_events, ';',  1 )  end as prev3_event1,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 1) end as prev3_event1_date,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 3) end as prev3_event1_measure1,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 5) end as prev3_event1_measure2,
+		case when split_part(pre_events, ';',  2 ) ='' then ''  else split_part(pre_events, ';',  2 )  end as prev3_event2 ,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 1) end as prev3_event2_date,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 3) end as prev3_event2_measure1,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 5) end as prev3_event2_measure2,
+		case when split_part(pre_events, ';',  3 ) ='' then ''  else split_part(pre_events, ';',  3 )  end as prev3_event3 ,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 1) end as prev3_event3_date,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 3) end as prev3_event3_measure1,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 5) end as prev3_event3_measure2,
+		case when split_part(pre_events, ';',  4 ) ='' then ''  else split_part(pre_events, ';',  4 )  end as prev3_event4 ,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 1) end as prev3_event4_date1,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 3) end as prev3_event4_measure1,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 5) end as prev3_event4_measure1,
+		case when split_part(pre_events, ';',  5 ) ='' then ''  else split_part(pre_events, ';',  5 )  end as prev3_event5 ,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 1) end as prev3_event5_date1,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 3) end as prev3_event5_measure1,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 5) end as prev3_event5_measure1
+		from
+		(
+		select
+		case when  pre3.tcpm_tcp_schedule_id is not null then
+			string_agg (
+		case when pre3.tcpm_date_of_retest is null then pre3.tcps_date::date else pre3.tcpm_date_of_retest end||','||
+			' ['||','||pre3.tcpm_measure_point1||','||'/'||','||pre3.tcpm_measure_point2||','||']', ' ; ' order by pre3.tcpm_id)
+		else '  '  end as pre_events, pre3.tcpm_tcp_schedule_id , pre3.tcpm_tcp_id
+		from v_thermovision_measures  pre3
+		group by pre3.tcpm_tcp_schedule_id , pre3.tcpm_tcp_id
+
+		) a
+) pre3_m
+on (cur.Pre_tcp_sch_id2::bigint = pre3_m.tcpm_tcp_schedule_id and  cur.vtm_tcp_id = pre3_m.tcpm_tcp_id )
+
+
+left outer join
+(
+		select tcpm_tcp_schedule_id , tcpm_tcp_id	,
+		replace(pre_events,',','') as prev4_events ,
+		case when split_part(pre_events, ';',  1 ) ='' then ''  else split_part(pre_events, ';',  1 )  end as prev4_event1,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 1) end as prev4_event1_date,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 3) end as prev4_event1_measure1,
+		case when split_part(pre_events, ';',  1 ) is not null then split_part( split_part(pre_events, ';',  1 ), ',', 5) end as prev4_event1_measure2,
+		case when split_part(pre_events, ';',  2 ) ='' then ''  else split_part(pre_events, ';',  2 )  end as prev4_event2 ,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 1) end as prev4_event2_date,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 3) end as prev4_event2_measure1,
+		case when split_part(pre_events, ';',  2 ) is not null then split_part( split_part(pre_events, ';',  2 ), ',', 5) end as prev4_event2_measure2,
+		case when split_part(pre_events, ';',  3 ) ='' then ''  else split_part(pre_events, ';',  3 )  end as prev4_event3 ,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 1) end as prev4_event3_date,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 3) end as prev4_event3_measure1,
+		case when split_part(pre_events, ';',  3 ) is not null then split_part( split_part(pre_events, ';',  3 ), ',', 5) end as prev4_event3_measure2,
+		case when split_part(pre_events, ';',  4 ) ='' then ''  else split_part(pre_events, ';',  4 )  end as prev4_event4 ,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 1) end as prev4_event4_date1,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 3) end as prev4_event4_measure1,
+		case when split_part(pre_events, ';',  4 ) is not null then split_part( split_part(pre_events, ';',  4 ), ',', 5) end as prev4_event4_measure1,
+		case when split_part(pre_events, ';',  5 ) ='' then ''  else split_part(pre_events, ';',  5 )  end as prev5_event5 ,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 1) end as prev5_event5_date1,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 3) end as prev5_event5_measure1,
+		case when split_part(pre_events, ';',  5 ) is not null then split_part( split_part(pre_events, ';',  5 ), ',', 5) end as prev5_event5_measure1
+		from
+		(
+		select string_agg (
+		case when pre4.tcpm_date_of_retest is null then pre4.tcps_date::date else pre4.tcpm_date_of_retest end||','||
+			' ['||','||pre4.tcpm_measure_point1||','||'/'||','||pre4.tcpm_measure_point2||','||']', ' ; ' order by pre4.tcpm_id)
+		 pre_events, pre4.tcpm_tcp_schedule_id , pre4.tcpm_tcp_id
+		from v_thermovision_measures  pre4
+		group by pre4.tcpm_tcp_schedule_id , pre4.tcpm_tcp_id
+		) a
+) pre4_m
+on (cur.Pre_tcp_sch_id3::bigint = pre4_m.tcpm_tcp_schedule_id and  cur.vtm_tcp_id = pre4_m.tcpm_tcp_id )
+order by tcps_facility_name ,  tcps_date]]>
 	</queryString>
-	<field name="f_diff" class="java.lang.Double"/>
-	<field name="vtm_tcp_id" class="java.lang.Long"/>
-	<field name="vtm_tcp_display_order" class="java.lang.String"/>
-	<field name="tcpm_tcp_schedule_id" class="java.lang.Long"/>
-	<field name="tcpm_measure_point1" class="java.lang.Double"/>
-	<field name="tcpm_measure_point2" class="java.lang.Double"/>
-	<field name="tcps_facility_id" class="java.lang.Long"/>
-	<field name="tcpm_tcp_id" class="java.lang.Long"/>
-	<field name="tcpm_id" class="java.lang.Long"/>
-	<field name="tcpm_image_id" class="java.lang.String"/>
-	<field name="tcpm_criticality" class="java.lang.String"/>
-	<field name="tcpm_remark" class="java.lang.String"/>
+	<field name="tcps_facility_name" class="java.lang.String"/>
 	<field name="tcps_date" class="java.sql.Date"/>
+	<field name="f_diff" class="java.lang.Double"/>
+	<field name="tcpm_remark" class="java.lang.String"/>
 	<field name="tcpm_date_of_retest" class="java.sql.Date"/>
 	<field name="tcpm_thermovision_measure_id" class="java.lang.Long"/>
+	<field name="prev2_events" class="java.lang.String"/>
+	<field name="prev3_events" class="java.lang.String"/>
+	<field name="prev4_events" class="java.lang.String"/>
+	<field name="cur_tcp_sch_id1" class="java.lang.Long"/>
+	<field name="cur_tcp_sch_date1" class="java.sql.Date"/>
+	<field name="pre_tcp_sch_id1" class="java.lang.Long"/>
+	<field name="pre_tcp_sch_date1" class="java.lang.String"/>
+	<field name="pre_tcp_sch_id2" class="java.lang.Long"/>
+	<field name="pre_tcp_sch_date2" class="java.lang.String"/>
+	<field name="pre_tcp_sch_id3" class="java.lang.Long"/>
+	<field name="pre_tcp_sch_date3" class="java.lang.String"/>
+	<field name="tcpm_measure_point1" class="java.lang.Double"/>
+	<field name="tcpm_measure_point2" class="java.lang.Double"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="39" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="1260" height="39" uuid="4126da23-e19b-48b9-9703-319c0cc4a9fe"/>
+				<reportElement x="0" y="0" width="1160" height="39" uuid="4126da23-e19b-48b9-9703-319c0cc4a9fe"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="18" isBold="true"/>
 				</textElement>
@@ -94,7 +286,7 @@ else id is not null or id is null end)
 				<text><![CDATA[Sl No]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="123" y="0" width="300" height="20" uuid="48b12df9-95e0-45be-9a8f-3861024fd549"/>
+				<reportElement x="323" y="0" width="100" height="20" uuid="48b12df9-95e0-45be-9a8f-3861024fd549"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -108,7 +300,7 @@ else id is not null or id is null end)
 				<text><![CDATA[Measure Point1]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="423" y="0" width="300" height="20" uuid="bb831bba-b73d-4acc-8639-7a23bc3f2d48"/>
+				<reportElement x="423" y="0" width="100" height="20" uuid="bb831bba-b73d-4acc-8639-7a23bc3f2d48"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -122,7 +314,7 @@ else id is not null or id is null end)
 				<text><![CDATA[Measure Point2]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="723" y="0" width="237" height="20" uuid="fa375655-244c-416e-bc6a-68559ab98b45"/>
+				<reportElement x="574" y="0" width="286" height="20" uuid="fa375655-244c-416e-bc6a-68559ab98b45"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -147,10 +339,10 @@ else id is not null or id is null end)
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Depo]]></text>
+				<text><![CDATA[Depot]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="960" y="0" width="200" height="20" uuid="42bcc44d-1287-4c0d-8178-3b4c4996a9e0"/>
+				<reportElement x="123" y="0" width="100" height="20" uuid="42bcc44d-1287-4c0d-8178-3b4c4996a9e0"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -164,7 +356,7 @@ else id is not null or id is null end)
 				<text><![CDATA[Date of Retest]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1160" y="0" width="100" height="20" uuid="8108d175-1238-4646-b250-09e4ea931cb1"/>
+				<reportElement x="523" y="0" width="51" height="20" uuid="8108d175-1238-4646-b250-09e4ea931cb1"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -177,12 +369,68 @@ else id is not null or id is null end)
 				</textElement>
 				<text><![CDATA[Diff]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="860" y="0" width="100" height="20" uuid="d549c021-c806-42a3-a095-1ff239516511"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prev1 Events]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="960" y="0" width="100" height="20" uuid="f43e40e7-576a-4f66-bfd9-39d5c67a5e5e"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prev2 Events]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1060" y="0" width="100" height="20" uuid="06db718a-a124-40b9-a003-a5f1db8d87f2"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prev3 Events]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="223" y="0" width="100" height="20" uuid="e12ca86b-bab8-473e-a95f-7123527635c0"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sch Date]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="47" height="20" uuid="a57b573e-966e-4659-ab7c-b5b5a63aba54"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="47" height="20" uuid="a57b573e-966e-4659-ab7c-b5b5a63aba54"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -190,35 +438,11 @@ else id is not null or id is null end)
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="123" y="0" width="300" height="20" uuid="0ab2c257-6e93-4576-a565-55d1a17dc0e7"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA[$F{tcpm_measure_point1}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="423" y="0" width="300" height="20" uuid="82a335da-9842-43fd-a519-31473740db2f"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA[$F{tcpm_measure_point2}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="723" y="0" width="237" height="20" uuid="9d1098d9-e924-4871-bd58-ad6ed827afc0"/>
+				<reportElement stretchType="RelativeToTallestObject" x="574" y="0" width="286" height="20" uuid="9d1098d9-e924-4871-bd58-ad6ed827afc0"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -229,20 +453,8 @@ else id is not null or id is null end)
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$F{tcpm_remark}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="47" y="0" width="76" height="20" uuid="54625bcb-1c2a-4506-bac2-8768af50293a"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA[$F{tcps_facility_id}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="960" y="0" width="200" height="20" uuid="69d8e56f-2e1b-4c0c-9268-94eefd2182e4"/>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="123" y="0" width="100" height="20" uuid="69d8e56f-2e1b-4c0c-9268-94eefd2182e4"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -254,7 +466,7 @@ else id is not null or id is null end)
 				<textFieldExpression><![CDATA[$F{tcpm_date_of_retest}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="1160" y="0" width="100" height="20" uuid="f97a62fa-6762-4686-b022-d02ac22d7e14"/>
+				<reportElement stretchType="RelativeToTallestObject" x="523" y="0" width="51" height="20" uuid="f97a62fa-6762-4686-b022-d02ac22d7e14"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -264,6 +476,90 @@ else id is not null or id is null end)
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$F{f_diff}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="47" y="0" width="76" height="20" uuid="0701a889-2af2-453e-8c9e-620c1ebd1bec"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{tcps_facility_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="323" y="0" width="100" height="20" uuid="8899dd3c-bdb8-4279-9f0f-4513c80deb00"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{tcpm_measure_point1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="423" y="0" width="100" height="20" uuid="8e95d4a5-e0fd-4f0d-a23c-4d9a3c6fd39f"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{tcpm_measure_point2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="860" y="0" width="100" height="20" uuid="fc7a4d8a-fc50-45fa-94fa-c95abb080e1e"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{prev2_events}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="960" y="0" width="100" height="20" uuid="07d8a788-97d0-4ae5-ab0d-6b4dc16e12b7"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{prev3_events}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1060" y="0" width="100" height="20" uuid="adddfc72-e9d4-4b24-bbf9-77e9ca7cfbef"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{prev4_events}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="223" y="0" width="100" height="20" uuid="ef4c51bc-ad2b-4620-81c6-79363addc3eb"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{cur_tcp_sch_date1}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -301,7 +597,7 @@ else id is not null or id is null end)
 	<noData>
 		<band height="33">
 			<staticText>
-				<reportElement x="0" y="0" width="1260" height="33" forecolor="#ED0C2B" uuid="59c8d4c4-8208-49af-9fb9-0f5130b84291"/>
+				<reportElement x="0" y="0" width="1160" height="33" forecolor="#ED0C2B" uuid="59c8d4c4-8208-49af-9fb9-0f5130b84291"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
