@@ -3,10 +3,10 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="714"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="Depots" class="java.lang.String">
+	<parameter name="depot" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="facilityId" class="java.lang.String">
+	<parameter name="facilityName" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="driveName" class="java.lang.String">
@@ -35,7 +35,7 @@ from
 		 where drv_from_date >= fy_start_date
 		 and (drv_to_date is null or drv_to_date <= fy_end_date)
 		 and unit_type in ('OHE', 'PSI' , 'SP' , 'SSP', 'TSS')
-		 and unit_name =$P{Depots}
+		 and unit_name =$P{facilityName}
 		 )dt
 		 on (b.code = unit_name and b.drv_id = dt.drive_id and b.drv_name =dt.drv_name)
 	left outer join
@@ -44,7 +44,7 @@ from
 		from v_drive_daily_progress ddp, v_now_dd_mm_fy_data vn
 		where drv_from_date >= fy_start_date
 		and (drv_to_date is null or drv_to_date <= fy_end_date)
-	    	and depot = $P{facilityId}
+	    	and depot = $P{depot}
 		group by drive_id, drv_name , division , depot
 		) c on (b.code = division and b.drv_id = c.drive_id and b.drv_name =c.drv_name and  b.drv_name =c.depot )]]>
 	</queryString>
