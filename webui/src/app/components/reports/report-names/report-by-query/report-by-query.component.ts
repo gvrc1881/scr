@@ -12,6 +12,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 import { Location } from '@angular/common';
 import { FacilityModel } from 'src/app/models/facility.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
        selector: 'app-report-by-query',
@@ -84,6 +85,7 @@ export class ReportByQueryComponent implements OnInit {
               private formBuilder: FormBuilder,
               private location: Location,
               private router: Router,
+              private datePipe: DatePipe,
               private sendAndRequestService: SendAndRequestService,
               private previousRouterUrl: PreviousRouteService) { }
 
@@ -219,7 +221,7 @@ this.workName();
               const facilityData: ReportParameterModel[] = [];
               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES).subscribe((data) => {
                      this.facilityData = data;
-                     console.log("facility name******"+JSON.stringify(this.facilityData));
+                    // console.log("facility name******"+JSON.stringify(this.facilityData));
               }
               );
 
@@ -271,7 +273,7 @@ this.workName();
                      this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY.GET_DRIVE_CATEGORY).subscribe((data) => {
                             this.driveNameData = data;
 
-                            console.log('** name driveName***'+this.driveNameData);
+                           // console.log('** name driveName***'+this.driveNameData);
                      }
                      );
        
@@ -474,18 +476,33 @@ this.workName();
               this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_REPORT, this.reportModel, true)
                      .subscribe((response) => {
                             this.submitedForm = response;
-                            console.log('*** log ****'+JSON.stringify(this.submitedForm));
+                            // console.log('*** log ****'+JSON.stringify(this.submitedForm));
                             let fileName = this.submitedForm.reportId;
+                           /* it is working for iframe concept 
                             let pdfWindow = window.open("download", "");
                             let content = encodeURIComponent(this.submitedForm.outputData);
                             let iframeEnd = "'><\/iframe>";
-                         if('Microsoft Excel' === this.reportModel.formatType ) {
-                                let iframeStart = "<\iframe width='100%' height='100%' src='data:application/vnd.ms-excel;base64, ";
-                                pdfWindow.document.write(iframeStart + content + iframeEnd); 
+                            */
+                            var link = document.createElement("a");
+                            if('Microsoft Excel' === this.reportModel.formatType ) {
+                               link.href = 'data:application/vnd.ms-excel;base64,' +encodeURIComponent(this.submitedForm.outputData) ;
+                                link.download = fileName+"_"+this.datePipe.transform(new Date(), 'dd-MM-yyyy hh:mm:ss')+".xlsx";
+                                link.click();
+                                
+                                // let iframeStart = "<\iframe width='100%' height='100%' src='data:application/vnd.ms-excel;base64, ";
+                               // pdfWindow.document.write(iframeStart + content + iframeEnd);
+                              
                              }else {
-                                //let iframeStart = "<\iframe width='100%' height='100%' src='data:application/pdf;base64, ";application/octet-stream
-                             let iframeStart = "<\iframe  id= 'download' width='100%' height='100%' src='data:application/octet-stream;base64, ";
-                                pdfWindow.document.write(iframeStart + content + iframeEnd); 
+                                link.href = 'data:application/octet-stream;base64,' +encodeURIComponent(this.submitedForm.outputData) ;
+                                link.download = fileName+"_"+this.datePipe.transform(new Date(), 'dd-MM-yyyy hh:mm:ss')+".pdf";
+                                link.click();
+                              
+                                // showing result in the new tab 
+                               //let iframeStart = "<\iframe width='100%' height='100%' src='data:application/pdf;base64, ";application/octet-stream
+                              // let iframeStart = "<\iframe   width='100%' height='100%' src='data:application/octet-stream;base64,";
+                             //  pdfWindow.document.write(iframeStart + content + iframeEnd); 
+                             
+                            
                              }
                      },
                             error => error => {

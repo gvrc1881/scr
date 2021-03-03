@@ -7,6 +7,8 @@ import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FacilityModel } from 'src/app/models/facility.model';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+import {  DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 
 
 
@@ -14,7 +16,15 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 @Component({
   selector: 'app-add-power-block',
   templateUrl: './add-power-block.component.html',
-  styleUrls: []
+  styleUrls: [],
+  providers: [
+    {
+        provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+    ]
 })
 export class AddPowerBlockComponent implements OnInit {
 

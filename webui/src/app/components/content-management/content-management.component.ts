@@ -217,6 +217,7 @@ export class ContentManagementComponent implements OnInit {
                 this.getUploadedFiles();
                 this.showButton = false;
                 this.contentManagementFormGroup.reset();
+                this.isSubmit = false;
             }, error => {
                 console.log('ERROR >>>');
                 this.spinnerService.hide();
