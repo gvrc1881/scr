@@ -27,6 +27,11 @@ public interface AssetSchAssoRepository extends JpaRepository<AssetScheduleAssoc
 	Optional<AssetScheduleAssoc> findByTargetPlanMonths(String seqId);
 	
 	List<AssetScheduleAssoc> findByIsDpr(String isDpr);
+	
+	@Query(value ="select * from asset_schedule_assoc asa,product_category_member pcm where pcm.product_category_id ='OHE_FIXED_ASSET' and asa.asset_type = pcm.product_id and asa.is_dpr='Y'",nativeQuery=true)
+	List<AssetScheduleAssoc> getAssetTypesAndSchedules();
+
+
 
 
 	

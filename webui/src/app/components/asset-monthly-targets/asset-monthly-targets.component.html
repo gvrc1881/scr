@@ -17,11 +17,11 @@
             		<div class="panel-heading">Asset Monthly Targets</div>
             		<div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
-                            <div class="p-24" style="text-align: right" *ngIf="addPermission">
+                            <!-- <div class="p-24" style="text-align: right" *ngIf="addPermission">
                                 <button class="mat-raised-button mat-accent" color="accent" mat-raised-button="" 
                                     [routerLink]="['add-asset-monthly-targets']"> 
                                     Add AMT
-                                </button></div>
+                                </button></div> -->
                         </div>
             			<div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
                     		<form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" fxLayout="column"
@@ -30,7 +30,7 @@
 		            			<div class="col-md-3">
 		                    		<mat-form-field fxFlex="30" class="example-full-width">
 		                    			<mat-select  placeholder="{{FiledLabels.DEPOT}}" [formControl]="searchInputFormGroup.controls['facilityId']" required>
-		                    				<mat-option *ngFor="let facilityData of originalDepotsData"
+		                    				<mat-option *ngFor="let facilityData of facilityList"
 		                    					[value]="facilityData.facilityId">
 		                    					{{ facilityData.facilityName }}
 		                    				</mat-option>

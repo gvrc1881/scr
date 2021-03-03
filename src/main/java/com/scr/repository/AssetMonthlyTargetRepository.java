@@ -30,4 +30,9 @@ public interface AssetMonthlyTargetRepository extends JpaRepository<AssetMonthly
 			@Param("schCode") String schCode, @Param("facilityId") String facilityId,
 			@Param("financialYear") String financialYear);
 
+	Optional<AssetMonthlyTarget> findByFacilityIdAndYearAndAssetTypeAndScheduleType(String facilityId, String year,
+			String assetType, String scheduleCode);
+
+	
+
 }

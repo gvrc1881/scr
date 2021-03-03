@@ -316,4 +316,17 @@ public class AssetMonthlyTarget implements Serializable {
 		this.totalPopulation = totalPopulation;
 	}
 
+	@Override
+	public String toString() {
+		return "AssetMonthlyTarget [id=" + id + ", assetType=" + assetType + ", createdBy=" + createdBy + ", createdOn="
+				+ createdOn + ", createdStamp=" + createdStamp + ", createdTxStamp=" + createdTxStamp + ", dataDiv="
+				+ dataDiv + ", elementarySection=" + elementarySection + ", facilityId=" + facilityId
+				+ ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp
+				+ ", scheduleType=" + scheduleType + ", seqId=" + seqId + ", totalPopulation=" + totalPopulation
+				+ ", targetApr=" + targetApr + ", targetAug=" + targetAug + ", targetDec=" + targetDec + ", targetFeb="
+				+ targetFeb + ", targetJan=" + targetJan + ", targetJuly=" + targetJuly + ", targetJune=" + targetJune
+				+ ", targetMar=" + targetMar + ", targetMay=" + targetMay + ", targetNov=" + targetNov + ", targetOct="
+				+ targetOct + ", targetSep=" + targetSep + ", year=" + year + "]";
+	}
+
 }
