@@ -10,12 +10,13 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name = "status_item" , uniqueConstraints={@UniqueConstraint(name = "old_pk_status_item_uniq", columnNames ={"status_id"})})
+@Table(name = "status_item")
 @NamedQuery(name="StatusItem.findAll", query="SELECT s FROM StatusItem s")
 public class StatusItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name="created_stamp")

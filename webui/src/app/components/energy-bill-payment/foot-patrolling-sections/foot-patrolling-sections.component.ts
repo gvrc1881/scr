@@ -294,6 +294,8 @@ export class FootPatrollingSectionsComponent implements OnInit{
           { label:FieldLabelsConstant.LABELS.TO_LOCATION, value:data.toLocation },
           { label:FieldLabelsConstant.LABELS.FROM_DATE, value:data.fromDate },
           { label:FieldLabelsConstant.LABELS.TO_DATE, value:data.toDate },
+          { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks },
+
 
         ]
       }
