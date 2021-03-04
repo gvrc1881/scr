@@ -84,8 +84,12 @@ export class SwitchOperationComponent implements OnInit {
             this.sectionCode = this.powerBlockData.elementarySectionCode;
               this.section = this.powerBlockData.section;
               this.requestedBy = this.powerBlockData.reqnBy;
-              this.getPtwIssueWithExistDate(new Date(this.powerBlockData.ptwAvailedFromDateTime));
-              this.getPtwReturnWithExistDate(new Date(this.powerBlockData.ptwAvailedThruDateTime))
+              if(this.powerBlockData.ptwAvailedFromDateTime) {
+                this.getPtwIssueWithExistDate(new Date(this.powerBlockData.ptwAvailedFromDateTime));                  
+              }
+              if(this.powerBlockData.ptwAvailedThruDateTime) {
+                this.getPtwReturnWithExistDate(new Date(this.powerBlockData.ptwAvailedThruDateTime))    
+              }
               this.fieldNoPtwIssue = this.powerBlockData.fieldNoPtwIssue;
               this.fieldNoPtwReturn = this.powerBlockData.fieldNoPtwReturn;
               this.tpcNoPtwIssue = this.powerBlockData.tpcNoPtwIssue;
@@ -180,10 +184,10 @@ export class SwitchOperationComponent implements OnInit {
             this.spinnerService.hide();
             this.resp = response;
             if (this.resp.code == Constants.CODES.SUCCESS) {
-            this.commonService.showAlertMessage("Switch Maintenence History Data  Successfully");
+            this.commonService.showAlertMessage("Switch Maintenance Data Saved  Successfully");
             //this.router.navigate(['../'], { relativeTo: this.route });
             }else{
-              this.commonService.showAlertMessage("Switch Maintenence History  Failed.");
+              this.commonService.showAlertMessage("Switch Maintenance Data   Failed.");
             }
             
        });
@@ -274,6 +278,5 @@ export class SwitchOperationComponent implements OnInit {
         var max = 99;
         return Math.floor(Math.random() * (max + 1));
     }
-	
 	
 }

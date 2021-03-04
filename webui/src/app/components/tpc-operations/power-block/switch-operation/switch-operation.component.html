@@ -14,11 +14,17 @@
 	 		 <div class="clear"> </div>
              <div class="row-fluid">
              	<div class="panel panel-primary">
-             		<div class="panel-heading">Switch Operation Information</div>
+             		<div class="panel-heading">Switch Operation Information
+             			<div class="float-right" style="float: right;">
+             				<span [routerLink]="['/powerBlocks']" color="warn" mat-raised-button="">
+             				<mat-icon>arrow_back_ios</mat-icon>
+                            </span> 
+                        </div>                                
+             		</div>
              		<div class="panel-body">
              			<div class="alert alert-info" role="alert">
 						  <strong><b>Power Block Details</b></strong><br><strong>Depot: </strong>{{depot}} <strong> Section: </strong>{{powerBlockData.section}} 
-						  <strong> Section Code: </strong>{{powerBlockData.elementarySectionCode}} <strong> Request By:</strong>{{powerBlockData.reqnBy}} 
+						  <strong> Section Code: </strong>{{powerBlockData.elementarySectionCode}} <strong> Request By:</strong>{{powerBlockData.reqnBy}}
 						</div>
              		</div>
              		<div class="clear"> </div>

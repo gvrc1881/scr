@@ -32,7 +32,7 @@
                                                 	<!-- Created Date -->
                                                 	<div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
-                                                                <input matInput [matDatepicker]="picker" placeholder="{{FiledLabels.DATE}}" [formControl]="addPowerBlockFormGroup.controls['createdDate']">
+                                                                <input matInput [matDatepicker]="picker" placeholder="{{FiledLabels.DATE}}" [formControl]="addPowerBlockFormGroup.controls['createdDate']" required>
                                                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                                     <mat-datepicker #picker  ></mat-datepicker> 
                                                               </mat-form-field>
@@ -41,7 +41,7 @@
                                                 	<div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <mat-select placeholder="{{FiledLabels.DEPOT}}"
-                                                                [formControl]="addPowerBlockFormGroup.controls['facilityId']">
+                                                                [formControl]="addPowerBlockFormGroup.controls['facilityId']" required>
                                                                 <mat-option *ngFor="let facility of facilityList"
                                                                     [value]="facility.facilityId">
                                                                     {{ facility.facilityName}}
@@ -53,7 +53,7 @@
                                                     <div *ngIf="!update; else updateSectionEleBlock">
 														<div class="col-md-3">
 															<label>Section : </label> 
-																<mat-radio-group [formControl]="addPowerBlockFormGroup.controls['section']"  (ngModelChange)="findPBSections()" aria-label="Select an option">
+																<mat-radio-group [formControl]="addPowerBlockFormGroup.controls['section']"  (ngModelChange)="findPBSections()" aria-label="Select an option" >
 																  <mat-radio-button [checked]="true" value="eleSection">ES</mat-radio-button>
 																  <mat-radio-button  value="subSector">Sub Sector</mat-radio-button>
 																  <mat-radio-button  value="sector">Sector</mat-radio-button>
@@ -145,13 +145,13 @@
                                                 <div class="col-md-3 mt-15">
                                                     <div class="float-right" style="float: right;">
                                                         <button class="mat-raised-button mat-accent" color="accent"
-                                                            class="d-inline" mat-raised-button="" type="submit"
+                                                            class="d-inline" mat-raised-button=""  [disabled]="addPowerBlockFormGroup.invalid" type="submit"
                                                              *ngIf="save">
                                                           {{title}}
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             color="accent"
-                                                            mat-raised-button="" *ngIf="update">
+                                                            mat-raised-button="" [disabled]="addPowerBlockFormGroup.invalid" *ngIf="update">
                                                            {{title}}
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"
