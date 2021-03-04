@@ -61,7 +61,7 @@ export const FieldLabelsConstant = {
       BRAND_NAME: "Brand Name",
       CASCADE_ASSETS: "Cascade Assets",
       CATEGORY_NAME: "Category Name",
-      CAUSE_OF_FAILURE: "Cause Of Failure",
+      CAUSE_OF_FAILURE: "Failure Description",
       CHAINAGE: "Chainage",
       CHAINAGE_REMARK: "Chainage Remark",
       CHARGING_DATE: "Charging Date",

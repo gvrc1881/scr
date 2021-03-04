@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="uuo" pageWidth="1000" pageHeight="800" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="59001b31-3ab0-4b62-83e5-32e51fe30200">
 	<property name="ireport.zoom" value="0.9090909090909091"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="161"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -10,7 +10,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select  $P{fromDate} as fromDate, sequence_id ,status_code ,   special_remarks , zone, division,
+		<![CDATA[select  $P{fromDate} as fromDate, sequence_id ,status_code ,   special_remarks , zone, division,cause_of_failure,
 major_section, minor_section, sub_station,facility_id, facility_name, location , faci_id
 from
 (
@@ -48,7 +48,7 @@ union all
 	and Upper(faci.failure_activity) = status_code
 )	final ,
 (
-	select fac.zone, fac.division,f.major_section, f.minor_section,
+	select fac.zone, fac.division,f.major_section, f.minor_section,f.cause_of_failure,
 	f.sub_station,fac.facility_id, fac.facility_name, f.location
 	from 	failures f, facility fac
 	where type_of_failure='UNUSUAL_OCCURENCE'
@@ -65,6 +65,7 @@ order by sequence_id::integer , faci_id]]>
 	<field name="special_remarks" class="java.lang.String"/>
 	<field name="zone" class="java.lang.String"/>
 	<field name="division" class="java.lang.String"/>
+	<field name="cause_of_failure" class="java.lang.String"/>
 	<field name="major_section" class="java.lang.String"/>
 	<field name="minor_section" class="java.lang.String"/>
 	<field name="sub_station" class="java.lang.String"/>
@@ -76,7 +77,7 @@ order by sequence_id::integer , faci_id]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="114" splitType="Stretch">
+		<band height="134" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="960" height="37" uuid="15a20f55-12b2-40b0-9c45-19a71b4a9604"/>
 				<box>
@@ -92,52 +93,68 @@ order by sequence_id::integer , faci_id]]>
 				<text><![CDATA[Unusual Occurence Report]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="75" width="100" height="20" uuid="9e305235-f72e-42f4-a8a7-a4e38c4e8ca7"/>
+				<reportElement x="0" y="95" width="100" height="20" uuid="9e305235-f72e-42f4-a8a7-a4e38c4e8ca7"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Major Section :]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="802" y="36" width="158" height="20" uuid="fad0ef5b-61f3-4c15-a21b-f19616d74425"/>
+				<reportElement x="802" y="56" width="158" height="20" uuid="fad0ef5b-61f3-4c15-a21b-f19616d74425"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="702" y="36" width="100" height="20" uuid="10e86ead-931b-44b0-8a38-db4bcb496e26"/>
+				<reportElement x="702" y="56" width="100" height="20" uuid="10e86ead-931b-44b0-8a38-db4bcb496e26"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Date :]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="100" y="75" width="294" height="20" uuid="7026bcdc-8a79-4a0a-ba3f-def0239cbaa0"/>
+				<reportElement x="100" y="95" width="294" height="20" uuid="7026bcdc-8a79-4a0a-ba3f-def0239cbaa0"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{minor_section}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="100" y="94" width="294" height="20" uuid="dcb300f5-56ed-4bf1-9b77-feb52c8c4f6b"/>
+				<reportElement x="100" y="114" width="294" height="20" uuid="dcb300f5-56ed-4bf1-9b77-feb52c8c4f6b"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{major_section}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="94" width="100" height="20" uuid="5d563184-58ef-424d-ae7b-fa042ffa168b"/>
+				<reportElement x="0" y="114" width="100" height="20" uuid="5d563184-58ef-424d-ae7b-fa042ffa168b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Minor Section :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="55" width="100" height="20" uuid="3de68bf1-41b1-4f64-8900-a848c1ad2fb4"/>
+				<reportElement x="0" y="75" width="100" height="20" uuid="3de68bf1-41b1-4f64-8900-a848c1ad2fb4"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Division :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="100" y="55" width="294" height="20" uuid="b8c05021-38ef-41ab-8da2-11f9e88104bc"/>
+				<reportElement x="100" y="75" width="294" height="20" uuid="b8c05021-38ef-41ab-8da2-11f9e88104bc"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{division}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="56" width="294" height="20" uuid="734ea282-f60f-4b06-9693-a5aaf90d1041"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{zone}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="56" width="100" height="20" uuid="45b189c2-29f4-470d-b44a-2cb5acda9f5e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Zone :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="36" width="960" height="20" uuid="5c238bc9-0ed7-4b4c-953d-ceb6e73feab2"/>
+				<textFieldExpression><![CDATA[$F{cause_of_failure}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
