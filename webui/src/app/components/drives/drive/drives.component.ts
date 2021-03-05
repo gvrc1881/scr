@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource, MatDialogRef, MatDialog } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatDialogRef, MatDialog, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DriveModel, DriveCategoryModel, DriveCategoryAssoModel } from 'src/app/models/drive.model';
@@ -13,6 +13,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FuseConfirmPopupComponent } from '../../confirm-popup/confirm-popup.component';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 import { DocumentDialogComponent } from '../../document-view-dialog/document-dialog.component';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 
 
 
@@ -467,6 +468,14 @@ export class DrivesComponent implements OnInit {
 @Component({
   selector: 'copy-drives',
   templateUrl: 'copy-drives.component.html',
+   providers: [
+    {
+        provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+    ]
 })
 export class CopyDrivesComponent implements OnInit {
   FiledLabels = FieldLabelsConstant.LABELS;
@@ -499,9 +508,11 @@ export class CopyDrivesComponent implements OnInit {
     this.getDriveCategoryData();
     this.createDrives = false;
     this.driveFormGroup = this.formBuilder.group({
-      driveCategory: [null],
+      driveCategory: [null, Validators.compose([Validators.required]) ],
       newDriveName: [null],
-      oldDriveName: [null]
+      oldDriveName: [null],
+      fromDate: [null, Validators.compose([Validators.required]) ],
+      toDate:[null]
     })
     this.year = new Date().getFullYear();
   }
@@ -538,6 +549,7 @@ export class CopyDrivesComponent implements OnInit {
                 this.selectedDrives = [];
                 this.drivesList = [];
                 this.createDrives = false;
+                this.driveFormGroup.reset();
                 this.getDriveCategoryData();
               }, error => {
                 console.log('ERROR >>>');
@@ -575,6 +587,12 @@ export class CopyDrivesComponent implements OnInit {
           this.drivesList[i].sno = i + 1;
           this.drivesList[i].index = i;
           this.drivesList[i].driveId.name = this.drivesList[i].driveId.name
+          this.drivesList[i].driveId.fromDate = this.driveFormGroup.controls['fromDate'].value;
+          if(this.driveFormGroup.controls['toDate'].value) {
+            this.drivesList[i].driveId.toDate = this.driveFormGroup.controls['toDate'].value;    
+          }else {
+            this.drivesList[i].driveId.toDate = null;
+          }
           this.drivesList[i].newDriveName = this.drivesList[i].driveId.name + '_' + this.year
           this.allDrives.push(this.drivesList[i]);
         }
