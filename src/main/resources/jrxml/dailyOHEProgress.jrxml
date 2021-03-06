@@ -6,8 +6,11 @@
 	<parameter name="date" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="division" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[select b.facility_id , b.depot_name ,division , tg.facility_name,$P{date} as date, atd_aoh_ct,atd_poh_ct,crossover_aoh_ct,gantry_aoh_ct,mcl_aoh_ct,mcl_poh_ct,
+		<![CDATA[select b.facility_id , b.depot_name ,division , tg.facility_name, $P{date}::date as date, atd_aoh_ct,atd_poh_ct,crossover_aoh_ct,gantry_aoh_ct,mcl_aoh_ct,mcl_poh_ct,
 overlap_aoh_ct,ptfe_aoh_ct,scl_aoh_ct,scl_poh_ct,si_aoh_ct,sm_aoh_ct,turnout_aoh_ct,
 	tm_atd_aoh, ctm_atd_aoh,tm_atd_poh, ctm_atd_poh, tm_crossover_aoh, ctm_crossover_aoh, tm_gantry_aoh , ctm_gantry_aoh,
 	tm_mcl_aoh ,ctm_mcl_aoh,tm_mcl_poh,ctm_mcl_poh,tm_overlap_aoh,ctm_overlap_aoh,tm_ptfe_aoh,ctm_ptfe_aoh,tm_scl_aoh,ctm_scl_aoh,
@@ -53,9 +56,16 @@ overlap_aoh_ct,ptfe_aoh_ct,scl_aoh_ct,scl_poh_ct,si_aoh_ct,sm_aoh_ct,turnout_aoh
 		case when si_aoh  is null then 0 else  si_aoh end as  si_aoh ,
 		case when sm_aoh  is null then 0 else sm_aoh end as sm_aoh  ,
 		case when turnout_aoh  is null then 0 else turnout_aoh end as turnout_aoh
+
+
 from
 	( select facility_id , facility_name depot_name , division
 	from facility where zone = 'SCR' and depot_type='OHE'
+	-- -- change on 5th Mar 2021 -- add division parameter if __division is null then all related to Zone
+	 and case when $P{division} != '' then division =$P{division}
+           else division is not null or division is null end
+
+	 --and facility_id = '10064'  --'ALER_OHE'
 	) b
 	left outer join
 		(
@@ -66,14 +76,11 @@ from
 				SUM(case when asset_type_schedule = 'atd_aoh' then TM end)::integer -
 				SUM(case when asset_type_schedule = 'atd_aoh' then cum_TM end)  as atd_aoh_ct,
 
-
 				SUM(case when asset_type_schedule = 'atd_poh' then TM end)   as tm_atd_poh ,
 				SUM(case when asset_type_schedule = 'atd_poh' then cum_TM end) as  ctm_atd_poh,
 
-
 				SUM(case when asset_type_schedule = 'atd_poh' then TM end)::integer -
 				SUM(case when asset_type_schedule = 'atd_poh' then cum_TM end) as  atd_poh_ct,
-
 
 				SUM(case when asset_type_schedule = 'crossover_aoh' then TM end) as tm_crossover_aoh ,
 				SUM(case when asset_type_schedule = 'crossover_aoh' then cum_TM end) as ctm_crossover_aoh,
@@ -81,15 +88,11 @@ from
 				SUM(case when asset_type_schedule = 'crossover_aoh' then TM end)::integer -
 				SUM(case when asset_type_schedule = 'crossover_aoh' then cum_TM end)::integer as crossover_aoh_ct,
 
-
 				SUM(case when asset_type_schedule = 'gantry_aoh' then TM end) as tm_gantry_aoh ,
 				SUM(case when asset_type_schedule = 'gantry_aoh' then cum_TM end) as ctm_gantry_aoh,
 
-
 				SUM(case when asset_type_schedule = 'gantry_aoh' then TM end)::integer -
 				SUM(case when asset_type_schedule = 'gantry_aoh' then cum_TM end)::integer as gantry_aoh_ct,
-
-
 
 				SUM(case when asset_type_schedule = 'mcl_aoh' then TM end) tm_mcl_aoh ,
 				SUM(case when asset_type_schedule = 'mcl_aoh' then cum_TM end) as ctm_mcl_aoh,
@@ -103,20 +106,17 @@ from
 				SUM(case when asset_type_schedule = 'mcl_poh' then TM end)::integer -
 				SUM(case when asset_type_schedule = 'mcl_poh' then cum_TM end)::integer as mcl_poh_ct,
 
-
 				SUM(case when asset_type_schedule = 'overlap_aoh' then TM end) as tm_overlap_aoh ,
 				SUM(case when asset_type_schedule = 'overlap_aoh' then cum_TM end) as ctm_overlap_aoh,
 
 				SUM(case when asset_type_schedule = 'overlap_aoh' then TM end)::integer -
 				SUM(case when asset_type_schedule = 'overlap_aoh' then cum_TM end)::integer as overlap_aoh_ct,
 
-
 				SUM(case when asset_type_schedule = 'ptfe_aoh' then TM end) as tm_ptfe_aoh ,
 				SUM(case when asset_type_schedule = 'ptfe_aoh' then cum_TM end) as ctm_ptfe_aoh,
 
 				SUM(case when asset_type_schedule = 'ptfe_aoh' then TM end)::integer -
 				SUM(case when asset_type_schedule = 'ptfe_aoh' then cum_TM end)::integer as ptfe_aoh_ct,
-
 
 				SUM(case when asset_type_schedule = 'scl_aoh' then TM end)  as tm_scl_aoh ,
 				SUM(case when asset_type_schedule = 'scl_aoh' then cum_TM end) as ctm_scl_aoh,
@@ -130,18 +130,14 @@ from
 				SUM(case when asset_type_schedule = 'scl_poh' then TM end)::integer -
 				SUM(case when asset_type_schedule = 'scl_poh' then cum_TM end)::integer  as scl_poh_ct,
 
-
 				SUM(case when asset_type_schedule = 'si_aoh' then TM end) as tm_si_aoh ,
 				SUM(case when asset_type_schedule = 'si_aoh' then cum_TM end) as ctm_si_aoh,
 
 				SUM(case when asset_type_schedule = 'si_aoh' then TM end)::integer -
 				SUM(case when asset_type_schedule = 'si_aoh' then cum_TM end)::integer as si_aoh_ct,
 
-
-
 				SUM(case when asset_type_schedule = 'sm_aoh' then TM end) as tm_sm_aoh ,
 				SUM(case when asset_type_schedule = 'sm_aoh' then cum_TM end) as ctm_sm_aoh,
-
 
 				SUM(case when asset_type_schedule = 'sm_aoh' then TM end)::integer -
 				SUM(case when asset_type_schedule = 'sm_aoh' then cum_TM end)::integer as sm_aoh_ct,
@@ -183,7 +179,7 @@ from
 								 when mm = 2 then cum_target_feb
 								 when mm = 3 then cum_target_mar
 							end as cum_TM
-							from v_asset_monthly_targets , date_dd_mm_fy_details($P{date}::date) dt
+							from v_asset_monthly_targets , date_dd_mm_fy_details( $P{date}::date ) dt
 							where FY =fy_yyyyyy
 							and depot_type= 'OHE'
 							order by facility_name
@@ -193,9 +189,8 @@ from
 		) tg
 		 on (b.depot_name = facility_name )
 	left outer join
-
-	(
-		select adp.date::date , adp.fy_yyyy adp_fy_yyyy, fac_id, facility_id, facility_name ,
+	(  -- -- change on 5th Mar 2021 remove the -- adp.date::date in select and group
+		select adp.fy_yyyy adp_fy_yyyy, fac_id, facility_id, facility_name , -- adp.date::date ,
 		case when sum(atd_aoh) is null then 0 else sum(atd_aoh) end as FY_atd_aoh ,
 		case when sum(atd_poh) is null then 0 else sum(atd_poh) end as FY_atd_poh ,
 		case when sum(crossover_aoh) is null then 0 else sum(crossover_aoh) end as FY_crossover_aoh ,
@@ -209,15 +204,16 @@ from
 		case when sum(si_aoh) is null then 0 else sum(si_aoh) end as FY_si_aoh ,
 		case when sum(sm_aoh) is null then 0 else sum(sm_aoh) end as FY_sm_aoh ,
 		case when sum(turnout_aoh) is null then 0 else sum(turnout_aoh) end as FY_turnout_aoh
-		from v_ash_daily_progress adp,  date_dd_mm_fy_details($P{date}::date) dt
+		from v_ash_daily_progress adp,  date_dd_mm_fy_details( $P{date}::date) dt
 		where adp.fy_yyyy = dt.fy_yyyy
-		group by adp.date::date , fac_id,  facility_id, facility_name , adp.fy_yyyy
+		-- -- change on 5th Mar 2021 remove the -- adp.date::date in select and group
+		group by  fac_id,  facility_id, facility_name , adp.fy_yyyy -- adp.date::date ,
 	 ) FY
 	 on (b.depot_name = fy.facility_name   )
 
 	left outer join
-		(
-			select adp.date::date , adp.fy_yyyy adp_fy_yyyy, adp.mm adp_mm, fac_id,  facility_id, facility_name ,
+		( -- -- change on 5th Mar 2021 remove the -- adp.date::date in select and group
+			select  adp.fy_yyyy adp_fy_yyyy, adp.mm adp_mm, fac_id,  facility_id, facility_name , -- adp.date::date ,
 			case when sum(atd_aoh) is null then 0 else sum(atd_aoh) end as mon_atd_aoh ,
 			case when sum(atd_poh) is null then 0 else sum(atd_poh) end as mon_atd_poh ,
 			case when sum(crossover_aoh) is null then 0 else sum(crossover_aoh) end as mon_crossover_aoh ,
@@ -234,7 +230,8 @@ from
 			from v_ash_daily_progress adp,  date_dd_mm_fy_details($P{date}::date) dt
 			where adp.fy_yyyy = dt.fy_yyyy
 			and adp.mm = dt.mm
-			group by adp.date::date , fac_id,  facility_id, facility_name , adp.fy_yyyy  , adp.mm
+			-- -- change on 5th Mar 2021 remove the -- adp.date::date in select and group
+			group by fac_id,  facility_id, facility_name , adp.fy_yyyy  , adp.mm -- adp.date::date ,
 
 		 ) CM
 	 on (b.depot_name = cm.facility_name  )
@@ -264,7 +261,7 @@ from
 	<field name="depot_name" class="java.lang.String"/>
 	<field name="division" class="java.lang.String"/>
 	<field name="facility_name" class="java.lang.String"/>
-	<field name="date" class="java.lang.String"/>
+	<field name="date" class="java.sql.Date"/>
 	<field name="atd_aoh_ct" class="java.lang.Double"/>
 	<field name="atd_poh_ct" class="java.lang.Double"/>
 	<field name="crossover_aoh_ct" class="java.lang.Integer"/>

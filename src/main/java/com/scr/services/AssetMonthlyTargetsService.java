@@ -60,6 +60,7 @@ static Logger logger = LogManager.getLogger(AssetMonthlyTargetsService.class);
 				updateAssetMonthlyTargetData.setTargetMar(assetMonthlyTargetData.getTargetMar());
 				updateAssetMonthlyTargetData.setFacilityId(assetMonthlyTargetData.getFacilityId());
 				updateAssetMonthlyTargetData.setYear(assetMonthlyTargetData.getYear());
+				
 
 						assetTargetRepository.save(updateAssetMonthlyTargetData);
 					}else {						
@@ -130,6 +131,9 @@ static Logger logger = LogManager.getLogger(AssetMonthlyTargetsService.class);
 				AssetMonthlyTargetData.setTargetJan(amt.get().getTargetJan());
 				AssetMonthlyTargetData.setTargetFeb(amt.get().getTargetFeb());
 				AssetMonthlyTargetData.setTargetMar(amt.get().getTargetMar());
+				AssetMonthlyTargetData.setSeqId(assetScheduleAssoc.getTargetPlanMonths());
+				AssetMonthlyTargetData.setTotalPopulation(amt.get().getTotalPopulation());
+				
 
 		   }
 		   else {
@@ -151,6 +155,8 @@ static Logger logger = LogManager.getLogger(AssetMonthlyTargetsService.class);
 				AssetMonthlyTargetData.setTargetJan(0);
 				AssetMonthlyTargetData.setTargetFeb(0);
 				AssetMonthlyTargetData.setTargetMar(0);
+				AssetMonthlyTargetData.setTotalPopulation(0);
+				AssetMonthlyTargetData.setSeqId(assetScheduleAssoc.getTargetPlanMonths());
 		   }
 		   assetTargets.add(AssetMonthlyTargetData);
 		   logger.info("assetTargets===="+assetTargets.size());

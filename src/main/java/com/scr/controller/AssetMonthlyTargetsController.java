@@ -96,6 +96,7 @@ public class AssetMonthlyTargetsController {
 	public ResponseStatus updateAssetMonthlyTarget(@RequestBody List<AssetMonthlyTarget> assetMonthlyTarget) {
 		log.info("*** Enter into updateAssetMonthlyTarget function ***");
 		try {
+			log.info("save to save==="+assetMonthlyTarget.toString());
 			targetsService.updateAssetMonthlyTarget(assetMonthlyTarget);
 			log.info("Preparing the return response and updateAssetMonthlyTarget function end ");
 			return Helper.findResponseStatus("Asset MonthlyTarget  Data updated Successfully", Constants.SUCCESS_CODE);

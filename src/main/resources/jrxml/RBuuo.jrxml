@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="uuo" pageWidth="1000" pageHeight="800" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="59001b31-3ab0-4b62-83e5-32e51fe30200">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="uuo" pageWidth="645" pageHeight="800" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="605" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="59001b31-3ab0-4b62-83e5-32e51fe30200">
 	<property name="ireport.zoom" value="0.9090909090909091"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -10,76 +10,64 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select  $P{fromDate} as fromDate, sequence_id ,status_code ,   special_remarks , zone, division,cause_of_failure,
-major_section, minor_section, sub_station,facility_id, facility_name, location , faci_id
-from
-(
-select  sequence_id ,status_code , 'N/A' as  special_remarks , 0 as faci_id
-from
-(
-	--  all possible actions for UUO configured
-	select  sequence_id::integer ,status_code
-	FROM status_item si
-	where status_type_id in ('RB_ACTIVITY')
-	except
-	--  distinct actions recorded for this UUO
-	select
-	distinct sequence_id::integer seq,upper(failure_activity)
-	from 	 failure_actions_causes_impact faci,  failures f , status_item s
+		<![CDATA[select 1 sn,  ' ' subhead  , 'One unsusal occurence happened in ' ||major_section ||' , '||' due to '|| '-- failure reason' ||' on '||from_date_time::date
+from failures f1
+where type_of_failure='UNUSUAL_OCCURENCE'
+and  f1.from_date_time::date= '2021-03-05'--param
+union
+select 2 sn ,  'Railway :  ' subhead , zone
+from failures f1 , facility fac
+where type_of_failure='UNUSUAL_OCCURENCE'
+and  f1.from_date_time::date= '2021-03-05'--param
+and fac.facility_id = f1.sub_station
+union
+select 3 sn    ,  ' Division:   ' subhead , division
+from failures f1 , facility fac
+where type_of_failure='UNUSUAL_OCCURENCE'
+and  f1.from_date_time::date= '2021-03-05'--param
+and fac.facility_id = f1.sub_station
+union
+select 4 sn  ,  ' Major section:  ' subhead , f1.major_section
+from failures f1 , facility fac
+where type_of_failure='UNUSUAL_OCCURENCE'
+and  f1.from_date_time::date= '2021-03-05'--param
+and fac.facility_id = f1.sub_station
+union
+select 5 sn  ,  ' Minor section:   ' subhead , f1.minor_section
+from failures f1 , facility fac
+where type_of_failure='UNUSUAL_OCCURENCE'
+and  f1.from_date_time::date= '2021-03-05'--param
+and fac.facility_id = f1.sub_station
+union
+select 6 sn  ,  ' Date of incident:  ' subhead , to_char(from_date_time, 'DD-MM-yyyy')
+from failures f1 , facility fac
+where type_of_failure='UNUSUAL_OCCURENCE'
+and  f1.from_date_time::date= '2021-03-05'--param
+and fac.facility_id = f1.sub_station
+union
+select  6+sequence_id::integer sn , 	upper(failure_activity) , special_remarks
+-- --status_type_id , status_code,sequence_id , fac.zone, fac.division, f1.major_section, f1.minor_section,
+--f1.sub_station,fac.facility_id, fac.facility_name, f1.location
+	from 	 failure_actions_causes_impact faci,  failures f1 , status_item s, facility fac
 	where type_of_failure='UNUSUAL_OCCURENCE'
-	and  f.from_date_time::date= $P{fromDate} ::date --param
-	and case when $P{location} != '' then f.location = $P{location}
-	else f.location is not null or f.location is null end
-	and faci.failure_seq_id::bigint = f.id
-	and status_type_id in ('RB_ACTIVITY')
+	and  f1.from_date_time::date= '2021-03-05'--param
+	and f1.location = '159'
+	and faci.failure_seq_id::bigint = f1.id
+	and status_type_id in ( 'UUO_ACTIVITY' )
 	and Upper(faci.failure_activity) = status_code
-) a   --  actions not recorded or applicale in this UUO
-
-union all
-	-- All actions recorded for the required or given UUO
-	select 	 sequence_id::integer seq, failure_activity, special_remarks , faci.id faci_id
-	from 	 failure_actions_causes_impact faci, failures f, status_item s
-	where type_of_failure='UNUSUAL_OCCURENCE'
-	and  f.from_date_time::date= $P{fromDate}::date --param
-	and case when $P{location} != '' then f.location = $P{location}
-	else f.location is not null or f.location is null end
-	and faci.failure_seq_id::bigint = f.id
-	and status_type_id in ('RB_ACTIVITY')
-	and Upper(faci.failure_activity) = status_code
-)	final ,
-(
-	select fac.zone, fac.division,f.major_section, f.minor_section,f.cause_of_failure,
-	f.sub_station,fac.facility_id, fac.facility_name, f.location
-	from 	failures f, facility fac
-	where type_of_failure='UNUSUAL_OCCURENCE'
-	and  f.from_date_time::date= $P{fromDate}::date --param
-	and case when $P{location} != '' then f.location =$P{location}
-	else f.location is not null or f.location is null end
-	and f.sub_station = fac.facility_id
-) fac  -- for general details of UUO
-order by sequence_id::integer , faci_id]]>
+	and fac.facility_id = f1.sub_station
+	order by sn --sequence_id::integer]]>
 	</queryString>
-	<field name="fromdate" class="java.lang.String"/>
-	<field name="sequence_id" class="java.lang.Integer"/>
-	<field name="status_code" class="java.lang.String"/>
-	<field name="special_remarks" class="java.lang.String"/>
-	<field name="zone" class="java.lang.String"/>
-	<field name="division" class="java.lang.String"/>
-	<field name="cause_of_failure" class="java.lang.String"/>
-	<field name="major_section" class="java.lang.String"/>
-	<field name="minor_section" class="java.lang.String"/>
-	<field name="sub_station" class="java.lang.String"/>
-	<field name="facility_id" class="java.lang.String"/>
-	<field name="facility_name" class="java.lang.String"/>
-	<field name="location" class="java.lang.String"/>
-	<field name="faci_id" class="java.lang.Long"/>
+	<field name="sn" class="java.lang.Integer"/>
+	<field name="subhead" class="java.lang.String"/>
+	<field name="?column?" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="134" splitType="Stretch">
+		<band height="37" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="960" height="37" uuid="15a20f55-12b2-40b0-9c45-19a71b4a9604"/>
+				<reportElement x="0" y="0" width="602" height="37" uuid="15a20f55-12b2-40b0-9c45-19a71b4a9604"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -92,77 +80,12 @@ order by sequence_id::integer , faci_id]]>
 				</textElement>
 				<text><![CDATA[Unusual Occurence Report]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="0" y="95" width="100" height="20" uuid="9e305235-f72e-42f4-a8a7-a4e38c4e8ca7"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Major Section :]]></text>
-			</staticText>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="802" y="57" width="158" height="20" uuid="fad0ef5b-61f3-4c15-a21b-f19616d74425"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="702" y="57" width="100" height="20" uuid="10e86ead-931b-44b0-8a38-db4bcb496e26"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Date :]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="100" y="95" width="294" height="20" uuid="7026bcdc-8a79-4a0a-ba3f-def0239cbaa0"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{minor_section}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="100" y="114" width="294" height="20" uuid="dcb300f5-56ed-4bf1-9b77-feb52c8c4f6b"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{major_section}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="114" width="100" height="20" uuid="5d563184-58ef-424d-ae7b-fa042ffa168b"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Minor Section :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="76" width="100" height="20" uuid="3de68bf1-41b1-4f64-8900-a848c1ad2fb4"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Division :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="100" y="76" width="294" height="20" uuid="b8c05021-38ef-41ab-8da2-11f9e88104bc"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{division}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="100" y="57" width="294" height="20" uuid="8025aa8d-52cf-410e-9eb7-d7b8635941ea"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{zone}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="58" width="100" height="20" uuid="c615a8f7-b478-4707-8de6-cbd547dd562e"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Zone :]]></text>
-			</staticText>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="36" width="960" height="22" uuid="8af4e56d-2b3c-49e6-9737-75498123df63"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[" "+$F{cause_of_failure}]]></textFieldExpression>
-			</textField>
 		</band>
 	</title>
 	<pageHeader>
 		<band height="20">
 			<staticText>
-				<reportElement x="0" y="0" width="100" height="20" uuid="b8e195a9-4e14-4640-8587-3682058ca055"/>
+				<reportElement x="0" y="0" width="50" height="20" uuid="b8e195a9-4e14-4640-8587-3682058ca055"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -176,7 +99,7 @@ order by sequence_id::integer , faci_id]]>
 				<text><![CDATA[S No]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="100" y="0" width="294" height="20" uuid="d3eb64bd-4af4-4761-878e-a8477d5d01c0"/>
+				<reportElement x="50" y="0" width="200" height="20" uuid="d3eb64bd-4af4-4761-878e-a8477d5d01c0"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -187,10 +110,10 @@ order by sequence_id::integer , faci_id]]>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Actions]]></text>
+				<text><![CDATA[  Actions]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="394" y="0" width="566" height="20" uuid="a346dbb1-ed1b-4129-8e8a-07c83cae5ee9"/>
+				<reportElement x="250" y="0" width="352" height="20" uuid="a346dbb1-ed1b-4129-8e8a-07c83cae5ee9"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -201,7 +124,7 @@ order by sequence_id::integer , faci_id]]>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Description]]></text>
+				<text><![CDATA[  Description]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
@@ -211,7 +134,7 @@ order by sequence_id::integer , faci_id]]>
 	<detail>
 		<band height="33">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="100" y="0" width="294" height="33" uuid="1241b832-4679-4d4e-8604-4ccd3914f45c"/>
+				<reportElement x="50" y="0" width="200" height="33" uuid="1241b832-4679-4d4e-8604-4ccd3914f45c"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -222,10 +145,10 @@ order by sequence_id::integer , faci_id]]>
 				<textElement verticalAlignment="Middle" markup="html">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[" "+$F{status_code}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" "+$F{subhead}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="394" y="0" width="566" height="33" uuid="13ed0403-18a5-45ef-b9d8-d7dbb7aa81b6"/>
+				<reportElement x="250" y="0" width="352" height="33" uuid="13ed0403-18a5-45ef-b9d8-d7dbb7aa81b6"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -234,10 +157,10 @@ order by sequence_id::integer , faci_id]]>
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA[" "+$F{special_remarks}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" "+$F{?column?}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="100" height="33" uuid="d58cc3ee-6183-4214-bd42-9faba8668ef2"/>
+				<reportElement x="0" y="0" width="50" height="33" uuid="d58cc3ee-6183-4214-bd42-9faba8668ef2"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -246,7 +169,7 @@ order by sequence_id::integer , faci_id]]>
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{sn}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -256,23 +179,23 @@ order by sequence_id::integer , faci_id]]>
 	<pageFooter>
 		<band height="20">
 			<staticText>
-				<reportElement x="702" y="0" width="100" height="20" uuid="01acc029-f5ba-4a9b-8967-d780e1f1d1a6"/>
+				<reportElement x="344" y="0" width="100" height="20" uuid="01acc029-f5ba-4a9b-8967-d780e1f1d1a6"/>
 				<textElement textAlignment="Right">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Generated On:- ]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="802" y="0" width="158" height="20" uuid="5563974f-7590-401f-bce0-4332324c417f"/>
+				<reportElement x="444" y="0" width="158" height="20" uuid="5563974f-7590-401f-bce0-4332324c417f"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="394" height="20" uuid="090487ed-df58-431d-a459-d4688da62ed7"/>
+				<reportElement x="0" y="0" width="250" height="20" uuid="090487ed-df58-431d-a459-d4688da62ed7"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="394" y="0" width="308" height="20" uuid="5a3dd18d-7329-4d7a-8477-f003223fb0aa"/>
+				<reportElement x="250" y="0" width="67" height="20" uuid="5a3dd18d-7329-4d7a-8477-f003223fb0aa"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -280,7 +203,7 @@ order by sequence_id::integer , faci_id]]>
 	<noData>
 		<band height="41">
 			<staticText>
-				<reportElement x="0" y="0" width="960" height="41" forecolor="#EC082B" uuid="fbb0f916-ad6b-4645-83eb-30c566158f0b"/>
+				<reportElement x="0" y="0" width="602" height="41" forecolor="#EC082B" uuid="fbb0f916-ad6b-4645-83eb-30c566158f0b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="20" isBold="true"/>
 				</textElement>

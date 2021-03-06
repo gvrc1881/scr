@@ -26,7 +26,7 @@ public interface DriveCategoryRepository extends JpaRepository<DriveCategory, Lo
 	Optional<DriveCategory> findByDriveCategoryName(String driveCategoryName);
 	
 	@Query("FROM DriveCategory ORDER BY createdOn DESC")
-	List<DriveCategory> findByStatusIdAndOrderByCeatedOnDesc(int activeStatusId);
+	List<DriveCategory> findByStatusIdAndOrderByCeatedOnDesc(Integer activeStatusId);
 
 	
 

@@ -283,6 +283,7 @@ export const FieldLabelsConstant = {
       PERFORMED_DATE: "Performed Date",
       PHASE: "Phase",
       PHASE_ACTIVITY: "Phase Activity",
+      TOTAL_POPULATION:"Total Population",
       PHASE_ANGLE: "Phase Angle",
       PHYSICAL_PROGRESS_PERCENTAGE: "Physical Progress Percentage",
       PL_NO: "Pl No",

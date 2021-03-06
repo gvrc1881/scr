@@ -1299,7 +1299,7 @@ public ResponseStatus storeUploadedFile(List<MultipartFile> file, String content
 
 public List<Drives> findByFunctionalUnit(List<String> fac) {
 	
-	return driveRepository.findByFunctionalUnitInOrFunctionalUnitIsNullAndStatusId(fac,Constants.ACTIVE_STATUS_ID);
+	return driveRepository.findByFunctionalUnitInOrFunctionalUnitIsNullAndStatusIdOrderByCreatedOnDesc(fac,Constants.ACTIVE_STATUS_ID);
 }
 
 

@@ -85,12 +85,32 @@
                                                     </mat-form-field>
                                                 </mat-cell>
                                         </ng-container>
-                                        <ng-container matColumnDef="totalPopulaion">
+                                        <ng-container matColumnDef="population">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.POPULATION}}</span></mat-header-cell>
                                                 <mat-cell *matCellDef="let row">
                                                     <mat-form-field floatLabel="never" [style.width.px]="80">
-                                                        <input matInput  [value]="row.totalPopulaion" 
-                                                            [(ngModel)]="row.totalPopulaion">
+                                                        <input matInput  [value]="row.population" 
+                                                            [(ngModel)]="row.population" >
+                                                    </mat-form-field>
+                                                </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="id">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.COPY}}</mat-header-cell>
+                                                <mat-cell *matCellDef="let row">
+                                                  <button mat-icon-button matTooltip="Copy To All"
+                                                      (click)="copy(row)" >
+                                                  <mat-icon style="color: rgb(0, 145, 234);">Copy</mat-icon>
+                                                      </button>                                           
+                                                 
+                                                  
+                                                </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="totalPopulation">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.TOTAL_POPULATION}}</span></mat-header-cell>
+                                                <mat-cell *matCellDef="let row">
+                                                    <mat-form-field floatLabel="never" [style.width.px]="80">
+                                                        <input matInput  [value]="row.totalPopulation" readonly
+                                                            [(ngModel)]="row.totalPopulation">
                                                     </mat-form-field>
                                                 </mat-cell>
                                         </ng-container>
@@ -98,17 +118,18 @@
                                         <ng-container matColumnDef="targetApr">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.APR}}</span></mat-header-cell>
                                             <ng-container *matCellDef="let row">
-                                                <mat-cell  *ngIf = "row.targetApr !== null ; else targetAprElseBlock">
+                                                <mat-cell  *ngIf = "row.enableTargetApr; else targetAprElseBlock">
+                                                        <!-- <span *ngIf="enableTargetApr"> </span> -->
                                                     <mat-form-field  [style.width.px]="80">
-                                                        <input matInput placeholder="{{FiledLabels.APR}}" [value]="row.targetApr" 
-                                                                     [(ngModel)]="row.targetApr">
+                                                        <input matInput placeholder="{{FiledLabels.APR}}" (ngModelChange)="function(row)" [value]="row.targetApr" 
+                                                        [(ngModel)]="row.targetApr"   >
                                                     </mat-form-field>
                                                 </mat-cell>
                                             <ng-template #targetAprElseBlock>
-                                                <mat-cell>
+                                                <mat-cell>                                                        
                                                     <mat-form-field  [style.width.px]="80">
                                                         <input matInput placeholder="{{FiledLabels.APR}}" [value]="row.targetApr" 
-                                                                 [(ngModel)]="row.targetApr" >
+                                                                 [(ngModel)]="row.targetApr"  readonly>
                                                     </mat-form-field>
                                                 </mat-cell>
                                             </ng-template>
@@ -122,17 +143,18 @@
                                         <ng-container matColumnDef="targetMay">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.MAY}}</span></mat-header-cell>
                                             <ng-container *matCellDef="let row" >
-                                                <mat-cell  *ngIf = "row.targetMay !== null ; else targetMayElseBlock">
+                                                <mat-cell  *ngIf = "row.enableTargetMay ; else targetMayElseBlock">
+                                                        <!-- <span *ngIf="enableTargetMay"> </span> -->
                                                     <mat-form-field  [style.width.px]="80" >
                                                         <input matInput placeholder="{{FiledLabels.MAY}}" [value]="row.targetMay" 
-                                                                     [(ngModel)]="row.targetMay">
+                                                        [(ngModel)]="row.targetMay"     (ngModelChange)="function(row)">
                                                     </mat-form-field>
                                                 </mat-cell>
                                                 <ng-template #targetMayElseBlock>
-                                                    <mat-cell>
+                                                    <mat-cell>                                                            
                                                         <mat-form-field [style.width.px]="80">
                                                             <input matInput placeholder="{{FiledLabels.MAY}}" [value]="row.targetMay" 
-                                                                 [(ngModel)]="row.targetMay">
+                                                                 [(ngModel)]="row.targetMay" readonly>
                                                         </mat-form-field>
                                                     </mat-cell>
                                                 </ng-template>
@@ -141,17 +163,19 @@
                                            <ng-container matColumnDef="targetJune">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.JUN}}</span></mat-header-cell>
                                             <ng-container *matCellDef="let row" >
-                                                <mat-cell  *ngIf = "row.targetJune !== null ; else targetJuneElseBlock">
+                                                <mat-cell  *ngIf = "row.enableTargetJune  ; else targetJuneElseBlock">
+                                                        <!-- <span *ngIf="enableTargetJune"> </span> -->
                                                     <mat-form-field  [style.width.px]="80" >
                                                         <input matInput placeholder="{{FiledLabels.JUN}}" [value]="row.targetJune"
-                                                                     [(ngModel)]="row.targetJune">
+                                                                     [(ngModel)]="row.targetJune" (ngModelChange)="function(row)">
                                                     </mat-form-field>
                                                 </mat-cell>
                                                 <ng-template #targetJuneElseBlock>
                                                     <mat-cell>
+                                                            
                                                         <mat-form-field [style.width.px]="80">
                                                             <input matInput placeholder="{{FiledLabels.JUN}}" [value]="row.targetJune" 
-                                                                 [(ngModel)]="row.targetJune">
+                                                                 [(ngModel)]="row.targetJune" readonly>
                                                         </mat-form-field>
                                                     </mat-cell>
                                                 </ng-template>
@@ -160,17 +184,19 @@
                                            <ng-container matColumnDef="targetJuly">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.JUL}}</span></mat-header-cell>
                                             <ng-container *matCellDef="let row" >
-                                                <mat-cell  *ngIf = "row.targetJuly !== null ; else targetJulyElseBlock">
+                                                <mat-cell  *ngIf = "row.enableTargetJuly ; else targetJulyElseBlock">
+                                                        <!-- <span *ngIf="enableTargetJuly"> </span> -->
                                                     <mat-form-field  [style.width.px]="80" >
                                                         <input matInput placeholder="{{FiledLabels.JUL}}" [value]="row.targetJuly" 
-                                                                     [(ngModel)]="row.targetJuly">
+                                                                     [(ngModel)]="row.targetJuly" (ngModelChange)="function(row)">
                                                     </mat-form-field>
                                                 </mat-cell>
                                                 <ng-template #targetJulyElseBlock>
                                                     <mat-cell>
+                                                           
                                                         <mat-form-field [style.width.px]="80">
                                                             <input matInput placeholder="{{FiledLabels.JUL}}" [value]="row.targetJuly" 
-                                                                 [(ngModel)]="row.targetJuly">
+                                                                 [(ngModel)]="row.targetJuly" readonly>
                                                         </mat-form-field>
                                                     </mat-cell>
                                                 </ng-template>
@@ -179,17 +205,19 @@
                                            <ng-container matColumnDef="targetAug">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.AUG}}</span></mat-header-cell>
                                             <ng-container *matCellDef="let row" >
-                                                <mat-cell  *ngIf = "row.targetAug !== null ; else targetAugElseBlock">
+                                                <mat-cell  *ngIf = "row.enableTargetAug ; else targetAugElseBlock">
+                                                        <!-- <span *ngIf="enableTargetAug"> </span> -->
                                                     <mat-form-field  [style.width.px]="80" >
                                                         <input matInput placeholder="{{FiledLabels.AUG}}" [value]="row.targetAug" 
-                                                                     [(ngModel)]="row.targetAug">
+                                                                     [(ngModel)]="row.targetAug" (ngModelChange)="function(row)">
                                                     </mat-form-field>
                                                 </mat-cell>
                                                 <ng-template #targetAugElseBlock>
                                                     <mat-cell>
+                                                            
                                                         <mat-form-field [style.width.px]="80">
                                                             <input matInput placeholder="{{FiledLabels.AUG}}" [value]="row.targetAug" 
-                                                                 [(ngModel)]="row.targetAug">
+                                                                 [(ngModel)]="row.targetAug" readonly>
                                                         </mat-form-field>
                                                     </mat-cell>
                                                 </ng-template>
@@ -198,17 +226,18 @@
                                            <ng-container matColumnDef="targetSep">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.SEP}}</span></mat-header-cell>
                                             <ng-container *matCellDef="let row" >
-                                                <mat-cell  *ngIf = "row.targetSep !== null ; else targetSepElseBlock">
+                                                <mat-cell  *ngIf = "row.enableTargetAug ; else targetSepElseBlock">
+                                                        <!-- <span *ngIf="enableTargetSep"> </span> -->
                                                     <mat-form-field  [style.width.px]="80" >
                                                         <input matInput placeholder="{{FiledLabels.SEP}}" [value]="row.targetSep" 
-                                                                     [(ngModel)]="row.targetSep">
+                                                                     [(ngModel)]="row.targetSep" (ngModelChange)="function(row)">
                                                     </mat-form-field>
                                                 </mat-cell>
                                                 <ng-template #targetSepElseBlock>
                                                     <mat-cell>
                                                         <mat-form-field [style.width.px]="80">
                                                             <input matInput placeholder="{{FiledLabels.SEP}}" [value]="row.targetSep" 
-                                                                 [(ngModel)]="row.targetSep">
+                                                                 [(ngModel)]="row.targetSep" readonly>
                                                         </mat-form-field>
                                                     </mat-cell>
                                                 </ng-template>
@@ -217,17 +246,18 @@
                                            <ng-container matColumnDef="targetOct">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.OCT}}</span></mat-header-cell>
                                             <ng-container *matCellDef="let row" >
-                                                <mat-cell  *ngIf = "row.targetOct !== null ; else targetOctElseBlock">
+                                                <mat-cell  *ngIf = "row.enableTargetOct; else targetOctElseBlock">
+                                                        <!-- <span *ngIf="enableTargetOct"> </span> -->
                                                     <mat-form-field  [style.width.px]="80" >
                                                         <input matInput placeholder="{{FiledLabels.OCT}}" [value]="row.targetOct" 
-                                                                     [(ngModel)]="row.targetOct">
+                                                                     [(ngModel)]="row.targetOct" (ngModelChange)="function(row)">
                                                     </mat-form-field>
                                                 </mat-cell>
                                                 <ng-template #targetOctElseBlock>
-                                                    <mat-cell>
+                                                    <mat-cell><span *ngIf="enableTargetOct"> </span>
                                                         <mat-form-field [style.width.px]="80">
                                                             <input matInput placeholder="{{FiledLabels.OCT}}" [value]="row.targetOct" 
-                                                                 [(ngModel)]="row.targetOct">
+                                                                 [(ngModel)]="row.targetOct" readonly>
                                                         </mat-form-field>
                                                     </mat-cell>
                                                 </ng-template>
@@ -236,17 +266,18 @@
                                            <ng-container matColumnDef="targetNov">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.NOV}}</span></mat-header-cell>
                                             <ng-container *matCellDef="let row" >
-                                                <mat-cell  *ngIf = "row.targetNov !== null ; else targetNovElseBlock">
+                                                <mat-cell  *ngIf = "row.enableTargetNov ; else targetNovElseBlock">
+                                                        <!-- <span *ngIf="enableTargetNov"> </span> -->
                                                     <mat-form-field  [style.width.px]="80">
                                                         <input matInput placeholder="{{FiledLabels.NOV}}" [value]="row.targetNov" 
-                                                                     [(ngModel)]="row.targetNov">
+                                                                     [(ngModel)]="row.targetNov" (ngModelChange)="function(row)">
                                                     </mat-form-field>
                                                 </mat-cell>
                                                 <ng-template #targetNovElseBlock>
                                                     <mat-cell>
                                                         <mat-form-field [style.width.px]="80">
                                                             <input matInput placeholder="{{FiledLabels.NOV}}" [value]="row.targetNov" 
-                                                                 [(ngModel)]="row.targetNov">
+                                                                 [(ngModel)]="row.targetNov" readonly>
                                                         </mat-form-field>
                                                     </mat-cell>
                                                 </ng-template>
@@ -256,17 +287,18 @@
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.DEC}}</span></mat-header-cell>
                                             <!-- <mat-cell *matCellDef="let row"> {{row.nov}}</mat-cell> -->
                                             <ng-container *matCellDef="let row" >
-                                                <mat-cell  *ngIf = "row.targetDec !== null ; else targetDecElseBlock">
+                                                <mat-cell  *ngIf = "row.enableTargetDec ; else targetDecElseBlock">
+                                                        <!-- <span *ngIf="enableTargetDec"> </span> -->
                                                     <mat-form-field  [style.width.px]="80" >
                                                         <input matInput placeholder="{{FiledLabels.DEC}}" [value]="row.targetDec" 
-                                                                     [(ngModel)]="row.targetDec">
+                                                                     [(ngModel)]="row.targetDec" (ngModelChange)="function(row)">
                                                     </mat-form-field>
                                                 </mat-cell>
                                                 <ng-template #targetDecElseBlock>
                                                     <mat-cell>
                                                         <mat-form-field [style.width.px]="80">
                                                             <input matInput placeholder="{{FiledLabels.DEC}}" [value]="row.targetDec" 
-                                                                 [(ngModel)]="row.targetDec">
+                                                                 [(ngModel)]="row.targetDec" readonly>
                                                         </mat-form-field>
                                                     </mat-cell>
                                                 </ng-template>
@@ -276,17 +308,18 @@
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.JAN}}</span></mat-header-cell>
                                             <!-- <mat-cell *matCellDef="let row"> {{row.nov}}</mat-cell> -->
                                             <ng-container *matCellDef="let row" >
-                                                <mat-cell  *ngIf = "row.targetJan !== null ; else targetJanElseBlock">
+                                                <mat-cell  *ngIf = "row.enableTargetJan ; else targetJanElseBlock">
+                                                        <!-- <span *ngIf="enableTargetJan"> </span> -->
                                                     <mat-form-field  [style.width.px]="80" >
                                                         <input matInput placeholder="{{FiledLabels.JAN}}" [value]="row.targetJan" 
-                                                                     [(ngModel)]="row.targetJan">
+                                                                     [(ngModel)]="row.targetJan" (ngModelChange)="function(row)">
                                                     </mat-form-field>
                                                 </mat-cell>
                                                 <ng-template #targetJanElseBlock>
-                                                    <mat-cell>
+                                                    <mat-cell> 
                                                         <mat-form-field [style.width.px]="80">
                                                             <input matInput placeholder="{{FiledLabels.JAN}}" [value]="row.targetJan" 
-                                                                 [(ngModel)]="row.targetJan" >
+                                                                 [(ngModel)]="row.targetJan" readonly >
                                                         </mat-form-field>
                                                     </mat-cell>
                                                 </ng-template>
@@ -295,17 +328,18 @@
                                            <ng-container matColumnDef="targetFeb">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.FEB}}</span></mat-header-cell>
                                             <ng-container *matCellDef="let row" >
-                                                <mat-cell  *ngIf = "row.targetFeb !== null ; else targetFebElseBlock">
+                                                <mat-cell  *ngIf = "row.enableTargetFeb ; else targetFebElseBlock">
+                                                        <!-- <span *ngIf="enableTargetFeb"> </span> -->
                                                     <mat-form-field  [style.width.px]="80" >
                                                         <input matInput placeholder="{{FiledLabels.FEB}}" [value]="row.targetFeb" 
-                                                                     [(ngModel)]="row.targetFeb">
+                                                                     [(ngModel)]="row.targetFeb" (ngModelChange)="function(row)">
                                                     </mat-form-field>
                                                 </mat-cell>
                                                 <ng-template #targetFebElseBlock>
                                                     <mat-cell>
                                                         <mat-form-field [style.width.px]="80">
                                                             <input matInput placeholder="{{FiledLabels.FEB}}" [value]="row.targetFeb" 
-                                                                 [(ngModel)]="row.targetFeb">
+                                                                 [(ngModel)]="row.targetFeb" readonly>
                                                         </mat-form-field>
                                                     </mat-cell>
                                                 </ng-template>
@@ -314,17 +348,18 @@
                                            <ng-container matColumnDef="targetMar">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.MAR}}</span></mat-header-cell>
                                             <ng-container *matCellDef="let row" >
-                                                <mat-cell  *ngIf = "row.targetMar !== null ; else targetMarElseBlock">
+                                                <mat-cell  *ngIf = "row.enableTargetMar ; else targetMarElseBlock">
+                                                        <!-- <span *ngIf="enableTargetMar"> </span> -->
                                                     <mat-form-field  [style.width.px]="80" >
                                                         <input matInput placeholder="{{FiledLabels.MAR}}" [value]="row.targetMar" 
-                                                                     [(ngModel)]="row.targetMar">
+                                                                     [(ngModel)]="row.targetMar" (ngModelChange)="function(row)">
                                                     </mat-form-field>
                                                 </mat-cell>
                                                 <ng-template #targetMarElseBlock>
                                                     <mat-cell>
                                                         <mat-form-field [style.width.px]="80">
                                                             <input matInput placeholder="{{FiledLabels.MAR}}" [value]="row.targetMar" 
-                                                                 [(ngModel)]="row.targetMar">
+                                                                 [(ngModel)]="row.targetMar" readonly>
                                                         </mat-form-field>
                                                     </mat-cell>
                                                 </ng-template>
