@@ -638,7 +638,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         color: "#12E1EE",
         isSelected: true,
         permission: this.commonService.findPermission('MAT CONFIG', 'menu', 'view'),
-        currentTab: !!path && path.includes("make") || path.includes("model") || path.includes("product") || path.includes("product-category") || path.includes("product-category-member") ? "open" : "",
+        currentTab: !!path && path.includes("make") || path.includes("model") || path.includes("product") || path.includes("product-category") || path.includes("product-category-member") || path.includes("status-item") ? "open" : "",
         subMenus: [
           {
             subMenuName: "Make",
@@ -679,6 +679,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             permission: this.commonService.findPermission('Product Category Member', 'submenu', 'view'),
             rolePermission: this.rolePermission,
             currentSubMenu: !!path && path.includes("product-category-member") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Status Item",
+            subMenuURL: "status-item",
+            subMenuIcon: "",
+            permission: true,
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("status-item") ? "active-item" : "",
           },
         ]
       },

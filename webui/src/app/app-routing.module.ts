@@ -79,7 +79,7 @@ const routes: Routes = [
   },
   {
     path: 'foot-patrolling-sections',
-    loadChildren: './components/energy-bill-payment/foot-patrolling-sections/foot-patrolling-sections.module#FootPatrollingSectionsModule',
+    loadChildren: './components/fp-sections/fp-sections.module#FpSectionsModule',
     canActivate: [AuthGuard]
   },
   {
@@ -608,6 +608,11 @@ const routes: Routes = [
   {
     path: 'product-association',
     loadChildren: './components/product-association/product-association.module#ProductAssociationModule',
+     canActivate: [AuthGuard]
+   },
+   {
+    path: 'status-item',
+    loadChildren: './components/status-item/status-item.module#StatusItemModule',
      canActivate: [AuthGuard]
    },
 ];

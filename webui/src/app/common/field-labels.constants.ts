@@ -623,7 +623,11 @@ export const FieldLabelsConstant = {
       VALUE_OBSERVATION: "Value/Observation",
       ENTER_NUMBERS_ONLY: "Enter Numbers Only",
       ENTER_OBSERVATION: "Enter Observation",
-      TEST_INSPECTION:"Test Inspection"
+      TEST_INSPECTION:"Test Inspection",
+      STATUS_TYPE_ID:"Status Type Id",
+      STATUS_ID:"Status Id",
+      STATUS_CODE:"Status Code",
+      SEQUENCE_ID:"Sequence Id"
    },
    TITLE:{
      FAILURE_ANALYSIS :"Failure Analysis",
@@ -734,6 +738,8 @@ export const FieldLabelsConstant = {
     RETEST_MEASUREMENTS: 'Retest Measurements',
     PRODUCT_ASSOCIATION_FORM:'Product Association Form',
     PRODUCT_ASSOCIATION_DATA:'Product Association',
-    MULTI_MEASUREMENTS: "Multi Measurements"
+    MULTI_MEASUREMENTS: "Multi Measurements",
+    STATUS_ITEM_DATA:"Status Item Data",
+    STATUS_ITEM_FORM:"Status Item Form"
    }
 };

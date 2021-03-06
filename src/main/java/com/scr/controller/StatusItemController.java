@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.StatusItem;
+import com.scr.model.TpcBoardReportingFacility;
 import com.scr.services.StatusItemService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -119,5 +121,109 @@ public class StatusItemController {
 			return Helper.findResponseStatus("statusItem Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
 	}
-
+	@RequestMapping(value = "/existsStatusTypeIdAndStatusId/{statusTypeId}/{statusId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsStatusTypeIdAndStatusId(@PathVariable("statusTypeId") String statusTypeId ,@PathVariable("statusId") String statusId){
+			
+		try {
+			logger.info("Request for checking exists statusTypeId and statusId.");
+			return statusItemService.existsByStatusTypeIdAndStatusId(statusTypeId,statusId);	
+		} catch (Exception e) {
+			logger.error("Error while checking exists statusTypeId and statusId..."+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/existsStatusTypeIdAndStatusIdAndId/{id}/{statusTypeId}/{statusId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsStatusTypeIdAndStatusIdAndId(@PathVariable("id") Long id,@PathVariable("statusTypeId") String statusTypeId,@PathVariable("statusId") String statusId){
+		
+		logger.info("id=="+id+"statusId=="+statusId);
+		Boolean result;
+		try {
+			Optional<StatusItem> statusItem = statusItemService.findByStatusTypeIdAndStatusId(statusTypeId,statusId);
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+			if(statusItem.isPresent()) {
+				StatusItem statusItemDetails = statusItem.get();
+				logger.info("***id ***"+statusItemDetails.getId());
+				if (id.equals(statusItemDetails.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and statusId..."+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/existsStatusTypeIdAndStatusCode/{statusTypeId}/{statusCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsStatusTypeIdAndStatusCode(@PathVariable("statusTypeId") String statusTypeId ,@PathVariable("statusCode") String statusCode){
+			
+		try {
+			logger.info("Request for checking exists statusTypeId and statusCode.");
+			return statusItemService.existsByStatusTypeIdAndStatusCode(statusTypeId,statusCode);	
+		} catch (Exception e) {
+			logger.error("Error while checking exists statusTypeId and statusCode..."+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/existsStatusTypeIdAndStatusCodeAndId/{id}/{statusTypeId}/{statusCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsStatusTypeIdAndStatusCodeAndId(@PathVariable("id") Long id,@PathVariable("statusTypeId") String statusTypeId,@PathVariable("statusCode") String statusCode){
+		
+		logger.info("id=="+id+"statusId=="+statusCode);
+		Boolean result;
+		try {
+			Optional<StatusItem> statusItem = statusItemService.findByStatusTypeIdAndStatusCode(statusTypeId,statusCode);
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+			if(statusItem.isPresent()) {
+				StatusItem statusItemDetails = statusItem.get();
+				logger.info("***id ***"+statusItemDetails.getId());
+				if (id.equals(statusItemDetails.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and statusCode..."+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/existsStatusTypeIdAndDescription/{statusTypeId}/{description}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsStatusTypeIdAndDescription(@PathVariable("statusTypeId") String statusTypeId ,@PathVariable("description") String description){
+			
+		try {
+			logger.info("Request for checking exists statusTypeId and description.");
+			return statusItemService.existsByStatusTypeIdAndDescription(statusTypeId,description);	
+		} catch (Exception e) {
+			logger.error("Error while checking exists statusTypeId and description..."+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/existsStatusTypeIdAndDescriptionAndId/{id}/{statusTypeId}/{description}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsStatusTypeIdAndDescriptionAndId(@PathVariable("id") Long id,@PathVariable("statusTypeId") String statusTypeId,@PathVariable("description") String description){
+		
+		logger.info("id=="+id+"description=="+description);
+		Boolean result;
+		try {
+			Optional<StatusItem> statusItem = statusItemService.findByStatusTypeIdAndDescription(statusTypeId,description);
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+			if(statusItem.isPresent()) {
+				StatusItem statusItemDetails = statusItem.get();
+				logger.info("***id ***"+statusItemDetails.getId());
+				if (id.equals(statusItemDetails.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and description..."+e.getMessage());
+			return false;
+		}
+	}
 }

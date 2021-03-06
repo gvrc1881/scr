@@ -714,6 +714,29 @@ export const Constants = {
                             EXIST_SCHEDULE_CODE:"/existScheduleCode/",
                             EXIST_SCHEDULE_CODE_ID:"/existScheduleCodeById/"                          
                             },
+                            STATUS_ITEM:{
+                                GET_STATUS_ITEM:"/findAllStatusItem",
+                                GET_STATUS_ITEM_ID:"/findStatusItemById/",
+                                SAVE_STATUS_ITEM:"/addStatusItem",
+                                UPDATE_STATUS_ITEM:"/updateStatusItem",
+                                DELETE_STATUS_ITEM:"/deleteStatusItem/",
+                                EXIST_STATUS_TYPE_ID_AND_STATUS_ID:"/existsStatusTypeIdAndStatusId/",
+                                EXIST_STATUS_TYPE_ID_AND_STATUS_ID_AND_ID:"/existsStatusTypeIdAndStatusIdAndId/",
+                                EXIST_STATUS_TYPE_ID_AND_STATUS_CODE:"/existsStatusTypeIdAndStatusCode/",
+                                EXIST_STATUS_TYPE_ID_AND_STATUS_CODE_AND_ID:"/existsStatusTypeIdAndStatusCodeAndId/",
+                                EXIST_STATUS_TYPE_ID_AND_DESC:"/existsStatusTypeIdAndDescription/",
+                                EXIST_STATUS_TYPE_ID_AND_DESC_AND_ID:"/existsStatusTypeIdAndDescriptionAndId/",
+                            },
+                            STATUS_TYPE:{
+                                GET_STATUS_TYPE:"/findAllStatusType",
+                                GET_STATUS_TYPE_ID:"/findStatusTypeById/",
+                                SAVE_STATUS_TYPE:"/addStatusType",
+                                UPDATE_STATUS_TYPE:"/updateStatusType",
+                                DELETE_STATUS_TYPE:"/deleteStatusType/",
+                                EXIST_STATUS_TYPE_ID:"/existsStatusTypeId/",
+                                EXIST_STATUS_TYPE_ID_AND_ID:"/findByStatusTypeIdAndId/",
+
+                            },
                             
                         },
             PRODUCTS:{
