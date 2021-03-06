@@ -78,11 +78,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'foot-patrolling-sections',
-    loadChildren: './components/fp-sections/fp-sections.module#FpSectionsModule',
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'sidings',
     loadChildren: './components/siding-details/siding-details.module#SidingDetailsModule',
     canActivate: [AuthGuard]
