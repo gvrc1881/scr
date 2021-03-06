@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.scr.model.Facility;
+import com.scr.model.FootPatrollingSection;
 import com.scr.model.GantryMasterData;
 import com.scr.model.OheLocation;
 import com.scr.model.Sector;
@@ -62,5 +63,15 @@ public class FacilityCommonMapper {
 		
 		return oheLocation;
 	}
-
+	public FootPatrollingSection prepareFpSectionsData(
+			FootPatrollingSection footPatrollingSection) {
+		if (footPatrollingSection.getFacilityDepot() != null ) {
+			Optional<Facility> facility  = facilityRepository.findByFacilityId(footPatrollingSection.getFacilityDepot());
+			if (facility.isPresent()) {
+				footPatrollingSection.setFacilityDepot(facility.get().getFacilityName());
+			}
+		}
+		
+		return footPatrollingSection;
+	}
 }

@@ -610,6 +610,11 @@ const routes: Routes = [
     loadChildren: './components/status-item/status-item.module#StatusItemModule',
      canActivate: [AuthGuard]
    },
+   {
+    path: 'foot-patrolling-sections',
+    loadChildren: './components/fp-sections/fp-sections.module#FpSectionsModule',
+     canActivate: [AuthGuard]
+   },
 ];
 
 @NgModule({

@@ -1,9 +1,11 @@
 package com.scr.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.scr.mapper.FacilityCommonMapper;
 import com.scr.model.FootPatrollingSection;
 import com.scr.repository.FootPatrollingSectionRepository;
 
@@ -13,10 +15,22 @@ public class FootPatrollingSectionsService {
 	@Autowired
 	private FootPatrollingSectionRepository footPatrollingSectionRepository;
 	
+	@Autowired
+	private FacilityCommonMapper facilityCommonMapper;
+
+
+	
 	public List<FootPatrollingSection> findAll() {
-		// TODO Auto-generated method stub
-		return footPatrollingSectionRepository.findAll();
+		List<FootPatrollingSection> fs = new ArrayList<>();
+		List<FootPatrollingSection> fpSection = footPatrollingSectionRepository.findAll();
+		for (FootPatrollingSection footPatrollingSection : fpSection) {
+			footPatrollingSection = facilityCommonMapper.prepareFpSectionsData(footPatrollingSection);
+			fs.add(footPatrollingSection);
+		}
+		 return fs;
 	}
+	
+	
 
 	public void save(FootPatrollingSection footPatrollingSection) {
 		// TODO Auto-generated method stub
