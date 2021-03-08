@@ -21,6 +21,7 @@ import com.scr.model.Works;
 public class ReportRequest {
 	
 	private String outputData;
+	private String stateEleBoard;
 	private String reportId;
 	private String zone;
 	private Facility facilityName;
@@ -60,7 +61,7 @@ public class ReportRequest {
 	private Long checkPointsDepot;
 	private String equipmentno;
 	private String tempDiff;
-
+    private String feederName;
 	
 	public ObservationsCheckList getObservationCategory() {
 		return observationCategory;
@@ -412,6 +413,22 @@ public class ReportRequest {
 
 	public void setTempDiff(String tempDiff) {
 		this.tempDiff = tempDiff;
+	}
+
+	public String getStateEleBoard() {
+		return stateEleBoard;
+	}
+
+	public void setStateEleBoard(String stateEleBoard) {
+		this.stateEleBoard = stateEleBoard;
+	}
+
+	public String getFeederName() {
+		return feederName;
+	}
+
+	public void setFeederName(String feederName) {
+		this.feederName = feederName;
 	}
 
 	

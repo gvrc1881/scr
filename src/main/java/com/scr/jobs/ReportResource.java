@@ -87,6 +87,7 @@ public class ReportResource {
 		parameters.put("failureToDate", report.getFailureToDate());
 		parameters.put("date", report.getFromDate());
 		parameters.put("Date", report.getDate());
+		parameters.put("depot", report.getFeederName());
 		parameters.put("gfFromDate", report.getFromDate());
 		parameters.put("gfTodate", report.getToDate());
 		parameters.put("zone", report.getZone());
@@ -96,6 +97,7 @@ public class ReportResource {
 		parameters.put("start_date_of_period", report.getFromDate());
 		parameters.put("end_date_of_period", report.getToDate());
 		parameters.put("tpc_Board", report.getTpcBoard());
+		parameters.put("state_Elec_Board", report.getStateEleBoard());
 		if (report.getWorkName() != null) {
 			parameters.put("workName", report.getWorkName().getWorkName());
 		}
