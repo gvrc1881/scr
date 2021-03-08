@@ -3,6 +3,7 @@
  */
 package com.scr.jobs;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,11 +31,17 @@ import com.scr.repository.ReportRepositoryRepository;
 import com.scr.util.CloseJDBCObjects;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.export.JRCsvExporter;
+import net.sf.jasperreports.engine.export.JRCsvExporterParameter;
+import net.sf.jasperreports.engine.export.JRTextExporter;
+import net.sf.jasperreports.engine.export.JRTextExporterParameter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
@@ -233,7 +240,25 @@ public class ReportResource {
 					e.printStackTrace();
 				}
 				
-			} else {
+			}else if ("Plain Text".equals(report.getFormatType())) {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				JRTextExporter exporter = new JRTextExporter();
+		        exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		        exporter.setParameter(JRTextExporterParameter.CHARACTER_WIDTH,new Float(6.55));
+		        exporter.setParameter(JRTextExporterParameter.CHARACTER_HEIGHT,new Float(11.9));
+		        exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,baos);
+		        exporter.exportReport();
+			    reportResult = baos.toByteArray(); 
+			}else if ("Comma Separated Value Text".equals(report.getFormatType())) {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				JRExporter exporter = new JRCsvExporter();
+			    exporter.setParameter(JRCsvExporterParameter.JASPER_PRINT, jasperPrint);
+			    exporter.setParameter(JRCsvExporterParameter.FIELD_DELIMITER, ",");
+			    exporter.setParameter(JRCsvExporterParameter.RECORD_DELIMITER,System.getProperty("line.separator"));
+			    exporter.setParameter(JRCsvExporterParameter.OUTPUT_STREAM, baos);
+			    exporter.exportReport();
+			    reportResult = baos.toByteArray();
+			}else {
 				reportResult = JasperExportManager.exportReportToPdf(jasperPrint);
 			}
 		 report.setOutputData(Base64.getEncoder().encodeToString(reportResult));

@@ -60,7 +60,7 @@ export class ReportByQueryComponent implements OnInit {
        tpcBoardData: any;
        sub;/*It defines to store router map of subscribe*/
        id: any;  /* Its used to store the getting name on the report page  */
-       formatType = ["Adobe portable Document Format(pdf)", "Comma Separated Value Text", "HTML Text", "Microsoft Excel", "Plain Text", "XML Text"]
+       formatType = ["Adobe portable Document Format(pdf)", "Comma Separated Value Text", "Microsoft Excel", "Plain Text"]; //"HTML Text","XML Text"
        stateElectricityBoardList:any;
        reportsByQuery: FormGroup;
        maxDate = new Date();
@@ -501,7 +501,15 @@ this.workName();
                                 // let iframeStart = "<\iframe width='100%' height='100%' src='data:application/vnd.ms-excel;base64, ";
                                // pdfWindow.document.write(iframeStart + content + iframeEnd);
                               
-                             }else {
+                             }else if('Plain Text' === this.reportModel.formatType){
+                                link.href = 'data:application/text;base64,' +encodeURIComponent(this.submitedForm.outputData) ;
+                                link.download = fileName+"_"+this.datePipe.transform(new Date(), 'dd-MM-yyyy hh:mm:ss')+".txt";
+                                link.click()
+                            }else if('Comma Separated Value Text' === this.reportModel.formatType){
+                                link.href = 'data:application/csv;base64,' +encodeURIComponent(this.submitedForm.outputData) ;
+                                link.download = fileName+"_"+this.datePipe.transform(new Date(), 'dd-MM-yyyy hh:mm:ss')+".csv";
+                                link.click()
+                            }else {
                                 link.href = 'data:application/octet-stream;base64,' +encodeURIComponent(this.submitedForm.outputData) ;
                                 link.download = fileName+"_"+this.datePipe.transform(new Date(), 'dd-MM-yyyy hh:mm:ss')+".pdf";
                                 link.click();

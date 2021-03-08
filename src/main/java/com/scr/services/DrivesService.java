@@ -718,7 +718,20 @@ public class DrivesService {
 			logger.info("** in else condition size ***"+drivesList.size());
 		}*/
 		logger.info("** parameter values ***zone***"+facility.getZone()+"*** division***"+facility.getDivision()+"*** sub division***"+facility.getSubDivision()+"*** facility Name***"+facility.getFacilityName()+"*** depot type ***"+functionalLocationType.get());
-		drivesList = driveRepository.findByFunctionalUnitOrFunctionalUnitOrFunctionalUnitOrFunctionalUnitAndDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(facility.getZone(),facility.getDivision(),facility.getSubDivision(),facility.getFacilityName(),functionalLocationType.get().getId(),fromDate,toDate);
+		if(functionalLocationType.isPresent()) {
+			if ("OHE".equals(functionalLocationType.get().getCode()) || "PSI".equals(functionalLocationType.get().getCode())  ) {
+				Optional<FunctionalLocationTypes> functionalLocationTypeTRD = functionalLocationTypesRepository.findByCode("TRD");
+				if (functionalLocationTypeTRD.isPresent()) {
+					List<Long> functionLocationTypes = new ArrayList<>();
+					functionLocationTypes.add(functionalLocationType.get().getId());
+					functionLocationTypes.add(functionalLocationTypeTRD.get().getId());
+					drivesList = driveRepository.findByFunctionalUnitOrFunctionalUnitOrFunctionalUnitOrFunctionalUnitAndDepotTypeInAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(facility.getZone(),facility.getDivision(),facility.getSubDivision(),facility.getFacilityName(),functionLocationTypes,fromDate,toDate);
+				}
+			} else {
+				drivesList = driveRepository.findByFunctionalUnitOrFunctionalUnitOrFunctionalUnitOrFunctionalUnitAndDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(facility.getZone(),facility.getDivision(),facility.getSubDivision(),facility.getFacilityName(),functionalLocationType.get().getId(),fromDate,toDate);
+			}
+		}
+		
 		if (drivesList != null) {
 			for (Drives drives : drivesList) {
 				Optional<DriveTarget> driveTarget =driveTargetRepository.findByDriveIdAndUnitTypeAndUnitName(drives,facility.getDepotType(),facility.getFacilityName());
