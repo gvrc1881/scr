@@ -25,8 +25,20 @@
                                                   <div class="col-md-3" *ngFor="let names of parameterData">
                                                        <!-- FROM DATE -->
                                                        <div
-                                                            *ngIf="(names.parameterName=='date' || names.parameterName=='Date') ||
-                                        names.parameterName=='DayReadingsAndConsumptionDate' || names.parameterName=='fromDate'">
+                                                            *ngIf="(names.parameterName=='DayReadingsAndConsumptionDate' || names.parameterName=='fromDate')">
+                                                            <mat-form-field>
+                                                                 <input matInput [matDatepicker]="picker1"
+                                                                      placeholder="Choose From Date"
+                                                                      [formControl]="reportsByQuery.controls['fromDate']"
+                                                                      [max]="maxDate">
+                                                                 <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                                 </mat-datepicker-toggle>
+                                                                 <mat-datepicker #picker1></mat-datepicker>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <div
+                                                            *ngIf="(names.parameterName=='date' || names.parameterName=='Date')">
                                                             <mat-form-field>
                                                                  <input matInput [matDatepicker]="picker1"
                                                                       placeholder="Choose From Date"
@@ -129,6 +141,18 @@
                                                                       <mat-option *ngFor="let facility of facilityId"
                                                                            [value]="facility">
                                                                            {{ facility.facilityName}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <div *ngIf="(names.parameterName=='state_Elec_Board')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="State Elec Board" 
+                                                                      [formControl]="reportsByQuery.controls['stateEleBoard']">
+                                                                      <mat-option *ngFor="let board of stateElectricityBoardList"
+                                                                           [value]="board.statusCode">
+                                                                           {{board.statusCode}}
                                                                       </mat-option>
                                                                  </mat-select>
                                                             </mat-form-field>

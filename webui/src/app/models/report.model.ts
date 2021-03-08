@@ -47,5 +47,5 @@ export class ReportModel{
     checkPointsDepot:any;
     equipmentno:any;
     tempDiff:any;
- 
+    stateEleBoard:any
 }

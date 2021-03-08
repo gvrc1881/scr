@@ -61,7 +61,7 @@ export class ReportByQueryComponent implements OnInit {
        sub;/*It defines to store router map of subscribe*/
        id: any;  /* Its used to store the getting name on the report page  */
        formatType = ["Adobe portable Document Format(pdf)", "Comma Separated Value Text", "HTML Text", "Microsoft Excel", "Plain Text", "XML Text"]
-
+       stateElectricityBoardList:any;
        reportsByQuery: FormGroup;
        maxDate = new Date();
        divCode: any;
@@ -135,6 +135,7 @@ this.workName();
               this.driveName();
               this.feederName();
               this.finddepot();
+              this.findBoardsList();
               ReportPayload.GET.reportId = this.id;
            /*
               for (let i = 0; i < this.userHierarchy.length; i++) {
@@ -186,7 +187,8 @@ this.workName();
                      'location': [null],
                      'checkPointsDepot':[null],
                      'equipmentno':[null],
-                     'tempDiff':[null]
+                     'tempDiff':[null],
+                     'stateEleBoard':[null]             
               });
        }
        selectedValue($event, Type) {
@@ -234,6 +236,12 @@ this.workName();
               );
 
        }
+       findBoardsList(){
+              this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.STATE_ELECTRICITY_BOARD)
+              .subscribe((resp) => {
+                this.stateElectricityBoardList = resp;
+              });
+            }
        powerBlocks() {
               const failuresModel: FailuresTableModel[] = [];
               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_POWER_BLOCKS).subscribe((data) => {
@@ -471,6 +479,7 @@ this.workName();
               this.reportModel.checkPointsDepot = this.reportsByQuery.controls.checkPointsDepot.value;
               this.reportModel.equipmentno =this.reportsByQuery.controls.equipmentno.value;
               this.reportModel.tempDiff =this.reportsByQuery.controls.tempDiff.value;
+              this.reportModel.stateEleBoard=this.reportsByQuery.controls.stateEleBoard.value;
               console.log("generateReport" + this.id)
               this.submitedForm = "";
               this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_REPORT, this.reportModel, true)
