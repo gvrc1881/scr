@@ -14,7 +14,7 @@
 	 		 <div class="clear"> </div>
              <div class="row-fluid">
              	<div class="panel panel-primary">
-             		<div class="panel-heading">Switch Operation Information
+             		<div class="panel-heading">Switch Operation Information   {{nowDate}}
              			<div class="float-right" style="float: right;">
              				<span [routerLink]="['/powerBlocks']" color="warn" mat-raised-button="">
              				<mat-icon>arrow_back_ios</mat-icon>
@@ -22,9 +22,14 @@
                         </div>                                
              		</div>
              		<div class="panel-body">
-             			<div class="alert alert-info" role="alert">
-						  <strong><b>Power Block Details</b></strong><br><strong>Depot: </strong>{{depot}} <strong> Section: </strong>{{powerBlockData.section}} 
-						  <strong> Section Code: </strong>{{powerBlockData.elementarySectionCode}} <strong> Request By:</strong>{{powerBlockData.reqnBy}}
+             			<div class="alert alert-info" role="alert" *ngIf="powerBlockData">
+						  <strong><b>Power Block Details Of </b></strong>{{depot }}<strong> Date: </strong>{{date }} <strong> ES: </strong>{{powerBlockData.section}} 
+						   ( {{powerBlockData.elementarySectionCode}} )<strong> Request By:</strong>{{powerBlockData.reqnBy}} 
+						  <!--<div class="float-right" style="float: right;">
+							   <span  [routerLink]="['/powerBlocks']" color="warn" mat-raised-button="">
+	             				Back
+	                            </span> 
+                            </div> -->
 						</div>
              		</div>
              		<div class="clear"> </div>
@@ -166,8 +171,8 @@
 	                            <ng-container *matCellDef="let row">
 		                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else ioOpenedDateTimeElseBlock">
 		                            	<mat-form-field style="width:100px !important; text-align: left">
-		                            	<input matInput type="text" [(ngModel)]="row.ioOpenedDateTime" readonly >
-	  									<button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="getOpenDate(row)">
+		                            	<input matInput type="text" [(ngModel)]="row.ioOpenedOnlyTime" readonly >
+	  									<button mat-button style="width:40px !important; text-align: left" matSuffix mat-icon-button aria-label="Clear" (click)="getOpenDate(row)">
 	    								<mat-icon>access_time</mat-icon>
 	  									</button>
 	  									</mat-form-field>
@@ -224,8 +229,8 @@
 	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.OPEN_DONE}}</mat-header-cell>
 	                            <mat-cell *matCellDef="let row">
 	                            	<mat-form-field style="width:100px !important; text-align: left">
-	                            	<input matInput type="text" [(ngModel)]="row.ioOpenedDateTimeDone" readonly >
-  									<button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="getOpenDoneDate(row)">
+	                            	<input matInput type="text" [(ngModel)]="row.ioOpenDoneOnlyTime" readonly >
+  									<button mat-button style="width:40px !important; text-align: left"  matSuffix mat-icon-button aria-label="Clear" (click)="getOpenDoneDate(row)">
     								<mat-icon>access_time</mat-icon>
   									</button>
   									</mat-form-field>
@@ -281,8 +286,8 @@
 	                            <ng-container *matCellDef="let row">
 		                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else ioClosedDateTimeElseBlock">
 		                            	<mat-form-field style="width:100px !important; text-align: left">
-		                            	<input matInput type="text" [(ngModel)]="row.ioClosedDateTime" readonly >
-	  									<button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="getCloseDate(row)">
+		                            	<input matInput type="text" [(ngModel)]="row.ioClosedOnlyTime" readonly >
+	  									<button mat-button style="width:40px !important; text-align: left"  matSuffix mat-icon-button aria-label="Clear" (click)="getCloseDate(row)">
 	    								<mat-icon>access_time</mat-icon>
 	  									</button>
 	  									</mat-form-field>
@@ -331,8 +336,8 @@
 	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CLOSE_DONE}}</mat-header-cell>
 	                            <mat-cell *matCellDef="let row">
 	                            	<mat-form-field style="width:100px !important; text-align: left">
-	                            	<input matInput type="text" [(ngModel)]="row.ioClosedDateTimeDone" readonly >
-  									<button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="getCloseDoneDate(row)">
+	                            	<input matInput type="text" [(ngModel)]="row.ioCloseDoneOnlyTime" readonly >
+  									<button mat-button style="width:40px !important; text-align: left"  matSuffix mat-icon-button aria-label="Clear" (click)="getCloseDoneDate(row)">
     								<mat-icon>access_time</mat-icon>
   									</button>
   									</mat-form-field>

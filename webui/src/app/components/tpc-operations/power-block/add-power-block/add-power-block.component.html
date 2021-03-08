@@ -73,7 +73,7 @@
 	                                                    <div class="col-md-3">
 	                                                        <mat-form-field fxFlex="30">
 	                                                            <mat-select placeholder="{{FiledLabels.PB_SECTION}}" [multiple]="true"
-	                                                                [formControl]="addPowerBlockFormGroup.controls['elementarySectionCode']">
+	                                                                [formControl]="addPowerBlockFormGroup.controls['elementarySectionCode']" required>
 	                                                                <mat-option *ngFor="let PBSections of PBSections"
 	                                                                    [value]="PBSections">
 	                                                                    {{ PBSections}}
