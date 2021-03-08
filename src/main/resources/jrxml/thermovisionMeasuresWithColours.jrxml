@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="thermovisionMeasuresWithColours" pageWidth="1200" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="1160" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e579d3bc-e695-4d03-903b-d97ddd2e90d8">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="thermovisionMeasuresWithColours" pageWidth="1600" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="1560" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e579d3bc-e695-4d03-903b-d97ddd2e90d8">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -11,9 +11,6 @@
 	<parameter name="division" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="Depots" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -23,19 +20,23 @@
 	<parameter name="tempDiff" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="facilityId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[Select tcps_facility_name ,  tcps_date , f_diff , tcpm_remark ,--cur.tcpm_tcp_schedule_id ,
 tcpm_date_of_retest ,	tcpm_thermovision_measure_id ,
 prev2_events, prev3_events,  prev4_events,
-cur_tcp_sch_id1, cur_tcp_sch_date1, Pre_tcp_sch_id1,Pre_tcp_sch_date1 , Pre_tcp_sch_id2, Pre_tcp_sch_date2 , Pre_tcp_sch_id3, Pre_tcp_sch_date3,tcpm_measure_point1 ,  tcpm_measure_point2
-
+cur_tcp_sch_id1, cur_tcp_sch_date1,
+Pre_tcp_sch_id1,Pre_tcp_sch_date1 , Pre_tcp_sch_id2, Pre_tcp_sch_date2 , Pre_tcp_sch_id3, Pre_tcp_sch_date3,tcpm_measure_point1 ,  tcpm_measure_point2,
+tcp_check_point1_description,tcp_check_point2_description
 from
 (
 select vtm.tcps_facility_id , vtm.tcps_facility_name , 	vtm.tcp_id as vtm_tcp_id ,
 case when (vtm.tcpm_measure_point1 is not null and vtm.tcpm_measure_point2 is not null) then
 abs(vtm.tcpm_measure_point1 - vtm.tcpm_measure_point2)  end as f_diff,
- vtm.tcp_display_order vtm_tcp_display_order, vtm.tcpm_tcp_schedule_id,
-vtm.tcpm_measure_point1 ,  vtm.tcpm_measure_point2  ,vtm.tcpm_tcp_id ,vtm.tcpm_id,
+ vtm.tcp_display_order vtm_tcp_display_order, vtm.tcpm_tcp_schedule_id,tcp_check_point1_description,
+vtm.tcpm_measure_point1 , tcp_check_point2_description, vtm.tcpm_measure_point2  ,vtm.tcpm_tcp_id ,vtm.tcpm_id,
 --vtm.tcpm_image_id , vtm.tcpm_criticality,
 	vtm.tcpm_remark ,
 	vtm.tcps_date::date tcps_date , vtm.tcpm_tcp_schedule_id ,-- pre.tcpm_tcp_schedule_id ,
@@ -102,7 +103,7 @@ abs(vtm.tcpm_measure_point1 - vtm.tcpm_measure_point2) end > $P{tempDiff}::float
 where  vtm.tcps_facility_id in  ( select id from facility
 				      		where division = $P{division}
 and depot_type in ('SP', 'SSP', 'TSS')
-				   	  		and case when $P{Depots} != '' then id = $P{Depots}::integer
+and case when $P{facilityId} != '' then id = $P{facilityId}::integer
 else id is not null or id is null end ---  requested_station
 							)
 and tcps_date::date  between $P{fromDate}::date and $P{toDate}::date
@@ -245,13 +246,15 @@ order by tcps_facility_name ,  tcps_date]]>
 	<field name="pre_tcp_sch_date3" class="java.lang.String"/>
 	<field name="tcpm_measure_point1" class="java.lang.Double"/>
 	<field name="tcpm_measure_point2" class="java.lang.Double"/>
+	<field name="tcp_check_point1_description" class="java.lang.String"/>
+	<field name="tcp_check_point2_description" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="39" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="1160" height="39" uuid="4126da23-e19b-48b9-9703-319c0cc4a9fe"/>
+				<reportElement x="0" y="0" width="1560" height="39" uuid="4126da23-e19b-48b9-9703-319c0cc4a9fe"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -286,7 +289,7 @@ order by tcps_facility_name ,  tcps_date]]>
 				<text><![CDATA[Sl No]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="323" y="0" width="100" height="20" uuid="48b12df9-95e0-45be-9a8f-3861024fd549"/>
+				<reportElement x="566" y="0" width="89" height="20" uuid="48b12df9-95e0-45be-9a8f-3861024fd549"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -300,7 +303,7 @@ order by tcps_facility_name ,  tcps_date]]>
 				<text><![CDATA[Measure Point1]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="423" y="0" width="100" height="20" uuid="bb831bba-b73d-4acc-8639-7a23bc3f2d48"/>
+				<reportElement x="905" y="0" width="100" height="20" uuid="bb831bba-b73d-4acc-8639-7a23bc3f2d48"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -314,7 +317,7 @@ order by tcps_facility_name ,  tcps_date]]>
 				<text><![CDATA[Measure Point2]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="574" y="0" width="286" height="20" uuid="fa375655-244c-416e-bc6a-68559ab98b45"/>
+				<reportElement x="1056" y="0" width="204" height="20" uuid="fa375655-244c-416e-bc6a-68559ab98b45"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -356,7 +359,7 @@ order by tcps_facility_name ,  tcps_date]]>
 				<text><![CDATA[Date of Retest]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="523" y="0" width="51" height="20" uuid="8108d175-1238-4646-b250-09e4ea931cb1"/>
+				<reportElement x="1005" y="0" width="51" height="20" uuid="8108d175-1238-4646-b250-09e4ea931cb1"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -370,7 +373,7 @@ order by tcps_facility_name ,  tcps_date]]>
 				<text><![CDATA[Diff]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="860" y="0" width="100" height="20" uuid="d549c021-c806-42a3-a095-1ff239516511"/>
+				<reportElement x="1260" y="0" width="100" height="20" uuid="d549c021-c806-42a3-a095-1ff239516511"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -384,7 +387,7 @@ order by tcps_facility_name ,  tcps_date]]>
 				<text><![CDATA[Prev1 Events]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="960" y="0" width="100" height="20" uuid="f43e40e7-576a-4f66-bfd9-39d5c67a5e5e"/>
+				<reportElement x="1360" y="0" width="100" height="20" uuid="f43e40e7-576a-4f66-bfd9-39d5c67a5e5e"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -398,7 +401,7 @@ order by tcps_facility_name ,  tcps_date]]>
 				<text><![CDATA[Prev2 Events]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1060" y="0" width="100" height="20" uuid="06db718a-a124-40b9-a003-a5f1db8d87f2"/>
+				<reportElement x="1460" y="0" width="100" height="20" uuid="06db718a-a124-40b9-a003-a5f1db8d87f2"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -425,6 +428,34 @@ order by tcps_facility_name ,  tcps_date]]>
 				</textElement>
 				<text><![CDATA[Sch Date]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="323" y="0" width="243" height="20" uuid="40ec6da6-ace9-42ab-8674-014370e99e74"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Check Point Description1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="655" y="0" width="250" height="20" uuid="864c4213-19e1-407b-8c29-50289d0a1245"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Check Point Description2]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
@@ -442,7 +473,7 @@ order by tcps_facility_name ,  tcps_date]]>
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="574" y="0" width="286" height="20" uuid="9d1098d9-e924-4871-bd58-ad6ed827afc0"/>
+				<reportElement stretchType="RelativeToTallestObject" x="1056" y="0" width="204" height="20" uuid="9d1098d9-e924-4871-bd58-ad6ed827afc0"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -466,7 +497,7 @@ order by tcps_facility_name ,  tcps_date]]>
 				<textFieldExpression><![CDATA[$F{tcpm_date_of_retest}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="523" y="0" width="51" height="20" uuid="f97a62fa-6762-4686-b022-d02ac22d7e14"/>
+				<reportElement stretchType="RelativeToTallestObject" x="1005" y="0" width="51" height="20" uuid="f97a62fa-6762-4686-b022-d02ac22d7e14"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -490,7 +521,7 @@ order by tcps_facility_name ,  tcps_date]]>
 				<textFieldExpression><![CDATA[$F{tcps_facility_name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="323" y="0" width="100" height="20" uuid="8899dd3c-bdb8-4279-9f0f-4513c80deb00"/>
+				<reportElement stretchType="RelativeToTallestObject" x="566" y="0" width="89" height="20" uuid="8899dd3c-bdb8-4279-9f0f-4513c80deb00"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -502,7 +533,7 @@ order by tcps_facility_name ,  tcps_date]]>
 				<textFieldExpression><![CDATA[$F{tcpm_measure_point1}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="423" y="0" width="100" height="20" uuid="8e95d4a5-e0fd-4f0d-a23c-4d9a3c6fd39f"/>
+				<reportElement stretchType="RelativeToTallestObject" x="905" y="0" width="100" height="20" uuid="8e95d4a5-e0fd-4f0d-a23c-4d9a3c6fd39f"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -514,7 +545,7 @@ order by tcps_facility_name ,  tcps_date]]>
 				<textFieldExpression><![CDATA[$F{tcpm_measure_point2}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="860" y="0" width="100" height="20" uuid="fc7a4d8a-fc50-45fa-94fa-c95abb080e1e"/>
+				<reportElement stretchType="RelativeToTallestObject" x="1260" y="0" width="100" height="20" uuid="fc7a4d8a-fc50-45fa-94fa-c95abb080e1e"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -526,7 +557,7 @@ order by tcps_facility_name ,  tcps_date]]>
 				<textFieldExpression><![CDATA[$F{prev2_events}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="960" y="0" width="100" height="20" uuid="07d8a788-97d0-4ae5-ab0d-6b4dc16e12b7"/>
+				<reportElement stretchType="RelativeToTallestObject" x="1360" y="0" width="100" height="20" uuid="07d8a788-97d0-4ae5-ab0d-6b4dc16e12b7"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -538,7 +569,7 @@ order by tcps_facility_name ,  tcps_date]]>
 				<textFieldExpression><![CDATA[$F{prev3_events}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="1060" y="0" width="100" height="20" uuid="adddfc72-e9d4-4b24-bbf9-77e9ca7cfbef"/>
+				<reportElement stretchType="RelativeToTallestObject" x="1460" y="0" width="100" height="20" uuid="adddfc72-e9d4-4b24-bbf9-77e9ca7cfbef"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -561,6 +592,30 @@ order by tcps_facility_name ,  tcps_date]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$F{cur_tcp_sch_date1}]]></textFieldExpression>
 			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="655" y="0" width="250" height="20" uuid="b4003fb3-5b53-4587-9d61-d1509049037a"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{tcp_check_point2_description}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="323" y="0" width="243" height="20" uuid="0fbbf6ad-d20c-4448-9e66-e62f4efbb15f"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{tcp_check_point1_description}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
@@ -569,24 +624,24 @@ order by tcps_facility_name ,  tcps_date]]>
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement x="960" y="0" width="100" height="20" uuid="fd7b14bd-25ef-46e0-bcb2-1f13bfec74ce"/>
+				<reportElement x="1360" y="0" width="100" height="20" uuid="fd7b14bd-25ef-46e0-bcb2-1f13bfec74ce"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Generated On : ]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="1060" y="0" width="100" height="20" uuid="47309877-ace1-40cd-9cc6-cc411a82af24"/>
+				<reportElement x="1460" y="0" width="100" height="20" uuid="47309877-ace1-40cd-9cc6-cc411a82af24"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="423" y="0" width="300" height="20" uuid="4cc45e9c-798e-4da5-8256-7703c5c9416e"/>
+				<reportElement x="655" y="0" width="250" height="20" uuid="4cc45e9c-798e-4da5-8256-7703c5c9416e"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="723" y="0" width="237" height="20" uuid="82de6807-37e4-483a-9d4e-11a456ebd7e3"/>
+				<reportElement x="905" y="0" width="100" height="20" uuid="82de6807-37e4-483a-9d4e-11a456ebd7e3"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -597,7 +652,7 @@ order by tcps_facility_name ,  tcps_date]]>
 	<noData>
 		<band height="33">
 			<staticText>
-				<reportElement x="0" y="0" width="1160" height="33" forecolor="#ED0C2B" uuid="59c8d4c4-8208-49af-9fb9-0f5130b84291"/>
+				<reportElement x="0" y="0" width="1560" height="33" forecolor="#ED0C2B" uuid="59c8d4c4-8208-49af-9fb9-0f5130b84291"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>

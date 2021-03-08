@@ -52,6 +52,12 @@ public class AshDailyProgress implements Serializable {
 	private String remark;
 
 	private Date date;
+	
+	@Column(name = "approved_status")
+	private String approvedStatus;
+	
+	@Column(name = "approve_by")
+	private String approveBy;
 
 	@ManyToOne
 	@JoinColumn(name = "facility", foreignKey = @ForeignKey(name = "fk_ash_daily_progress_facility"))
@@ -191,6 +197,22 @@ public class AshDailyProgress implements Serializable {
 
 	public void setFacility(Facility facility) {
 		this.facility = facility;
+	}
+
+	public String getApprovedStatus() {
+		return approvedStatus;
+	}
+
+	public void setApprovedStatus(String approvedStatus) {
+		this.approvedStatus = approvedStatus;
+	}
+
+	public String getApproveBy() {
+		return approveBy;
+	}
+
+	public void setApproveBy(String approveBy) {
+		this.approveBy = approveBy;
 	}
 
 	@Override

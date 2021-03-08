@@ -58,6 +58,12 @@ public class PrecautionaryMeasure implements Serializable {
 	@Column(name="seq_id")
 	private String seqId;
 
+	@Column(name = "approved_status")
+	private String approvedStatus;
+	
+	@Column(name = "approve_by")
+	private String approveBy;
+
 	
 	
 	@ManyToOne
@@ -188,6 +194,22 @@ public class PrecautionaryMeasure implements Serializable {
 
 	public void setCount(Integer count) {
 		this.count = count;
+	}
+
+	public String getApprovedStatus() {
+		return approvedStatus;
+	}
+
+	public void setApprovedStatus(String approvedStatus) {
+		this.approvedStatus = approvedStatus;
+	}
+
+	public String getApproveBy() {
+		return approveBy;
+	}
+
+	public void setApproveBy(String approveBy) {
+		this.approveBy = approveBy;
 	}
 
 	@Override

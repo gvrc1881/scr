@@ -60,6 +60,13 @@ public class ThermovisionMeasures {
 	private Date dateOfRetest ;
 	
 	private Long thermovisionMeasureId; 
+	
+	@Column(name = "approved_status")
+	private String approvedStatus;
+	
+	@Column(name = "approve_by")
+	private String approveBy;
+
 
 	//private Double varianceWithOtherPoint;
 
@@ -246,6 +253,22 @@ public class ThermovisionMeasures {
 
 	public void setThermovisionMeasureId(Long thermovisionMeasureId) {
 		this.thermovisionMeasureId = thermovisionMeasureId;
+	}
+
+	public String getApprovedStatus() {
+		return approvedStatus;
+	}
+
+	public void setApprovedStatus(String approvedStatus) {
+		this.approvedStatus = approvedStatus;
+	}
+
+	public String getApproveBy() {
+		return approveBy;
+	}
+
+	public void setApproveBy(String approveBy) {
+		this.approveBy = approveBy;
 	}
 
 }

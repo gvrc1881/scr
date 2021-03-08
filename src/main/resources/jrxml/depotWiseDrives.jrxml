@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="drives" pageWidth="1460" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="1420" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9dc6e324-fa21-4062-821e-33bcc6ca98b4">
-	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="714"/>
+	<property name="ireport.zoom" value="0.9090909090909096"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="depot" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -12,43 +12,60 @@
 	<parameter name="driveName" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="division" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[select
-code div_code, b.drv_id ,  b.drv_name , drv_frequency ,drive_category_name,report_sub_heading , report_order  ,report_display_id ,
+b.division div_code, facility_name,b.drv_id ,  b.drv_name , drv_frequency ,drive_category_name,report_sub_heading , report_order  ,report_display_id ,
 	case when poulation::integer is null then 0 else poulation::integer end as poulation,
-	case when target::integer is null then 0 else target::integer end as target ,
+	case when  target::integer is null then 0 else target::integer end as target ,
 	case when unit_name is null then 'not defined' else unit_name end as unit_name ,
-	progress_till_now , unit_name depot_name, depot facility_id
+	progress_till_now --, unit_name --depot_name, --depot facility_id
 
 from
 	(
-	select code , drv_id ,  drv_name , drv_frequency,drive_category_name,report_sub_heading , report_order  ,report_display_id
-	from ( select code from division where zone_id = 10) div ,
+	--- to get division wise drives list of all categories - by filter on a category - we get can get the one
+	select division,facility_name , facility_id,drv_id ,  drv_name , drv_frequency,drive_category_name,report_sub_heading , report_order  ,report_display_id
+	from ( select division ,depot_type ,facility_id  ,facility_name  from facility
+		where division = $P{division}
+		and depot_type in('OHE', 'PSI','TRD') ) dep ,
 		  ( select dca.drv_id ,  dca.drv_name , drv_frequency,drive_category_name,dca.report_sub_heading , dca.report_order  ,
-		   dca.report_display_id  from v_drive_category_asso dca where drive_category_name = $P{driveName}) a
+		   dca.report_display_id  from v_drive_category_asso dca
+			--AND CATEGORY PARAMETER
+			where drive_category_name = $P{driveName}
+		   ) a
+		   order by facility_name
 	)b
 	left outer join
+
+	--- for getting division targets and progress
+
 		(select  drive_id ,  drv_name , unit_type, unit_name ,
 		 case when poulation::integer is null then 0 else poulation::integer end as poulation,
 		 case when target::integer is null then 0 else target::integer end as target
 		 from v_drive_target dt , v_now_dd_mm_fy_data vn
 		 where drv_from_date >= fy_start_date
 		 and (drv_to_date is null or drv_to_date <= fy_end_date)
-		 and unit_type in ('OHE', 'PSI' , 'SP' , 'SSP', 'TSS')
-		 and unit_name =$P{facilityName}
+		 and unit_type in ('OHE', 'PSI' , 'SP' , 'SSP', 'TSS','TRD')
+		 and case when $P{facilityName} != '' then unit_name =$P{facilityName} else unit_name is not null or unit_name is null end
 		 )dt
-		 on (b.code = unit_name and b.drv_id = dt.drive_id and b.drv_name =dt.drv_name)
+		 on (b.facility_name = unit_name and b.drv_id = dt.drive_id and b.drv_name =dt.drv_name)
 	left outer join
-		(-- select * from drive_daily_progress
+		(
+		-- Division level drive_daily_progress
 		select sum(performed_count) progress_till_now, drive_id, drv_name , division , depot
 		from v_drive_daily_progress ddp, v_now_dd_mm_fy_data vn
 		where drv_from_date >= fy_start_date
 		and (drv_to_date is null or drv_to_date <= fy_end_date)
-	    	and depot = $P{depot}
+	    	and case when $P{depot} != '' then depot = $P{depot} else depot is not null or depot is not null end
 		group by drive_id, drv_name , division , depot
-		) c on (b.code = division and b.drv_id = c.drive_id and b.drv_name =c.drv_name and  b.drv_name =c.depot )]]>
+		) c on (b.facility_id = depot and b.drv_id = c.drive_id and b.drv_name =c.drv_name) --and  b.drv_name =c.depot )
+		where poulation is not null
+order by facility_name ,drive_category_name,report_order]]>
 	</queryString>
 	<field name="div_code" class="java.lang.String"/>
+	<field name="facility_name" class="java.lang.String"/>
 	<field name="drv_id" class="java.lang.Long"/>
 	<field name="drv_name" class="java.lang.String"/>
 	<field name="drv_frequency" class="java.lang.String"/>
@@ -60,8 +77,6 @@ from
 	<field name="target" class="java.lang.Integer"/>
 	<field name="unit_name" class="java.lang.String"/>
 	<field name="progress_till_now" class="java.lang.Double"/>
-	<field name="depot_name" class="java.lang.String"/>
-	<field name="facility_id" class="java.lang.String"/>
 	<group name="subhead">
 		<groupExpression><![CDATA[]]></groupExpression>
 		<groupHeader>
@@ -108,6 +123,9 @@ from
 				</textElement>
 				<textFieldExpression><![CDATA[$F{drive_category_name}]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement x="1420" y="0" width="1" height="31" uuid="cf4d70f7-a7e0-43fe-8601-e4e71fe281ef"/>
+			</line>
 		</band>
 	</title>
 	<columnHeader>
@@ -222,7 +240,7 @@ from
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Div]]></text>
+				<text><![CDATA[Division]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="658" y="20" width="160" height="20" uuid="be0ab7e6-5ed5-46bc-a309-37011d7f4679"/>
@@ -252,6 +270,12 @@ from
 				</textElement>
 				<text><![CDATA[Unit Name]]></text>
 			</staticText>
+			<line>
+				<reportElement x="1420" y="0" width="1" height="20" uuid="1aa982bb-8819-4bdb-a6c7-330c8d319ed1"/>
+			</line>
+			<line>
+				<reportElement x="1420" y="20" width="1" height="20" uuid="180f4e42-5065-489c-8915-4f5cdc88eecf"/>
+			</line>
 		</band>
 	</columnHeader>
 	<detail>
@@ -326,7 +350,7 @@ from
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA[$F{depot_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{facility_name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="1318" y="0" width="102" height="20" uuid="60c9a2ce-d7ed-4b9d-ba5d-fa359d5fbfa0"/>
@@ -364,6 +388,9 @@ from
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$F{unit_name}]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement x="1420" y="0" width="1" height="20" uuid="f02ad78a-8528-4bb6-a55e-f7954b725d0a"/>
+			</line>
 		</band>
 	</detail>
 	<columnFooter>

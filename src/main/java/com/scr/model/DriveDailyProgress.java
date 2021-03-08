@@ -62,6 +62,12 @@ public class DriveDailyProgress implements Serializable {
 
 	@Column(name = "updated_on")
 	private Timestamp updatedOn;
+	
+	@Column(name = "approved_status")
+	private String approvedStatus;
+	
+	@Column(name = "approve_by")
+	private String approveBy;
 
 	@ManyToOne
 	@JoinColumn(name = "drive_id", foreignKey = @ForeignKey(name = "fk_drive_daily_progress_drives_id"))
@@ -180,6 +186,22 @@ public class DriveDailyProgress implements Serializable {
 
 	public void setStatusId(Integer statusId) {
 		this.statusId = statusId;
+	}
+
+	public String getApprovedStatus() {
+		return approvedStatus;
+	}
+
+	public void setApprovedStatus(String approvedStatus) {
+		this.approvedStatus = approvedStatus;
+	}
+
+	public String getApproveBy() {
+		return approveBy;
+	}
+
+	public void setApproveBy(String approveBy) {
+		this.approveBy = approveBy;
 	}
 
 	
