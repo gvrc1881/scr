@@ -493,6 +493,7 @@ export class CopyDrivesComponent implements OnInit {
   driveCategory: any;
   createDrives: boolean;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+  toMinDate: any;
 
 
   constructor(
@@ -515,6 +516,10 @@ export class CopyDrivesComponent implements OnInit {
       toDate:[null]
     })
     this.year = new Date().getFullYear();
+  }
+    
+   addEvent($event) {
+    this.toMinDate = new Date($event.value);
   }
 
   saveAction() {
