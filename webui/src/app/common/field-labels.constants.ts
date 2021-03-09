@@ -72,6 +72,7 @@ export const FieldLabelsConstant = {
       REMARKS_NO:"Remarks No",
       AUTO_DEAD:"Auto Dead",
       C_CLAMP: "C-Clamp",
+      COPY : "Copy"
       CMD: "CMD",
       COMMENTS: "Comments",
       CODE:"Code",
