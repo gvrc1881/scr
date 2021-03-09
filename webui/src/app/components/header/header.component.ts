@@ -1375,6 +1375,43 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
           },
         ]
       },
+      {
+        ID: 20,
+        menuName: 'ALERTS',
+        menuUrl: 'alert-group',
+        icon: "fa fa-thermometer-full",
+        color: "#12E1EE",
+        isSelected: true,
+        permission: this.commonService.findPermission('ALERTS', 'menu', 'view'),
+        currentTab: !!path && path.includes("alert-group") || path.includes("alert-group-member") 
+        || path.includes("event-alert-recipient") || path.includes("alert-message-template") ? "open" : "",
+        subMenus: [       
+          {
+            subMenuName: "Alert Group Member",
+            subMenuURL: "alert-group-member",
+            subMenuIcon: "fa fa-train",
+            permission: this.commonService.findPermission('Alert Group Member', 'submenu', 'view'),
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("alert-group-member") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Event Alert Recipient",
+            subMenuURL: "event-alert-recipient",
+            subMenuIcon: "fa fa-product-hunt",
+            permission: this.commonService.findPermission('Event Alert Recipient', 'submenu', 'view'),
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("event-alert-recipient") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Alert Message Template",
+            subMenuURL: "alert-message-template",
+            subMenuIcon: "fa fa-product-hunt",
+            permission: this.commonService.findPermission('Alert Message Template', 'submenu', 'view'),
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("alert-message-template") ? "active-item" : "",
+          },
+        ]
+      },
     ];
   //  this.clicked = path;
     sessionStorage.setItem("MenusList", this.MenusList);

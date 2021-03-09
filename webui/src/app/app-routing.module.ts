@@ -615,6 +615,16 @@ const routes: Routes = [
     loadChildren: './components/fp-sections/fp-sections.module#FpSectionsModule',
      canActivate: [AuthGuard]
    },
+   {
+    path: 'alert-group',
+    loadChildren: './components/alert-group/alert-group.module#AlertGroupModule',
+     canActivate: [AuthGuard]
+   },
+   {
+    path: 'alert-group-member',
+    loadChildren: './components/alert-group-member/alert-group-member.module#AlertGroupMemberModule',
+     canActivate: [AuthGuard]
+   },
 ];
 
 @NgModule({

@@ -6,9 +6,10 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
+import com.scr.model.FootPatrollingInspection;
 import com.scr.model.Inspection;
 import com.scr.model.Observation;
+
 
 @Repository
 public interface ObservationsRepository extends JpaRepository<Observation, Long> {
@@ -34,4 +35,7 @@ public interface ObservationsRepository extends JpaRepository<Observation, Long>
 
 	
 	List<Observation> findByInspectionSeqId(String inspectionSeqId);
+	
+	List<Observation> getByFootPatrollingInspectionId(FootPatrollingInspection footPatrollingInspectionId);
+
 }

@@ -130,7 +130,7 @@ static Logger logger = LogManager.getLogger(StatusTypeController.class);
 		}
 	}
 	
-	@RequestMapping(value = "/existsDescription/{description}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	@RequestMapping(value = "/existsStatusTypeDescription/{description}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existsDescription(@PathVariable("description") String description){		
 		try {
 			return statusTypeService.existsByDescription(description);
@@ -163,7 +163,7 @@ static Logger logger = LogManager.getLogger(StatusTypeController.class);
 			return false;
 		}
 	}
-	@RequestMapping(value = "/findByDescriptionAndId/{id}/{description}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	@RequestMapping(value = "/findByStatusTypeDescriptionAndId/{id}/{description}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean findByDescriptionAndId(@PathVariable("id") Long id,@PathVariable("description") String description){
 		
 		logger.info("id=="+id+"description=="+description);
