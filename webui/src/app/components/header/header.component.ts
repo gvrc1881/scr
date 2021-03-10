@@ -1319,7 +1319,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         color: "#12E1EE",
         isSelected: true,
         permission: this.commonService.findPermission('THERMOVISION', 'menu', 'view'),
-        currentTab: !!path && path.includes("thermovision-measure") ? "open" : "",
+        currentTab: !!path && path.includes("thermovision-measure") || path.includes("ohe-thermovision-measure") || path.includes("approve-psi")   ? "open" : "",
         subMenus: [       
           {
             subMenuName: "PSI Thermovision Measurement",
@@ -1344,6 +1344,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             permission: this.commonService.findPermission('OHE Thermovision Measurement', 'submenu', 'view'),
             rolePermission: this.rolePermission,
             currentSubMenu: !!path && path.includes("ohe-thermovision-measure") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Approve Psi",
+            subMenuURL: "approve-psi",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Approve Psi', 'submenu', 'view'),
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("approve-psi") ? "active-item" : "",
           },
         ]
       },
@@ -1372,6 +1380,43 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             permission: true,
             rolePermission: this.rolePermission,
             currentSubMenu: !!path && path.includes("product-association") ? "active-item" : "",
+          },
+        ]
+      },
+      {
+        ID: 20,
+        menuName: 'ALERTS',
+        menuUrl: 'alert-group',
+        icon: "fa fa-thermometer-full",
+        color: "#12E1EE",
+        isSelected: true,
+        permission: this.commonService.findPermission('ALERTS', 'menu', 'view'),
+        currentTab: !!path && path.includes("alert-group") || path.includes("alert-group-member") 
+        || path.includes("event-alert-recipient") || path.includes("alert-message-template") ? "open" : "",
+        subMenus: [       
+          {
+            subMenuName: "Alert Group Member",
+            subMenuURL: "alert-group-member",
+            subMenuIcon: "fa fa-train",
+            permission: this.commonService.findPermission('Alert Group Member', 'submenu', 'view'),
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("alert-group-member") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Event Alert Recipient",
+            subMenuURL: "event-alert-recipient",
+            subMenuIcon: "fa fa-product-hunt",
+            permission: this.commonService.findPermission('Event Alert Recipient', 'submenu', 'view'),
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("event-alert-recipient") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Alert Message Template",
+            subMenuURL: "alert-message-template",
+            subMenuIcon: "fa fa-product-hunt",
+            permission: this.commonService.findPermission('Alert Message Template', 'submenu', 'view'),
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("alert-message-template") ? "active-item" : "",
           },
         ]
       },

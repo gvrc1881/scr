@@ -20,7 +20,7 @@
 	<parameter name="tempDiff" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="facilityId" class="java.lang.String">
+	<parameter name="checkPointsDepot" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -103,7 +103,7 @@ abs(vtm.tcpm_measure_point1 - vtm.tcpm_measure_point2) end > $P{tempDiff}::float
 where  vtm.tcps_facility_id in  ( select id from facility
 				      		where division = $P{division}
 and depot_type in ('SP', 'SSP', 'TSS')
-and case when $P{facilityId} != '' then id = $P{facilityId}::integer
+and case when $P{checkPointsDepot}  is not null then id = $P{checkPointsDepot}::integer
 else id is not null or id is null end ---  requested_station
 							)
 and tcps_date::date  between $P{fromDate}::date and $P{toDate}::date

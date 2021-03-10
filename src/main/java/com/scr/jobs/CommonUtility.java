@@ -731,7 +731,7 @@ public class CommonUtility {
 					}
 				}
 			}
-			logger.info("facilityList => "+facilityList.toString());
+			//logger.info("facilityList => "+facilityList.toString());
 		}else {
 			logger.info("*** default facility not assigned***");
 		}

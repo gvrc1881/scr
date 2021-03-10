@@ -906,7 +906,9 @@ export const Constants = {
             GET_OHE_THERMO_MEASURES:"/getOherThermovisionMeasures/",
             SAVE_THERMO_MEASURE_RETEST:"/saveThermoMeasureRetest",
             GET_OHE_THERMO_MEASURES_DATA:"/getOheThermoMeasuresData/",
-            FIND_OHE_THERMOVISION_MEASUREMENTS:"/findOheThermovisionMeasurements"
+            FIND_OHE_THERMOVISION_MEASUREMENTS:"/findOheThermovisionMeasurements",
+            GET_NON_APPROVED_PSI_THERMO_MEASURES:"/getNonApprovedPsiThermoMeasures/",
+            SAVE_PSI_APPROVE_THERMO_MEASURES:"/savePsiApproveThermoMeasures"
         },
         THERMOVISION_CHECK_POINTS:{
             SAVE_CHECK_POINTS:"/addCheckPoints",
@@ -945,6 +947,44 @@ export const Constants = {
             GET_PRODUCT_ASSOCIATION:"/findAllProductAssociation",
             GET_PRODUCT_ASSOCIATION_ID:"/findProductAssociationById/",
             DELETE_PRODUCT_ASSOCIATION:"/deleteProductAssociation/"
+        },
+    },
+    ALERTS:{
+        ALERT_GROUP:{
+            SAVE_ALERT_GROUP:"/addAlertGroupItem",
+            UPDATE_ALERT_GROUP:"/updateAlertGroup",
+            DELETE_ALERT_GROUP:"/deleteAlertGroup/",
+            GET_ALERT_GROUP:"/findAllAlertGroup",
+            GET_ALERT_GROUP_ID:"/findAlertGroupItemById/",
+            EXIST_NAME:"/existsAlertGroupName/",
+            EXIST_NAME_ID:"/findByAlertGroupNameAndId/",
+            EXIST_DESCRIPTION:"/existsAlertGroupDescription/",
+            EXIST_DESCRIPTION_ID:"/findByAlertGroupDescriptionAndId/",
+        },
+        ALERT_GROUP_MEMBER:{
+            SAVE_ALERT_GROUP_MEMBER:"/addAlertGroupMemberItem",
+            UPDATE_ALERT_GROUP_MEMBER:"/updateAlertGroupMember",
+            DELETE_ALERT_GROUP_MEMBER:"/deleteAlertGroupMember/",
+            GET_ALERT_GROUP_MEMBER:"/findAllAlertGroupMember",
+            GET_ALERT_GROUP_MEMBER_ID:"/findAlertGroupMemberItemById/",
+            EXIST_NAME:"/existsAlertGroupMemberName/",
+            EXIST_NAME_ID:"/findByAlertGroupMemberNameAndId/",
+            EXIST_DESCRIPTION:"/existsAlertGroupMemberDescription/",
+            EXIST_DESCRIPTION_ID:"/findByAlertGroupMemberDescriptionAndId/",
+            GET_RECEIPENTS:"/findAllReceipents",
+            GET_RECEIPENTS_ID:"/findReceipentsItemById/",
+        },
+        EVENT_ALERT_RECIPIENT:{
+            SAVE_EVENT_ALERT_RECIPIENT:"/addEventAlertRecipient",
+            UPDATE_EVENT_ALERT_RECIPIENT:"/updateEventAlertRecipient",
+            DELETE_EVENT_ALERT_RECIPIENT:"/deleteEventAlertRecipient/",
+            GET_EVENT_ALERT_RECIPIENT:"/findAllEventAlertRecipient",
+            GET_EVENT_ALERT_RECIPIENT_ID:"/findEventAlertRecipientItemById/",
+            EXIST_NAME_ID:"/findByNameAndId/",
+            EXIST_DESCRIPTION:"/existsDescription/",
+            EXIST_DESCRIPTION_ID:"/findByDescriptionAndId/",
+            GET_EVENT_TYPE:"findAllEventType",
+            GET_EVENT_TYPE_ID:"/findEventTypeItemById/",
         },
     },
 

@@ -175,11 +175,11 @@ public class ThermovisionMeasures {
 		this.tcpId = tcpId;
 	}
 
-	public double getAmbientTemp() {
+	public Double getAmbientTemp() {
 		return ambientTemp;
 	}
 
-	public void setAmbientTemp(double ambientTemp) {
+	public void setAmbientTemp(Double ambientTemp) {
 		this.ambientTemp = ambientTemp;
 	}
 
@@ -270,5 +270,18 @@ public class ThermovisionMeasures {
 	public void setApproveBy(String approveBy) {
 		this.approveBy = approveBy;
 	}
+
+	@Override
+	public String toString() {
+		return "ThermovisionMeasures [id=" + id + ", measurePoint1=" + measurePoint1 + ", measurePoint2="
+				+ measurePoint2 + ", imageId=" + imageId + ", remark=" + remark + ", criticality=" + criticality
+				+ ", location=" + location + ", connectionPoint1=" + connectionPoint1 + ", connectionPoint2="
+				+ connectionPoint2 + ", ambientTemp=" + ambientTemp + ", createdBy=" + createdBy + ", updatedBy="
+				+ updatedBy + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", dateOfRetest=" + dateOfRetest
+				+ ", thermovisionMeasureId=" + thermovisionMeasureId + ", approvedStatus=" + approvedStatus
+				+ ", approveBy=" + approveBy + ", tcpId=" + tcpId + ", tcpScheduleId=" + tcpScheduleId + "]";
+	}
+	
+	
 
 }

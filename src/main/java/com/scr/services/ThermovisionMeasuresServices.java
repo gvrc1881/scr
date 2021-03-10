@@ -1,6 +1,7 @@
 package com.scr.services;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.scr.jobs.CommonUtility;
 import com.scr.message.request.OheThermovisionMeasureRequest;
 import com.scr.message.response.ThermovisionMeasureResponse;
 import com.scr.model.Facility;
@@ -39,6 +41,9 @@ public class ThermovisionMeasuresServices {
 	
 	@Autowired
 	private FacilityRepository facilityRepository;
+	
+	@Autowired
+	private CommonUtility commonUtility;
 	
 
 	public List<ThermovisionMeasureResponse> findThermovisionMeasure(String fromDate, String facilityId) {
@@ -200,6 +205,38 @@ public class ThermovisionMeasuresServices {
 		}
 		else 
 			return false;
+	}
+
+
+	public List<ThermovisionMeasures> findNonApprovedPsiThermovisionMeasure(Date date, String userName,
+			String facilityId) {
+		
+		if (facilityId != null && !"null".equals(facilityId )) {
+			Optional<TcpSchedule> tcpScheduleObj = tcpScheduleService.findByFacilityIdAndDateTime(Long.valueOf(facilityId),date);
+			if (tcpScheduleObj.isPresent()) {
+				List<ThermovisionMeasures> thermovisionMeasures = thermovisionMeasuresRepository.findByTcpScheduleIdInAndApprovedStatusIsNull(tcpScheduleObj.get());
+				return thermovisionMeasures;
+			}
+		} else {
+			List<Long> facilitiesList = new ArrayList<Long>();
+			List<Facility> facilities = commonUtility.findUserHierarchy(userName);
+			for (Facility facility : facilities) {
+				facilitiesList.add(facility.getId());
+			}
+			List<TcpSchedule> tcpScheduleList = tcpScheduleService.findByFacilityIdInAndDateTime(facilitiesList,date);
+			List<ThermovisionMeasures> thermovisionMeasures = thermovisionMeasuresRepository.findByTcpScheduleIdInAndApprovedStatusIsNullAndTcpIdIsNotNull(tcpScheduleList);
+			logger.info("** thermovisionMeasures size ***"+thermovisionMeasures.size());
+			return thermovisionMeasures;
+		}
+		
+		return null;
+	}
+
+
+	public void savePsiApproveThermovisionMeasures(List<ThermovisionMeasures> thermovisionMeasuresList) {
+		for (ThermovisionMeasures thermovisionMeasures : thermovisionMeasuresList) {
+			thermovisionMeasuresRepository.save(thermovisionMeasures);
+		}
 	}
 
 }

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import com.scr.model.Compliance;
+import com.scr.model.Observation;
 
 @Repository
 public interface ComplianceRepository extends JpaRepository<Compliance, Long>{
@@ -17,5 +18,6 @@ public interface ComplianceRepository extends JpaRepository<Compliance, Long>{
 	
 	List<Compliance> findByObeservationSeqId(String obeservationSeqId);
 
+	List<Compliance> getByObeservationSeqId(Observation obeservationSeqId);
 
 }

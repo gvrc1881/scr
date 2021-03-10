@@ -72,6 +72,7 @@ export const FieldLabelsConstant = {
       REMARKS_NO:"Remarks No",
       AUTO_DEAD:"Auto Dead",
       C_CLAMP: "C-Clamp",
+      COPY : "Copy",
       CMD: "CMD",
       COMMENTS: "Comments",
       CODE:"Code",
@@ -628,7 +629,10 @@ export const FieldLabelsConstant = {
       STATUS_TYPE_ID:"Status Type Id",
       STATUS_ID:"Status Id",
       STATUS_CODE:"Status Code",
-      SEQUENCE_ID:"Sequence Id"
+      SEQUENCE_ID:"Sequence Id",
+      LEVEL:"Level",
+      ALERT_GROUP_ID:"Alert Group Id",
+      RECEIPENTS_ID:"Receipents Id"
    },
    TITLE:{
      FAILURE_ANALYSIS :"Failure Analysis",
@@ -741,6 +745,11 @@ export const FieldLabelsConstant = {
     PRODUCT_ASSOCIATION_DATA:'Product Association',
     MULTI_MEASUREMENTS: "Multi Measurements",
     STATUS_ITEM_DATA:"Status Item Data",
-    STATUS_ITEM_FORM:"Status Item Form"
+    STATUS_ITEM_FORM:"Status Item Form",
+    ALERT_GROUP_FORM:"Alert Group Form",
+    ALERT_GROUP_DATA:"Alert Group Data",
+    ALERT_GROUP_MEMBER_FORM:"Alert Group Form",
+    ALERT_GROUP_MEMBER_DATA:"Alert Group Data",
+    APPROVE_PSI_THERMOVISION_MEASUREMENT_INFORMATION: 'Approve PSI Thermovision Measurements',
    }
 };

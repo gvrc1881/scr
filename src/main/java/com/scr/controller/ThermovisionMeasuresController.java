@@ -166,5 +166,45 @@ public class ThermovisionMeasuresController {
 			return false;
 		}
 	}
+	
+	@RequestMapping(value = "/getNonApprovedPsiThermoMeasures/{date}/{userName}/{facilityId}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public List<ThermovisionMeasures> findNonApprovedPsiThermovisionMeasure(
+				@PathVariable("date") Date fromDate,
+				@PathVariable("userName") String userName,
+				@PathVariable("facilityId") String facilityId) throws JSONException {
+		logger.info("Enter into findNonApprovedPsiThermovisionMeasure function");
+		logger.info("from date = "+fromDate +" Division = "+facilityId+"** userName ***"+userName);
+		List<ThermovisionMeasures> thermovisionMeasureList = null;
+		try {			
+			logger.info("Calling service for Thermovision Measure data");
+			thermovisionMeasureList = thermovisionMeasuresServices.findNonApprovedPsiThermovisionMeasure(fromDate,userName, facilityId);	
+			logger.info("Fetched Thermovision Measure data = "+thermovisionMeasureList);
+			//return thermovisionMeasureList;
+		} catch (NullPointerException e) {			
+			logger.error("ERROR >>> while fetching the Thermovision Measure data = "+e.getMessage());
+		} catch (Exception e) {			
+			logger.error("ERROR >>> while fetching the Thermovision Measure data = "+e.getMessage());
+		}
+		logger.info("Exit from findNonApprovedPsiThermovisionMeasure function");
+		return thermovisionMeasureList;
+	}
+	
+	@PostMapping(value="/savePsiApproveThermoMeasures")
+	@ResponseBody
+	public ResponseStatus savePsiApproveThermovisionMeasures(@RequestBody List<ThermovisionMeasures> thermovisionMeasures) {
+		logger.info("*** Enter into savePsiApproveThermovisionMeasures function ***");
+		try {			
+			thermovisionMeasuresServices.savePsiApproveThermovisionMeasures(thermovisionMeasures);
+			logger.info("Preparing the return response and saveThermovisionMeasures function end ");
+			return Helper.findResponseStatus("Thermovision Measure Data Saved Successfully", Constants.SUCCESS_CODE);
+		}catch(NullPointerException npe) {
+			logger.error("ERROR >> While adding Thermovision Measure Data. "+npe.getMessage());
+			return Helper.findResponseStatus("Thermovision Measure Addition is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			logger.error("ERROR >> While adding Thermovision Measure Data. "+e.getMessage());
+			return Helper.findResponseStatus("Thermovision Measure  Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
 
 }
