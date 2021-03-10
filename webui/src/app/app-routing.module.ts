@@ -625,6 +625,11 @@ const routes: Routes = [
     loadChildren: './components/alert-group-member/alert-group-member.module#AlertGroupMemberModule',
      canActivate: [AuthGuard]
    },
+   {
+    path: 'approve-psi',
+    loadChildren: './components/thermovision/approve-psi-thermovision-measures/approve-psi-thermovision-measures.module#ApprovePsiThermovisionMeasuresModule',
+    canActivate: [AuthGuard]
+   },
 ];
 
 @NgModule({

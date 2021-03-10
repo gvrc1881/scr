@@ -1319,7 +1319,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         color: "#12E1EE",
         isSelected: true,
         permission: this.commonService.findPermission('THERMOVISION', 'menu', 'view'),
-        currentTab: !!path && path.includes("thermovision-measure") ? "open" : "",
+        currentTab: !!path && path.includes("thermovision-measure") || path.includes("ohe-thermovision-measure") || path.includes("approve-psi")   ? "open" : "",
         subMenus: [       
           {
             subMenuName: "PSI Thermovision Measurement",
@@ -1344,6 +1344,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             permission: this.commonService.findPermission('OHE Thermovision Measurement', 'submenu', 'view'),
             rolePermission: this.rolePermission,
             currentSubMenu: !!path && path.includes("ohe-thermovision-measure") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Approve Psi",
+            subMenuURL: "approve-psi",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Approve Psi', 'submenu', 'view'),
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("approve-psi") ? "active-item" : "",
           },
         ]
       },

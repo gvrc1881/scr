@@ -29,4 +29,12 @@ public interface ThermovisionMeasuresRepository extends JpaRepository<Thermovisi
 	Optional<ThermovisionMeasures> findByTcpIdAndTcpScheduleIdAndId(ThermovisionCheckPoints thermovisionCheckPoints,
 			TcpSchedule resultTcpSchedule, Long tcpmId);
 
+	List<ThermovisionMeasures> findByTcpScheduleIdInAndApprovedStatusIsNull(List<TcpSchedule> tcpScheduleList);
+
+	List<ThermovisionMeasures> findByTcpScheduleIdInAndApprovedStatusIsNull(TcpSchedule tcpSchedule);
+
+	List<ThermovisionMeasures> findByTcpScheduleIdInAndApprovedStatusIsNullAndTcpIdIsNotNull(
+			List<TcpSchedule> tcpScheduleList);
+
+
 }

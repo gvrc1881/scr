@@ -208,7 +208,7 @@ export class ThermovisionMeasureComponent implements OnInit{
                             this.thermovisionMeasureData[i].enableFixed = false;
                         }
                         */
-                        this.thermovisionMeasureData[i].tcpsDate = this.datePipe.transform(this.inputFormGroup.value.dateTime, 'yyyy-MM-dd');
+                        this.thermovisionMeasureData[i].tcpsDate =  this.inputFormGroup.value.dateTime;
                         this.thermovisionMeasureData[i].tcpsGeneralRemark = this.inputFormGroup.value.generalRemark;
                         this.thermovisionMeasureData[i].tcpsBy = this.inputFormGroup.value.by;
                         this.thermovisionMeasureData[i].tcpsLocation = this.inputFormGroup.value.location;

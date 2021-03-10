@@ -1,0 +1,44 @@
+.mat-column-sno {
+    max-width: 70px;
+}
+.mat-column-station {
+    max-width: 100px;
+}
+.mat-column-point1description {
+    max-width: 400px;
+}
+.mat-column-measure1 {
+    max-width: 100px;
+}
+.mat-column-point2description {
+    max-width: 400px;
+}
+.mat-column-measure2 {
+    max-width: 100px;
+}
+.mat-column-tempDiff {
+    max-width: 50px;
+}
+.mat-column-remark {
+    max-width: 150px;
+}
+.mat-column-check {
+    max-width: 120px;
+}
+
+.highlight {
+    background-color: red;
+}
+/*
+.mat-row {
+     background-color: white;
+      #84e35d 
+}*/
+.retestRow {
+    background-color: 	#90EE90 !important;
+}
+/*
+.mat-cell {
+    color: white;
+}
+*/

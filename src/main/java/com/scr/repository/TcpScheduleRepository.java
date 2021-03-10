@@ -1,5 +1,6 @@
 package com.scr.repository;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -22,5 +23,8 @@ public interface TcpScheduleRepository extends JpaRepository<TcpSchedule, Long>{
 	@Query(value = "SELECT tcp FROM TcpSchedule tcp WHERE tcp.facility = :facilityId and tcp.dateTime >= :fromDate and tcp.dateTime <= :thruDate")
 	List<TcpSchedule> findByFacilityIdAndDateTimeGreaterThanAndDateTimeLessThan(@Param("facilityId") Facility facility,@Param("fromDate") Date fromDate,
 			@Param("thruDate") Date thruDate);
+	
+	/*@Query(value = "SELECT * FROM tcp_schedule tcp WHERE tcp.facility_id in (:facilitiesList) and tcp.date_time = (:dateTime)::date ",nativeQuery=true)*/
+	List<TcpSchedule> findByFacilityIdInAndDateTime(@Param("facilitiesList")List<Long> facilitiesList,@Param("dateTime") Date fromDate);
 
 }

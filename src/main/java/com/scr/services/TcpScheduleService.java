@@ -1,5 +1,6 @@
 package com.scr.services;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,10 @@ public class TcpScheduleService {
 	public List<TcpSchedule> findByFacilityIdAndDateTimeGreaterThanAndDateTimeLessThan(Facility facility, Date fromDate,
 			Date thruDate) {
 		return tcpScheduleRepository.findByFacilityIdAndDateTimeGreaterThanAndDateTimeLessThan(facility,fromDate,thruDate);
+	}
+
+	public List<TcpSchedule> findByFacilityIdInAndDateTime(List<Long> facilitiesList, Date fromDate) {
+		return tcpScheduleRepository.findByFacilityIdInAndDateTime(facilitiesList,fromDate);
 	}
 
 }
