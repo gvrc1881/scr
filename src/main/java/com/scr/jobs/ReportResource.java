@@ -82,9 +82,11 @@ public class ReportResource {
 			parameters.put("depot", report.getFacility().getFacilityName());
 			parameters.put("depot", report.getFacility().getFacilityId());
 			parameters.put("depotId", report.getFacility().getId());
+			parameters.put("checkPointsDepot",report.getFacility().getId());
 			parameters.put("subStation",report.getFacility().getFacilityName());
 			
-			log.info("subStation==="+parameters.put("subStation",report.getFacility().getFacilityName()));
+			log.info("checkPointsDepot==="+parameters.put("checkPointsDepot",report.getFacility().getFacilityId()));
+			
 		}
 		parameters.put("fromDate",report.getFromDate());
 		log.info("from date"+parameters.put("fromDate", report.getFromDate()));
@@ -148,8 +150,9 @@ public class ReportResource {
 
 		parameters.put("ActivityType", report.getActivityType());
 		parameters.put("driveName", report.getDriveName());
-		
+		parameters.put("checkPointsDepot", report.getCheckPointsDepot());
 		parameters.put("depot", report.getCheckPointsDepot());
+		parameters.put("", report.getCheckPointsDepot());
 		parameters.put("equipmentno", report.getEquipmentno());
 		
 		parameters.put("tempDiff", report.getTempDiff());
