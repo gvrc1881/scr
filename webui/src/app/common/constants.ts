@@ -908,7 +908,8 @@ export const Constants = {
             GET_OHE_THERMO_MEASURES_DATA:"/getOheThermoMeasuresData/",
             FIND_OHE_THERMOVISION_MEASUREMENTS:"/findOheThermovisionMeasurements",
             GET_NON_APPROVED_PSI_THERMO_MEASURES:"/getNonApprovedPsiThermoMeasures/",
-            SAVE_PSI_APPROVE_THERMO_MEASURES:"/savePsiApproveThermoMeasures"
+            SAVE_PSI_APPROVE_THERMO_MEASURES:"/savePsiApproveThermoMeasures",
+            GET_NON_APPROVED_OHE_THERMO_MEASURES:"/getNonApprovedOheThermoMeasures/"
         },
         THERMOVISION_CHECK_POINTS:{
             SAVE_CHECK_POINTS:"/addCheckPoints",

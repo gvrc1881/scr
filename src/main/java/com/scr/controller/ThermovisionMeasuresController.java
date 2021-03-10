@@ -206,5 +206,27 @@ public class ThermovisionMeasuresController {
 			return Helper.findResponseStatus("Thermovision Measure  Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
 	}
+	
+	@RequestMapping(value = "/getNonApprovedOheThermoMeasures/{date}/{userName}/{facilityId}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public List<ThermovisionMeasures> getNonApprovedOheThermoMeasures(
+				@PathVariable("date") Date fromDate,
+				@PathVariable("userName") String userName,
+				@PathVariable("facilityId") String facilityId) throws JSONException {
+		logger.info("Enter into getNonApprovedOheThermoMeasures function");
+		logger.info("from date = "+fromDate +" Division = "+facilityId+"** userName ***"+userName);
+		List<ThermovisionMeasures> thermovisionMeasureList = null;
+		try {			
+			logger.info("Calling service for Thermovision Measure data");
+			thermovisionMeasureList = thermovisionMeasuresServices.getNonApprovedOheThermoMeasures(fromDate,userName, facilityId);	
+			logger.info("Fetched Thermovision Measure data = "+thermovisionMeasureList);
+			//return thermovisionMeasureList;
+		} catch (NullPointerException e) {			
+			logger.error("ERROR >>> while fetching the Thermovision Measure data = "+e.getMessage());
+		} catch (Exception e) {			
+			logger.error("ERROR >>> while fetching the Thermovision Measure data = "+e.getMessage());
+		}
+		logger.info("Exit from getNonApprovedOheThermoMeasures function");
+		return thermovisionMeasureList;
+	}
 
 }
