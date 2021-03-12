@@ -12,6 +12,9 @@ public class AshDailyProgressResponse {
 	private String monthlyProgress;
 	private String monthlyTarget;
 	private String cumTarget;
+	private String approvedStatus;
+	private String approveBy;
+	private String facility;
 
 	public Date getDate() {
 		return date;
@@ -75,6 +78,38 @@ public class AshDailyProgressResponse {
 
 	public void setCumTarget(String cumTarget) {
 		this.cumTarget = cumTarget;
+	}
+
+	public String getApprovedStatus() {
+		return approvedStatus;
+	}
+
+	public void setApprovedStatus(String approvedStatus) {
+		this.approvedStatus = approvedStatus;
+	}
+
+	public String getApproveBy() {
+		return approveBy;
+	}
+
+	public void setApproveBy(String approveBy) {
+		this.approveBy = approveBy;
+	}
+
+	public String getFacility() {
+		return facility;
+	}
+
+	public void setFacility(String facility) {
+		this.facility = facility;
+	}
+
+	@Override
+	public String toString() {
+		return "AshDailyProgressResponse [columnName=" + columnName + ", dailyProgress=" + dailyProgress + ", date="
+				+ date + ", depotId=" + depotId + ", cumProgress=" + cumProgress + ", monthlyProgress="
+				+ monthlyProgress + ", monthlyTarget=" + monthlyTarget + ", cumTarget=" + cumTarget
+				+ ", approvedStatus=" + approvedStatus + ", approveBy=" + approveBy + ", facility=" + facility + "]";
 	}
 
 }

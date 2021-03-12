@@ -201,3 +201,19 @@ export interface DriveProgressIdModel{
     updatedBy: number;
     updatedOn: Date;
 }
+
+export interface ApproveDriveDailyProgressModel{
+
+    activityId:number;
+	performedDate:Date;
+	division: string;
+	depot: string;
+	section: string;
+	performedCount:number;
+	supervisor: string;
+
+    createdBy: number;
+    createdDate: string;
+    modifiedBy: number;
+    modifiedDate: String;
+}

@@ -1144,6 +1144,31 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             rolePermission: this.rolePermission,
             currentSubMenu: !!path && path.includes("drive-daily-progress") ? "active-item" : "",
           },
+          {
+            subMenuName: "Approve Drive Daily Progress",
+            subMenuURL: "approve-drive-daily-progress",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Approve Drive Daily Progress', 'submenu', 'view'),
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("approve-drive-daily-progress") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Approve Asset Schedule Progress",
+            subMenuURL: "approve-ash-daily-progress",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Approve Asset Schedule Progress', 'submenu', 'view'),
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("approve-ash-daily-progress") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Approve Special Works",
+            subMenuURL: "approve-Special-works",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Approve PRECAUTIONARY MEASURES', 'submenu', 'view'),
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("approve-Special-works") ? "active-item" : "",
+          },
+
           
         ]
       },

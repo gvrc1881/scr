@@ -71,7 +71,7 @@ public interface FacilityRepository extends JpaRepository<Facility, Long> {
 	List<Facility> findByfacilityId(List<String> fac);
 	Optional<Facility> findByFacilityId(AssetMasterData assetMasterData);
 	Optional<Facility> findById(String subStation);
-	
+	Optional<Facility> findById(Facility facility);
 	
 	
 	

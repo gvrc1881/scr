@@ -2085,5 +2085,42 @@ public ResponseEntity<List<ContentManagement>> getDocumentsList( @PathVariable("
 	}	
 }
 
+@RequestMapping(value = "/getNonApprovedDrivesBasedOnFromDateAndDepot/{fromDate}/{facilityId}/{loggedUser}", method = RequestMethod.GET , headers = "Accept=application/json")
+public ResponseEntity<List<DrivesResponse>> getNonApprovedDrivesBasedOnFromDateAndDepot(@PathVariable("fromDate") Date fromDate , @PathVariable("facilityId") String facilityId, @PathVariable("loggedUser") String loggedUser  ) throws JSONException {
+logger.info("Enter into getDrivesBasedOnFromDateAndDepotType function");
+logger.info("** formdate ***"+fromDate+"** facility Id***"+facilityId+"** category  Name **"+loggedUser);
+List<DrivesResponse> drivesList = null;
+//Date toDate = fromDate;
+//String driveCategoryName = null;
+List<String> fac = new ArrayList<>();
+try {	
+	
+	if( !fromDate.equals(null) && facilityId.equals("null") && !loggedUser.equals(null)) {
+		
+		List<Facility> facility = commonUtility.findUserHierarchy(loggedUser);
+		
+		
+		
+		for (Facility facility2 : facility) {
+			
+			fac.add(facility2.getFacilityId());					
+			
+		}
+		drivesList = service.findByPerformedDateAndDepotIn(fromDate,fac);
+	}else {
+		drivesList = service.findByPerformedDateAndDepot(fromDate,facilityId);
+	}
+	
+}
+	
+catch (NullPointerException e) {			
+	logger.error("ERROR >>> while fetching the drives data = "+e.getMessage());
+} catch (Exception e) {			
+	logger.error("ERROR >>> while fetching the drives data = "+e.getMessage());
+}
+logger.info("Exit from getDrivesBasedOnFromDateAndDepotType function");
+
+return ResponseEntity.ok((drivesList));
+}
 	
 }

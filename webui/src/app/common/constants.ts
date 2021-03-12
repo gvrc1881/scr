@@ -447,7 +447,8 @@ export const Constants = {
                 GET_DRIVES_BASED_ON_CHECKLIST:"/getDriveCheckList",
                 COPY_DRIVES:"/copyDrives",
                 DRIVE_UPLOAD_FILES:"/driveUploadFiles",
-                ATTACHMENT_LIST:"/driveAttachedDocumentList/"
+                ATTACHMENT_LIST:"/driveAttachedDocumentList/",
+                GET_NON_APPROVED_DIRIVES_BASED_ON_FROMDATE_AND_DEPOT:"/getNonApprovedDrivesBasedOnFromDateAndDepot/"
                
             },
             DRIVE_CATEGORY:{
@@ -522,7 +523,9 @@ export const Constants = {
             },
             ASH_DAILY_PROGRESS:{
                 GET_ASH_DAILY_PROGRESS:"/getAshDailyProgress/",
-                SAVE_ASH_DAILY_PROGRESS:"/saveAshDailyProgress"    
+                SAVE_ASH_DAILY_PROGRESS:"/saveAshDailyProgress" ,
+                SAVE_APPROVED_ASH_DAILY_PROGRESS:"/saveApprovedAshDailyProgress",
+                GET_ASH_DAILY_PROGRESS_BY_APPROVED_STATUS:"getAshDailyProgressBasedOnApprovedStatus/"   
             }
         },
         INSPECTIONS:{
@@ -651,7 +654,8 @@ export const Constants = {
             SAVE_DRIVE_DAILY_PROGRESS_RECORD:'/saveDriveDailyProgressRecord',
             GET_DDPROGRESS_BASED_ON_DRIVE_FROM_DATE:'/getDDProgressBasedOnDirveAndFromDate/',
             GET_ALREADY_DONE_COUNT_BASED_ON_DRIVE_FROM_DATE: '/getAlreadyDoneCountBasedOnDiveAndFromDate/',
-            GET_DDPROGRESS_DATA_BASED_ON_DRIVE:'/getDDProgressDataBasedOnDrive/'
+            GET_DDPROGRESS_DATA_BASED_ON_DRIVE:'/getDDProgressDataBasedOnDrive/',
+            
         },
         DRIVE_PROGRESS_ID:{
             SAVE:'/saveDriveProgressId',

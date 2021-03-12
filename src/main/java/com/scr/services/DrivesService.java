@@ -1316,6 +1316,46 @@ public List<Drives> findByFunctionalUnit(List<String> fac) {
 }
 
 
+public List<DrivesResponse> findByPerformedDateAndDepotIn(Date fromDate, List<String> fac) {
+	
+	List<DrivesResponse> drivesResponseList = new ArrayList<>();
+	
+	List<DriveDailyProgress> drivesResponse = driveProgressRecordRepository.findByPerformedDateAndDepotIn(fromDate,fac) ;
+	
+	/*//Optional<Drives> drive = driveRepository.findById(drivesResponse.)
+	DrivesResponse driveResponse = new DrivesResponse();
+	
+	driveResponse.setDescription(description);
+	driveResponse.setFacilityId(facilityId);
+	
+	
+	drivesResponseList.*/
+	
+	
+	
+	return drivesResponseList;
+}
+
+public List<DrivesResponse> findByPerformedDateAndDepot(Date fromDate, String facilityId) {
+	
+	List<DrivesResponse> drivesResponseList = new ArrayList<>();
+	
+	Optional<DriveDailyProgress>  dprogress = driveProgressRecordRepository.findByPerformedDateAndDepot(fromDate,facilityId) ;
+	
+	if(dprogress.isPresent()) {
+	
+		Optional<Drives> drive = driveRepository.findById(dprogress.get().getDriveId());
+		
+	DrivesResponse driveResponse = new DrivesResponse();
+	
+	driveResponse.setName(drive.get().getName());
+	driveResponse.setDescription(drive.get().getDescription());
+	driveResponse.setPerformedCount(dprogress.get().getPerformedCount());
+	drivesResponseList.add(driveResponse);
+	}
+	return drivesResponseList;
+}
+
 
 
 

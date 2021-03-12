@@ -2,6 +2,7 @@ package com.scr.repository;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,4 +27,19 @@ public interface AshDailyProgressRepository extends JpaRepository<AshDailyProgre
 			"case when sum(sclPoh) > 0 then sum(sclPoh) else 0 end,case when sum(siAoh) > 0 then sum(siAoh) else 0 end,case when sum(smAoh) > 0 then sum(smAoh) else 0 end,case when sum(turnoutAoh) > 0 then sum(turnoutAoh) else 0 end from AshDailyProgress where facility =:facility and date between :financialDate and :fromDate")
 	String monthSumBasedOnFacilityAndDateBetween( @Param("facility") Facility facility,@Param("financialDate") Date financialDate,@Param("fromDate") Date fromDate);
 
+	
+List<AshDailyProgress> findByDateAndApprovedStatusIsNull(Date fromDate);
+	
+
+	Optional<AshDailyProgress> findByDateAndFacilityAndApprovedStatusIsNull(Date fromDate, Optional<Facility> facility);
+
+	
+
+	Optional<AshDailyProgress> findByDateAndFacilityAndApprovedStatusIsNull(Date date, Facility facility);
+
+	
+
+	//List<AshDailyProgress> findByFacilityInAndDateAndApprovedStatusIsNull(Facility facility, Date fromDate);
+
+	List<AshDailyProgress> findByFacilityInAndDateAndApprovedStatusIsNull(List<Facility> fac, Date fromDate);
 }

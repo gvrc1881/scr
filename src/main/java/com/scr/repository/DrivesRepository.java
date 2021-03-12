@@ -82,7 +82,7 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 			@Param("zone") String zone,@Param("division") String division,@Param("subDivision") String subDivision,@Param("facilityName") String facilityName,@Param("functionalLocationTypes") List<Long> functionLocationTypes,
 			@Param("fromDate") Date fromDate,@Param("toDate") Date toDate);
 
-
+	Optional<Drives> findById(Drives driveId);
 
 
 	

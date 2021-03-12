@@ -26,5 +26,9 @@ public interface DriveProgressRecordRepository extends JpaRepository<DriveDailyP
 	List<DriveDailyProgress> getByDriveIdAndStatusId(Drives driveId, int activeStatusId);
 	
 	List<DriveDailyProgress> findByDriveId(Drives driveId);
+	
+	List<DriveDailyProgress> findByPerformedDateAndDepotIn(Date fromDate, List<String> fac);	
+
+	Optional<DriveDailyProgress> findByPerformedDateAndDepot(Date fromDate, String facilityId);
 
 }

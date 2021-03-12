@@ -211,9 +211,362 @@ public class AshDailyProgressService {
 						dailyProgress.setSmAoh(ashDailyProgressResponse.getDailyProgress());
 					}
 					dailyProgress.setDate(ashDailyProgressResponse.getDate());
-					dailyProgress.setFacility(facility.get());
+					dailyProgress.setFacility(facility.get());dailyProgress.setApproveBy(ashDailyProgressResponse.getApproveBy());					
+					
+					dailyProgress.setApprovedStatus(ashDailyProgressResponse.getApprovedStatus());
+					
 			}
 		}
 		ashDailyProgressRepository.save(dailyProgress);
 	}
+
+	public List<AshDailyProgress> findByDate(Date fromDate) {
+		
+		return ashDailyProgressRepository.findByDateAndApprovedStatusIsNull(fromDate);
+	}	
+
+	
+
+	public List<AshDailyProgressResponse> findByDateAndFacility(Date fromDate, long parseLong) {
+		
+		logger.info("**** in service preparing data***");
+		Optional<Facility> facility = facilityRepository.findById(parseLong);
+		logger.info("facility===="+facility.toString());
+		Date financialDate = Helper.getFinancialDate(fromDate);
+		Date monthStartDate = Helper.getMonthStartDate(fromDate);
+		String financialYear = Helper.getFinancialYear(fromDate);
+		String[] monthlyProgress = ashDailyProgressRepository.monthSumBasedOnFacilityAndDateBetween(facility.get(),monthStartDate,fromDate).split(",");
+		String[] cumProgress = ashDailyProgressRepository.findBySumBasedOnFacilityAndDateBetween(facility.get(),financialDate,fromDate).split(",");
+		List<AshDailyProgressResponse> ashDailyProgressList = new ArrayList();
+		Field[] fields= AshDailyProgress.class.getDeclaredFields();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(fromDate);
+		int targetMonth = cal.get(Calendar.MONTH);
+		for (Field field : fields) {
+			AshDailyProgressResponse ashDailyProgressResponse = new AshDailyProgressResponse();
+			String assetTypeAndSchCode = null;
+			String assetType = null;
+			String schCode = null;
+			ashDailyProgressResponse.setDate(fromDate);
+			ashDailyProgressResponse.setDepotId(parseLong);
+			if ("int".equals(field.getType().getSimpleName())) {
+				if (field.getName().toUpperCase().contains("AOH")) {
+					schCode = "AOH";
+					assetType = field.getName().toUpperCase().substring(0,field.getName().length()-3) ;
+					assetTypeAndSchCode = assetType +"-AOH";
+				}else if (field.getName().toUpperCase().contains("POH")) {
+					schCode = "POH";
+					assetType = field.getName().toUpperCase().substring(0 ,field.getName().length()- 3);
+					assetTypeAndSchCode = assetType +"-POH";
+				}
+				ashDailyProgressResponse.setColumnName(assetTypeAndSchCode);
+				if (facility.isPresent()) {
+					
+					Optional<AshDailyProgress> ashDailyProgress = ashDailyProgressRepository.findByDateAndFacilityAndApprovedStatusIsNull(fromDate,facility);
+					if (ashDailyProgress.isPresent()) {
+						logger.info("ash record==="+ashDailyProgress.toString());
+						if("ATD-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getAtdAoh());
+						}else if ("ATD-POH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getAtdPoh());
+						}else if ("CROSSOVER-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getCrossoverAoh());
+						}else if ("GANTRY-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getGantryAoh());
+						}else if ("MCL-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getMclAoh());
+						}else if ("MCL-POH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getMclPoh());
+						}else if ("OVERLAP-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getOverlapAoh());
+						}else if ("PTFE-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getPtfeAoh());
+						}else if ("SCL-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getSclAoh());
+						}else if ("SCL-POH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getSclPoh());
+						}else if ("SI-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getSiAoh());
+						}else if ("SM-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getSmAoh());
+						}else if ("TURNOUT-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getTurnoutAoh());
+						}
+						
+						
+						ashDailyProgressResponse.setApprovedStatus(ashDailyProgress.get().getApprovedStatus());
+						
+						if("ATD-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[0]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[0]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("ATD-POH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[1]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[1]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("CROSSOVER-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[2]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[2]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("GANTRY-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[3]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[3]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("MCL-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[4]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[4]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("MCL-POH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[5]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[5]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("OVERLAP-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[6]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[6]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("PTFE-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[7]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[7]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("SCL-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[8]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[8]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("SCL-POH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[9]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[9]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("SI-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[10]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[10]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("SM-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[11]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[11]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("TURNOUT-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[12]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[12]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}
+						ashDailyProgressResponse.setFacility(facility.get().getFacilityName());
+						ashDailyProgressList.add(ashDailyProgressResponse);
+					}
+				}
+				
+				
+				
+				logger.info("objects return==="+ashDailyProgressResponse.toString());
+			}
+			
+		}
+		return ashDailyProgressList; 			
+				
+				
+				
+	}
+
+	public void saveApprovedAshDailyProgress(List<AshDailyProgressResponse> ashDailyProgressResponses) {
+		// TODO Auto-generated method stub
+		AshDailyProgress dailyProgress = new AshDailyProgress();
+		for (AshDailyProgressResponse ashDailyProgressResponse : ashDailyProgressResponses) {
+			Optional<Facility> facility = facilityRepository.findById(ashDailyProgressResponse.getDepotId());
+			if (facility.isPresent()) {
+				Optional<AshDailyProgress> ashDailyProgress = ashDailyProgressRepository.findByDateAndFacility(ashDailyProgressResponse.getDate(),facility.get());
+				if (ashDailyProgress.isPresent())  {
+					dailyProgress.setId(ashDailyProgress.get().getId());
+				}
+					/*if("ATD-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+						dailyProgress.setAtdAoh(ashDailyProgressResponse.getDailyProgress());
+					}else if ("ATD-POH".equals(ashDailyProgressResponse.getColumnName())) {
+						dailyProgress.setAtdPoh(ashDailyProgressResponse.getDailyProgress());
+					}else if ("CROSSOVER-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+						dailyProgress.setCrossoverAoh(ashDailyProgressResponse.getDailyProgress());
+					}else if ("GANTRY-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+						dailyProgress.setGantryAoh((ashDailyProgressResponse.getDailyProgress()));
+					}else if ("MCL-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+						dailyProgress.setMclAoh(ashDailyProgressResponse.getDailyProgress());
+					}else if ("MCL-POH".equals(ashDailyProgressResponse.getColumnName())) {
+						dailyProgress.setMclPoh(ashDailyProgressResponse.getDailyProgress());
+					}else if ("OVERLAP-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+						dailyProgress.setOverlapAoh(ashDailyProgressResponse.getDailyProgress());
+					}else if ("PTFE-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+						dailyProgress.setPtfeAoh(ashDailyProgressResponse.getDailyProgress());
+					}else if ("SCL-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+						dailyProgress.setSclAoh(ashDailyProgressResponse.getDailyProgress());
+					}else if ("SCL-POH".equals(ashDailyProgressResponse.getColumnName())) {
+						dailyProgress.setSclPoh(ashDailyProgressResponse.getDailyProgress());
+					}else if ("TURNOUT-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+						dailyProgress.setTurnoutAoh(ashDailyProgressResponse.getDailyProgress());
+					}else if ("SI-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+						dailyProgress.setSiAoh(ashDailyProgressResponse.getDailyProgress());
+					}else if ("SM-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+						dailyProgress.setSmAoh(ashDailyProgressResponse.getDailyProgress());
+					}*/
+					dailyProgress.setDate(ashDailyProgressResponse.getDate());
+					dailyProgress.setFacility(facility.get());				
+					dailyProgress.setApproveBy(ashDailyProgressResponse.getApproveBy());					
+					
+					dailyProgress.setApprovedStatus(ashDailyProgressResponse.getApprovedStatus());
+				
+					
+			}
+		}
+		ashDailyProgressRepository.save(dailyProgress);
+	}
+
+	public List<AshDailyProgressResponse> findByDateAndFacility(Date fromDate, List<Facility> fac) {
+		logger.info("**** in service preparing data***");
+		
+		
+		
+		//logger.info("facility===="+facility.toString());
+		Date financialDate = Helper.getFinancialDate(fromDate);
+		Date monthStartDate = Helper.getMonthStartDate(fromDate);
+		String financialYear = Helper.getFinancialYear(fromDate);
+		//String[] monthlyProgress = ashDailyProgressRepository.monthSumBasedOnFacilityAndDateBetween(facility.get(),monthStartDate,fromDate).split(",");
+		//String[] cumProgress = ashDailyProgressRepository.findBySumBasedOnFacilityAndDateBetween(facility.get(),financialDate,fromDate).split(",");
+		List<AshDailyProgressResponse> ashDailyProgressList = new ArrayList();
+
+			
+			//Optional<Facility> facObject = facilityRepository.findById(facility);
+		Field[] fields= AshDailyProgress.class.getDeclaredFields();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(fromDate);
+		int targetMonth = cal.get(Calendar.MONTH);
+		for (Field field : fields) {
+			AshDailyProgressResponse ashDailyProgressResponse = new AshDailyProgressResponse();
+			String assetTypeAndSchCode = null;
+			String assetType = null;
+			String schCode = null;
+			ashDailyProgressResponse.setDate(fromDate);
+			//ashDailyProgressResponse.setDepotId(parseLong);
+			if ("int".equals(field.getType().getSimpleName())) {
+				if (field.getName().toUpperCase().contains("AOH")) {
+					schCode = "AOH";
+					assetType = field.getName().toUpperCase().substring(0,field.getName().length()-3) ;
+					assetTypeAndSchCode = assetType +"-AOH";
+				}else if (field.getName().toUpperCase().contains("POH")) {
+					schCode = "POH";
+					assetType = field.getName().toUpperCase().substring(0 ,field.getName().length()- 3);
+					assetTypeAndSchCode = assetType +"-POH";
+				}
+				ashDailyProgressResponse.setColumnName(assetTypeAndSchCode);
+				//if (facility.isPresent()) {
+				logger.info("before list");
+					List<AshDailyProgress> ashDailyProgresss = ashDailyProgressRepository.findByFacilityInAndDateAndApprovedStatusIsNull(fac,fromDate);
+					logger.info("after list");
+					for (AshDailyProgress ashDailyProgress2 : ashDailyProgresss) {
+						logger.info("in for loor");
+						Optional<AshDailyProgress> ashDailyProgress = ashDailyProgressRepository.findByDateAndFacilityAndApprovedStatusIsNull(ashDailyProgress2.getDate(),ashDailyProgress2.getFacility());
+					
+						logger.info("after for loor");
+					if (ashDailyProgress.isPresent()) {
+						logger.info("ash record==="+ashDailyProgress.toString());
+						if("ATD-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getAtdAoh());
+						}else if ("ATD-POH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getAtdPoh());
+						}else if ("CROSSOVER-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getCrossoverAoh());
+						}else if ("GANTRY-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getGantryAoh());
+						}else if ("MCL-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getMclAoh());
+						}else if ("MCL-POH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getMclPoh());
+						}else if ("OVERLAP-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getOverlapAoh());
+						}else if ("PTFE-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getPtfeAoh());
+						}else if ("SCL-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getSclAoh());
+						}else if ("SCL-POH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getSclPoh());
+						}else if ("SI-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getSiAoh());
+						}else if ("SM-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getSmAoh());
+						}else if ("TURNOUT-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getTurnoutAoh());
+						}
+						
+						
+						ashDailyProgressResponse.setApprovedStatus(ashDailyProgress.get().getApprovedStatus());
+						
+						/*if("ATD-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[0]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[0]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("ATD-POH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[1]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[1]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("CROSSOVER-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[2]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[2]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("GANTRY-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[3]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[3]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("MCL-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[4]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[4]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("MCL-POH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[5]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[5]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("OVERLAP-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[6]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[6]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("PTFE-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[7]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[7]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("SCL-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[8]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[8]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("SCL-POH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[9]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[9]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("SI-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[10]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[10]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("SM-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[11]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[11]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}else if ("TURNOUT-AOH".equals(ashDailyProgressResponse.getColumnName())) {
+							ashDailyProgressResponse.setCumProgress(cumProgress[12]);
+							ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[12]);
+							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
+						}*/
+						logger.info("before facilityy===");
+						Optional<Facility> ff = facilityRepository.findById(ashDailyProgress.get().getFacility());
+						
+						//logger.info("facilityy==="+facility);
+						ashDailyProgressResponse.setFacility(ff.get().getFacilityName());
+						
+						ashDailyProgressList.add(ashDailyProgressResponse);
+					}
+					}
+				}
+				
+				
+				
+				logger.info("objects return==="+ashDailyProgressResponse.toString());
+			}
+			
+		
+		return ashDailyProgressList;
+		
+	}
+
+	
 }

@@ -635,6 +635,22 @@ const routes: Routes = [
     loadChildren: './components/thermovision/approve-ohe-thermovision-measures/approve-ohe-thermovision-measures.module#ApproveOheThermovisionMeasuresModule',
     canActivate: [AuthGuard]
    },
+     
+   {
+    path: 'approve-drive-daily-progress',
+    loadChildren: './components/drives/approve-drive-daily-progress/approve-drive-daily-progress.module#ApproveDriveDailyProgressModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'approve-ash-daily-progress',
+    loadChildren: './components/approve-ash-daily-progress/approve-ash-daily-progress.module#ApproveAshDailyProgressModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'approve-Special-works',
+    loadChildren: './components/approve-special-works/approve-special-works.module#ApproveSpecialWorksModule',
+     canActivate: [AuthGuard]
+   },
 ];
 
 @NgModule({
