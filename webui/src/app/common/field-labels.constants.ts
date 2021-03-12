@@ -751,5 +751,6 @@ export const FieldLabelsConstant = {
     ALERT_GROUP_MEMBER_FORM:"Alert Group Form",
     ALERT_GROUP_MEMBER_DATA:"Alert Group Data",
     APPROVE_PSI_THERMOVISION_MEASUREMENT_INFORMATION: 'Approve PSI Thermovision Measurements',
+    APPROVE_OHE_THERMOVISION_MEASUREMENT_INFORMATION: 'Approve OHE Thermovision Measurements',
    }
 };

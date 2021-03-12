@@ -630,6 +630,11 @@ const routes: Routes = [
     loadChildren: './components/thermovision/approve-psi-thermovision-measures/approve-psi-thermovision-measures.module#ApprovePsiThermovisionMeasuresModule',
     canActivate: [AuthGuard]
    },
+   {
+    path: 'approve-ohe',
+    loadChildren: './components/thermovision/approve-ohe-thermovision-measures/approve-ohe-thermovision-measures.module#ApproveOheThermovisionMeasuresModule',
+    canActivate: [AuthGuard]
+   },
 ];
 
 @NgModule({

@@ -239,4 +239,28 @@ public class ThermovisionMeasuresServices {
 		}
 	}
 
+
+	public List<ThermovisionMeasures> getNonApprovedOheThermoMeasures(Date date, String userName,
+			String facilityId) {
+		if (facilityId != null && !"null".equals(facilityId )) {
+			Optional<TcpSchedule> tcpScheduleObj = tcpScheduleService.findByFacilityIdAndDateTime(Long.valueOf(facilityId),date);
+			if (tcpScheduleObj.isPresent()) {
+				List<ThermovisionMeasures> thermovisionMeasures = thermovisionMeasuresRepository.findByTcpScheduleIdInAndApprovedStatusIsNull(tcpScheduleObj.get());
+				return thermovisionMeasures;
+			}
+		} else {
+			List<Long> facilitiesList = new ArrayList<Long>();
+			List<Facility> facilities = commonUtility.findUserHierarchy(userName);
+			for (Facility facility : facilities) {
+				facilitiesList.add(facility.getId());
+			}
+			List<TcpSchedule> tcpScheduleList = tcpScheduleService.findByFacilityIdInAndDateTime(facilitiesList,date);
+			List<ThermovisionMeasures> thermovisionMeasures = thermovisionMeasuresRepository.findByTcpScheduleIdInAndApprovedStatusIsNullAndTcpIdIsNull(tcpScheduleList);
+			logger.info("** thermovisionMeasures size ***"+thermovisionMeasures.size());
+			return thermovisionMeasures;
+		}
+		
+		return null;
+	}
+
 }
