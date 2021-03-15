@@ -30,7 +30,7 @@ export class ApproveAshDailyProgressComponent implements OnInit{
     addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
-    displayedColumns = ['sno', 'check','facility','schedule', 'progress','monthlyProgress','cumProgress','monthlyTarget','cumTarget'];
+    displayedColumns = ['sno', 'check','approved','notApprovedStatus','facility','schedule', 'progress','monthlyProgress','cumProgress','monthlyTarget','cumTarget'];
     dataSource: MatTableDataSource<any>;
     ashDailyProgressData: any;
     ashDailyProgressList = [];
@@ -139,5 +139,8 @@ export class ApproveAshDailyProgressComponent implements OnInit{
             }
     }
    
-    
+    reset(){
+        this.inputFormGroup.reset();       
+        this.depotsList = [];
+    }
  }   
