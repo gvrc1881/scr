@@ -35,7 +35,7 @@ export class AddApproveSpecialWorksComponent implements OnInit {
   divisionData: any = JSON.parse(sessionStorage.getItem('divisionData'));
   resp: any;
   title:string = Constants.EVENTS.ADD;
-  addSpecialWorksFormGroup: FormGroup;
+  addSpecialWorksFormGroup: FormGroup; 
   specialWorksFormErrors:any;
   pattern = "[a-zA-Z][a-zA-Z ]*";
   toMinDate = new Date();
