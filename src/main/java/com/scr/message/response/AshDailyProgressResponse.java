@@ -15,6 +15,7 @@ public class AshDailyProgressResponse {
 	private String approvedStatus;
 	private String approveBy;
 	private String facility;
+	private String notApprovedStatus;
 
 	public Date getDate() {
 		return date;
@@ -102,6 +103,16 @@ public class AshDailyProgressResponse {
 
 	public void setFacility(String facility) {
 		this.facility = facility;
+	}
+
+	
+
+	public String getNotApprovedStatus() {
+		return notApprovedStatus;
+	}
+
+	public void setNotApprovedStatus(String notApprovedStatus) {
+		this.notApprovedStatus = notApprovedStatus;
 	}
 
 	@Override

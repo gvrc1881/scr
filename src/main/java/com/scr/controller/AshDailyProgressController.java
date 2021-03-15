@@ -97,7 +97,7 @@ public class AshDailyProgressController {
 					fac.add(facility2);					
 					
 				}
-				assetMasterItem = ashDailyProgressService.findByDateAndFacility(fromDate,fac);
+				assetMasterItem = ashDailyProgressService.findByDateAndFacilityIn(fromDate,fac);
 								
 				
 			}else {

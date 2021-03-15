@@ -350,6 +350,17 @@ public class AshDailyProgressService {
 							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
 						}
 						ashDailyProgressResponse.setFacility(facility.get().getFacilityName());
+						
+						Optional<AshDailyProgress> ashDailyProgressStatus = ashDailyProgressRepository.findByDateAndFacilityAndApprovedStatusIsNull(fromDate,facility);
+						
+						if(ashDailyProgressStatus.isPresent()) {
+							
+							ashDailyProgressResponse.setNotApprovedStatus("To be approve");
+						}else {
+							ashDailyProgressResponse.setApprovedStatus("approved");
+						}
+						
+						
 						ashDailyProgressList.add(ashDailyProgressResponse);
 					}
 				}
@@ -415,7 +426,7 @@ public class AshDailyProgressService {
 		ashDailyProgressRepository.save(dailyProgress);
 	}
 
-	public List<AshDailyProgressResponse> findByDateAndFacility(Date fromDate, List<Facility> fac) {
+	public List<AshDailyProgressResponse> findByDateAndFacilityIn(Date fromDate, List<Facility> fac) {
 		logger.info("**** in service preparing data***");
 		
 		
@@ -458,41 +469,41 @@ public class AshDailyProgressService {
 					logger.info("after list");
 					for (AshDailyProgress ashDailyProgress2 : ashDailyProgresss) {
 						logger.info("in for loor");
-						Optional<AshDailyProgress> ashDailyProgress = ashDailyProgressRepository.findByDateAndFacilityAndApprovedStatusIsNull(ashDailyProgress2.getDate(),ashDailyProgress2.getFacility());
+						//Optional<AshDailyProgress> ashDailyProgress = ashDailyProgressRepository.findByDateAndFacilityAndApprovedStatusIsNull(ashDailyProgress2.getDate(),ashDailyProgress2.getFacility());
 					
 						logger.info("after for loor");
-					if (ashDailyProgress.isPresent()) {
-						logger.info("ash record==="+ashDailyProgress.toString());
+					//if (ashDailyProgress.isPresent()) {
+						logger.info("ash record==="+ashDailyProgress2.toString());
 						if("ATD-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getAtdAoh());
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress2.getAtdAoh());
 						}else if ("ATD-POH".equals(ashDailyProgressResponse.getColumnName())) {
-							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getAtdPoh());
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress2.getAtdPoh());
 						}else if ("CROSSOVER-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getCrossoverAoh());
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress2.getCrossoverAoh());
 						}else if ("GANTRY-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getGantryAoh());
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress2.getGantryAoh());
 						}else if ("MCL-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getMclAoh());
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress2.getMclAoh());
 						}else if ("MCL-POH".equals(ashDailyProgressResponse.getColumnName())) {
-							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getMclPoh());
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress2.getMclPoh());
 						}else if ("OVERLAP-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getOverlapAoh());
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress2.getOverlapAoh());
 						}else if ("PTFE-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getPtfeAoh());
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress2.getPtfeAoh());
 						}else if ("SCL-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getSclAoh());
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress2.getSclAoh());
 						}else if ("SCL-POH".equals(ashDailyProgressResponse.getColumnName())) {
-							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getSclPoh());
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress2.getSclPoh());
 						}else if ("SI-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getSiAoh());
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress2.getSiAoh());
 						}else if ("SM-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getSmAoh());
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress2.getSmAoh());
 						}else if ("TURNOUT-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-							ashDailyProgressResponse.setDailyProgress(ashDailyProgress.get().getTurnoutAoh());
+							ashDailyProgressResponse.setDailyProgress(ashDailyProgress2.getTurnoutAoh());
 						}
 						
 						
-						ashDailyProgressResponse.setApprovedStatus(ashDailyProgress.get().getApprovedStatus());
+						ashDailyProgressResponse.setApprovedStatus(ashDailyProgress2.getApprovedStatus());
 						
 						/*if("ATD-AOH".equals(ashDailyProgressResponse.getColumnName())) {
 							ashDailyProgressResponse.setCumProgress(cumProgress[0]);
@@ -548,13 +559,23 @@ public class AshDailyProgressService {
 							this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
 						}*/
 						logger.info("before facilityy===");
-						Optional<Facility> ff = facilityRepository.findById(ashDailyProgress.get().getFacility());
+						//Optional<Facility> ff = facilityRepository.findById(ashDailyProgress.get().getFacility());
 						
 						//logger.info("facilityy==="+facility);
-						ashDailyProgressResponse.setFacility(ff.get().getFacilityName());
+						ashDailyProgressResponse.setFacility(ashDailyProgress2.getFacility().getFacilityName());
+						
+						Optional<AshDailyProgress> ashDailyProgressStatus = ashDailyProgressRepository.findByDateAndFacilityAndApprovedStatusIsNull(ashDailyProgress2.getDate(),ashDailyProgress2.getFacility());
+						
+						if(ashDailyProgressStatus.isPresent()) {
+							
+							ashDailyProgressResponse.setNotApprovedStatus("To be approve");
+						}else {
+							ashDailyProgressResponse.setApprovedStatus("approved");
+						}
+						
 						
 						ashDailyProgressList.add(ashDailyProgressResponse);
-					}
+					//}
 					}
 				}
 				

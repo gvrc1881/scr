@@ -525,7 +525,7 @@ export const Constants = {
                 GET_ASH_DAILY_PROGRESS:"/getAshDailyProgress/",
                 SAVE_ASH_DAILY_PROGRESS:"/saveAshDailyProgress" ,
                 SAVE_APPROVED_ASH_DAILY_PROGRESS:"/saveApprovedAshDailyProgress",
-                GET_ASH_DAILY_PROGRESS_BY_APPROVED_STATUS:"getAshDailyProgressBasedOnApprovedStatus/"   
+                GET_ASH_DAILY_PROGRESS_BY_APPROVED_STATUS:"/getAshDailyProgressBasedOnApprovedStatus/"   
             }
         },
         INSPECTIONS:{

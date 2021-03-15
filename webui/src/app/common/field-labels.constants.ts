@@ -19,6 +19,8 @@ export const FieldLabelsConstant = {
       ACTIVITY_POSITION_SEQ: "Activity Position Seq",
       ACTIVITY_TYPE: "Activity Type",
       Failure_Activity: "Failure Activity",
+      APPROVED:"Approved",
+      NOT_APPROVED:"Not Approved",
       FROM_TIME:"From Time",
       THRU_TIME:"Thru Time",
       STAFF_NAME:"Staff Name",
