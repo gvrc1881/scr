@@ -21,7 +21,7 @@ export class ApproveSpecialWorksComponent implements OnInit {
   pagination =Constants.PAGINATION_NUMBERS;
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
-  editPermission: boolean = true;
+  editPermission: boolean = true; 
   addPermission: boolean = true;
   deletePermission: boolean = true;
   userdata: any = JSON.parse(sessionStorage.getItem('userData'));

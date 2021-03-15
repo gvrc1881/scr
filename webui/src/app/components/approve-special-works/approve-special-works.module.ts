@@ -19,7 +19,7 @@ const routes: Routes = [
     },   
     {
         path     : ':id',
-        component: AddApproveSpecialWorksComponent
+        component: AddApproveSpecialWorksComponent 
     },
     {
         path        : 'add-approve-special-works',
