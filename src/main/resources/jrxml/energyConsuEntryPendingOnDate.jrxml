@@ -10,25 +10,23 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select date_of_energy_data_pending , data_div ,  feeder_name
-from
-(select $P{date}::date date_of_energy_data_pending , data_div ,  feeder_name  from tss_feeder_master
-where case when  $P{division}!='' then data_div = $P{division}
-else data_div is not null end
-
-)a
-except
-(select $P{date}::date date_of_energy_data_facilitated ,  data_div  , location from energy_consumption
-where energy_reading_date =$P{date}::date
-and case when $P{division}!='' then upper(data_div) = $P{division}
-else data_div is not null end
-
-)
-order by 2]]>
+		<![CDATA[select tss_name , data_div, $P{date} as date
+	from
+	(
+	select distinct tss_name , data_div  from tss_feeder_master  tss
+	--on feeder_cnt.data_div = tss_cnt.data_div
+	except
+	select  distinct tss_name, data_div
+		from
+		(select $P{date}::date date_of_energy_data_facilitated ,  tfm.data_div , tfm.tss_name --, location as feeder_name
+		from energy_consumption ec, tss_feeder_master tfm
+		where energy_reading_date =$P{date}::date
+		and location = feeder_name) a
+	) final where data_div =$P{division}]]>
 	</queryString>
-	<field name="date_of_energy_data_pending" class="java.sql.Date"/>
+	<field name="tss_name" class="java.lang.String"/>
 	<field name="data_div" class="java.lang.String"/>
-	<field name="feeder_name" class="java.lang.String"/>
+	<field name="date" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -67,16 +65,9 @@ order by 2]]>
 				<text><![CDATA[Date:]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="79" y="0" width="476" height="20" uuid="36d27d91-49c7-4016-8869-acff9c102150"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
+				<reportElement x="79" y="0" width="211" height="20" uuid="2f25327f-0a8e-486a-9875-271a759feb5f"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{date_of_energy_data_pending}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" "+$F{date}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -162,14 +153,14 @@ order by 2]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{feeder_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tss_name}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
 		<band height="20">
 			<textField>
-				<reportElement x="79" y="0" width="94" height="20" uuid="b411bd61-bd74-4821-94ad-4b59d97719e4"/>
+				<reportElement x="79" y="0" width="170" height="20" uuid="b411bd61-bd74-4821-94ad-4b59d97719e4"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -193,7 +184,7 @@ order by 2]]>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="173" y="0" width="117" height="20" uuid="cb34da14-ef61-40a9-aeda-8ca99fc65cec"/>
+				<reportElement x="249" y="0" width="41" height="20" uuid="cb34da14-ef61-40a9-aeda-8ca99fc65cec"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>

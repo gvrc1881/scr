@@ -7,19 +7,27 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select tot.div, tss_div_wise div_wise_tss_count, tss_div_wise - case when perf_tss is null then 0 else perf_tss end as energy_data_pending  ,
-case when perf_tss is null then 0 else perf_tss end as  energy_data_recorded  from
-(select count(*) tss_div_wise, data_div div --, feeder_name
-from tss_feeder_master group by data_div)  Tot
-left outer join
-(select count(*) perf_tss, upper(data_div) div--, upper(location)
-from energy_consumption where energy_reading_date = $P{date}::date  group by data_div) perf
-on perf.div = tot.div]]>
+		<![CDATA[select tss_cnt.data_div , total_div_feeders_cnt ,total_div_tss_energy_cons ,
+	case when ec_noted_cnt is null then 0 else ec_noted_cnt end ec_noted_cnt
+	from
+	(select count(distinct feeder_name) total_div_feeders_cnt, data_div  from tss_feeder_master group by data_div ) feeder_cnt
+	left outer join (select count(distinct tss_name) total_div_tss_energy_cons, data_div  from tss_feeder_master group by data_div ) tss_cnt
+	on feeder_cnt.data_div = tss_cnt.data_div
+	left outer join
+	( 	select  count(distinct tss_name) ec_noted_cnt, data_div
+		from
+		(select $P{date}::date date_of_energy_data_facilitated ,  tfm.data_div , tfm.tss_name --, location as feeder_name
+		from energy_consumption ec, tss_feeder_master tfm
+		where energy_reading_date =$P{date}::date
+		and location = feeder_name) a
+		group by data_div
+	) ec_tss_entry_cnt
+	on (feeder_cnt.data_div = ec_tss_entry_cnt.data_div )]]>
 	</queryString>
-	<field name="div" class="java.lang.String"/>
-	<field name="div_wise_tss_count" class="java.lang.Long"/>
-	<field name="energy_data_pending" class="java.lang.Long"/>
-	<field name="energy_data_recorded" class="java.lang.Long"/>
+	<field name="data_div" class="java.lang.String"/>
+	<field name="total_div_feeders_cnt" class="java.lang.Long"/>
+	<field name="total_div_tss_energy_cons" class="java.lang.Long"/>
+	<field name="ec_noted_cnt" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -111,7 +119,7 @@ on perf.div = tot.div]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Entry complied]]></text>
+				<text><![CDATA[Entry Noted Cnt]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -139,7 +147,7 @@ on perf.div = tot.div]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{div}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{data_div}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="189" y="0" width="104" height="20" uuid="4637bf60-96cd-4582-9a7a-b581146c030c"/>
@@ -151,7 +159,7 @@ on perf.div = tot.div]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{div_wise_tss_count}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{total_div_feeders_cnt}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="293" y="0" width="117" height="20" uuid="0dee40af-0757-4042-8e82-107072954115"/>
@@ -163,7 +171,7 @@ on perf.div = tot.div]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{energy_data_pending}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{total_div_tss_energy_cons}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="410" y="0" width="145" height="20" uuid="135c9afa-3864-458e-ba94-e01881bf3c80"/>
@@ -175,7 +183,7 @@ on perf.div = tot.div]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{energy_data_recorded}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ec_noted_cnt}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
