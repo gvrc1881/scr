@@ -7,7 +7,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
                         <li class="breadcrumb-item"><a [routerLink]="['/ashd']">SCH Maintainance</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Asset Schedule Progress</li>
+                        <li class="breadcrumb-item active" aria-current="page">Approve Asset Schedule Progress</li>
                     </ol>
                 </nav>
             </div>
@@ -65,14 +65,7 @@
                                             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                         </ng-container>
 
-                                        <ng-container matColumnDef="check">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.CHECK}}</span>
-                                                <h6 class="viewStyle col-xs-4"><input type="checkbox"  [(ngModel)]="checked" (change)="selectAll($event)" /></h6>
-                                            </mat-header-cell>
-                                                <mat-cell *matCellDef="let row">
-                                                    <input type="checkbox" [(ngModel)]="row.checked" (change)="onCheckboxChange($event,row)" />
-                                                </mat-cell>
-                                        </ng-container>
+                                       
                                         <ng-container matColumnDef="facility">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DEPOT}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.facility}}</mat-cell>
@@ -113,13 +106,21 @@
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CUM_TARGET}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.cumTarget}}</mat-cell>
                                         </ng-container>
-                                        <ng-container matColumnDef="approved">
+                                        <!-- <ng-container matColumnDef="approved">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.APPROVED}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.approved}}</mat-cell>
                                         </ng-container>
                                         <ng-container matColumnDef="notApprovedStatus">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.NOT_APPROVED}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.notApprovedStatus}}</mat-cell>
+                                        </ng-container> -->
+                                        <ng-container matColumnDef="check">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.CHECK}}</span>
+                                                <h6 class="viewStyle col-xs-4"><input type="checkbox"  [(ngModel)]="checked" (change)="selectAll($event)" /></h6>
+                                            </mat-header-cell>
+                                                <mat-cell *matCellDef="let row">
+                                                    <input type="checkbox" [(ngModel)]="row.checked" (change)="onCheckboxChange($event,row)" />
+                                                </mat-cell>
                                         </ng-container>
 
                                         <!-- <ng-container matColumnDef="actions">

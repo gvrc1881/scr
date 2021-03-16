@@ -30,7 +30,7 @@ export class ApproveAshDailyProgressComponent implements OnInit{
     addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
-    displayedColumns = ['sno', 'check','approved','notApprovedStatus','facility','schedule', 'progress','monthlyProgress','cumProgress','monthlyTarget','cumTarget'];
+    displayedColumns = ['sno','facility','schedule', 'progress','monthlyProgress','cumProgress','monthlyTarget','cumTarget','check'];
     dataSource: MatTableDataSource<any>;
     ashDailyProgressData: any;
     ashDailyProgressList = [];
