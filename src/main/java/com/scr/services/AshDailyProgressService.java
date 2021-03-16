@@ -212,7 +212,8 @@ public class AshDailyProgressService {
 						dailyProgress.setSmAoh(ashDailyProgressResponse.getDailyProgress());
 					}
 					dailyProgress.setDate(ashDailyProgressResponse.getDate());
-					dailyProgress.setFacility(facility.get());dailyProgress.setApproveBy(ashDailyProgressResponse.getApproveBy());					
+					dailyProgress.setFacility(facility.get());
+					dailyProgress.setApproveBy(ashDailyProgressResponse.getApproveBy());					
 					
 					dailyProgress.setApprovedStatus(ashDailyProgressResponse.getApprovedStatus());
 					
@@ -382,7 +383,7 @@ public class AshDailyProgressService {
 		// TODO Auto-generated method stub
 		AshDailyProgress dailyProgress = new AshDailyProgress();
 		for (AshDailyProgressResponse ashDailyProgressResponse : ashDailyProgressResponses) {
-			Optional<Facility> facility = facilityRepository.findById(ashDailyProgressResponse.getDepotId());
+			Optional<Facility> facility = facilityRepository.findByFacilityName(ashDailyProgressResponse.getFacility());
 			if (facility.isPresent()) {
 				Optional<AshDailyProgress> ashDailyProgress = ashDailyProgressRepository.findByDateAndFacility(ashDailyProgressResponse.getDate(),facility.get());
 				if (ashDailyProgress.isPresent())  {
