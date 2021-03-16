@@ -39,6 +39,7 @@ export class ApproveAshDailyProgressComponent implements OnInit{
     userdata: any = JSON.parse(sessionStorage.getItem('userData')); 
     maxDate = new Date();
     enableSave: boolean;
+    checked: boolean;
     resp: any;
     selectedItems = [];
     

@@ -40,6 +40,8 @@ export class ApproveSpecialWorksComponent implements OnInit {
   enableSave: boolean;
   specialWorksData: any;
   resp: any;
+  checked: boolean;
+  maxDate = new Date();
   specialWorksList = [];
   selectedItems = [];
 
