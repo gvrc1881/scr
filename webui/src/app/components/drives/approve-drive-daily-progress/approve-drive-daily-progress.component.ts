@@ -40,7 +40,6 @@ export class ApproveDriveDailyProgressComponent implements OnInit {
     dailyProgressDate: any;
     depotType: any;
     dataSource: MatTableDataSource<DriveModel>;
-    displayedColumns : any;
     searchInputFormGroup: FormGroup;
     depotTypeList = [];
     selectedItems = [];
@@ -56,6 +55,9 @@ export class ApproveDriveDailyProgressComponent implements OnInit {
     titleName: any;
     breadCrumb: any;
     maxDate = new Date();
+    displayedColumns = ['sno','depot', 'drive','description','performedCount','check'];
+    enableSave: boolean;
+    checked: boolean;
     
     constructor (
         private spinnerService: Ng4LoadingSpinnerService,
@@ -63,6 +65,7 @@ export class ApproveDriveDailyProgressComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         public dialog: MatDialog,
+        private datePipe: DatePipe,
         private sendAndRequestService:SendAndRequestService,
         private formBuilder: FormBuilder
         ){ }
@@ -70,6 +73,7 @@ export class ApproveDriveDailyProgressComponent implements OnInit {
     ngOnInit () {
         
        // console.log('in ng oninit function'+JSON.stringify(this.depotTypeList));
+       /*
         if(this.router.url == "/asset-schedule-progress") {
             this.requestType = "Schedule Progress";
             this.titleName = "Asset Schedule Progress Information";
@@ -87,75 +91,30 @@ export class ApproveDriveDailyProgressComponent implements OnInit {
             this.FiledLabels.FROM_DATE = "Date";
             this.displayedColumns = ['sno','check', 'drive','description','performedCount'];    
         }
+        */
         this.searchInputFormGroup = this.formBuilder.group({
             'fromDate': [null],
-            'depotType' : [null],
             'facilityId': [null]
         });
-        this.findDepoTypeList();
     }
     
-    processSaveAction(row: any){
-        var message = '';
-        var failedMessage = ''; 
-        let saveDriveDailyProgress = {
-          /*  id: 3,
-            driveId: row.drive.id,
-            performedCount: row.performedCount,
-            performedDate: this.searchInputFormGroup.controls['fromDate'].value,
-            depot: this.searchInputFormGroup.controls['facilityId'].value,*/
-            approvedBy : this.loggedUserData.username,
-            approvedStatus: this.selectedItems,
-        }
-        message = 'Saved';
-        failedMessage = "Saving";
-        this.sendAndRequestService.requestForPOST(Constants.app_urls.PROGRESS_RECORD.SAVE_D_DAILY_PROGRESS_RECORD ,saveDriveDailyProgress, false).subscribe(response => {
+    saveAction() {
+        this.sendAndRequestService.requestForPOST(Constants.app_urls.PROGRESS_RECORD.UPDATE_DRIVE_DAILY_PROGRESS_RECORD ,this.selectedItems, false).subscribe(response => {
             this.spinnerService.hide();
             this.resp = response;
             if(this.resp.code == 200 && !!this.resp ) {
-                if(this.router.url == "/asset-schedule-progress") 
-				    this.commonService.showAlertMessage("Asset Schedule Progress Data Saved Successfully");
-                 else 
-                    this.commonService.showAlertMessage("Drive Daily Progress Data Saved Successfully");                 
+			    this.commonService.showAlertMessage("Drive Daily  Progress Data Saved Successfully");
+                this.checked = false;
+                this.getDriveDailyProgress();
+                
             }else
-                if(this.router.url == "/asset-schedule-progress") 
-                    this.commonService.showAlertMessage("Asset Schedule Progress Data Saving Failed");
-                else
-                    this.commonService.showAlertMessage("Drive Daily Progress Data Saving Failed");
+                 this.commonService.showAlertMessage("Drive Daily Progress Data Saving Failed");
           });  
     }
-   
-
-    assetIdsDialog(row: any){
-        const dialogRef = this.dialog.open(AddAssetIdsApproveDriveDialogComponent, {
-          height: '600px',
-          width: '80%', 
-          data: { driveId : row.drive.id,
-                  performedCount: row.performedCount,
-                  facilityId: this.searchInputFormGroup.controls['facilityId'].value,
-                  performedDate: this.searchInputFormGroup.controls['fromDate'].value,
-                  depotType: row.drive.depotType.code,
-                  assetType : row.drive.assetType
-                }
-        });
-        
-        dialogRef.afterClosed().subscribe(result => {
-            row.performedCount = 0;
-            row.performedCount = result;
-        });
-        
-    }
-    
-    
-    
-    findDepoTypeList() {
-        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES)
-          .subscribe((depoTypes) => {
-            this.depotTypeList = depoTypes;
-          })
-      }
     
     getDriveDailyProgress() {
+        this.enableSave = false;
+        this.checked = false;
         const drivesData: DriveModel [] = [];
         this.selectedItems = [];
         this.dataSource = new MatTableDataSource(drivesData);
@@ -167,29 +126,9 @@ export class ApproveDriveDailyProgressComponent implements OnInit {
                 if(this.drivesList){
                   for (let i = 0; i < this.drivesList.length; i++) {
                     this.drivesList[i].sno = i + 1;
-                    this.drivesList[i].drive = this.drivesList[i];
-                     /*
-                      this.sendAndRequestService.requestForGET(Constants.app_urls.PROGRESS_RECORD.GET_DDPROGRESS_BASED_ON_DRIVE_FROM_DATE
-                      +this.drivesList[i].id+'/'+this.searchInputFormGroup.controls['fromDate'].value
-                          ).subscribe((data) =>{
-                              this.sendAndRequestService.requestForGET(Constants.app_urls.PROGRESS_RECORD.GET_ALREADY_DONE_COUNT_BASED_ON_DRIVE_FROM_DATE
-                                +this.drivesList[i].id+'/'+this.searchInputFormGroup.controls['fromDate'].value
-                                  ).subscribe((data) => {
-                                     this.drivesList[i].alreadyDone = data;
-                                  });
-                              this.DDProgress = data;
-                              if(this.DDProgress != null) {
-                                   this.drivesList[i].performedCount = this.DDProgress.performedCount;
-                                  this.drivesList[i].facilityId = this.DDProgress.depot;
-                                  }
-                              }); */
-                  //  this.driveTargetList[i].driveId = this.driveTargetList[i].driveId['name'];
                     drivesData.push(this.drivesList[i]);
                   }
-            
                   this.dataSource = new MatTableDataSource(drivesData);
-                 // this.dataSource.paginator = this.paginator;
-                 // this.dataSource.sort = this.sort;
                   this.spinnerService.show();   
                 }
           
@@ -200,278 +139,38 @@ export class ApproveDriveDailyProgressComponent implements OnInit {
     
     onCheckboxChange(e, row) {
       if (e.target.checked) {
+          row.approvedStatus = "Approve";
+          row.approveBy = this.loggedUserData.username;
         this.selectedItems.push(row);
-        //this.enableCopy = true;
+        this.enableSave = true;
       } else {
         this.selectedItems.splice(row.index, 1);
         if (this.selectedItems.length == 0) {
-          //this.enableCopy = false;
+          this.enableSave = false;
         }
       }
+    }
+    
+    reset(){
+        this.searchInputFormGroup.reset();
     }
   
-  selectAll(event) {
-      for (var i = 0; i < this.drivesList.length; i++) {
-              if(event.target.checked) {
-                  this.drivesList[i].checked = true;
-                  this.selectedItems.push(this.drivesList[i]); 
-                 // this.enableCopy = true;   
-              }else {
-                  this.drivesList[i].checked = false;
-                  this.selectedItems = [];
-                 // this.enableCopy = false;
-              }
-              
-          }
-  }
-  
-    numberOnly(event): boolean {
-        const charCode = (event.which) ? event.which : event.keyCode;
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-          return false;
-        }
-        return true;
-    
-      }
-    
-    viewDialog(driveId) {
-    	this.spinnerService.show();    
-	    this.sendAndRequestService.requestForGET(Constants.app_urls.PROGRESS_RECORD.GET_DDPROGRESS_DATA_BASED_ON_DRIVE + driveId).subscribe((response) => {     
-	      this.spinnerService.hide(); 
-	       this.driveDailyProgressDialogRef = this.dialog.open(ViewApproveDriveDailyProgressComponent, {
-	        disableClose: false,
-	        height: '600px',
-	        width: '80%',       
-	        data:response,       
-	      });            
-	    }, error => this.commonService.showAlertMessage(error));
-    }
-    
-}
-
-@Component({
-  selector: 'add-asset-ids-approve-drive-dialog',
-  templateUrl: 'add-asset-ids-approve-drive-dialog.component.html',
-})
-export class AddAssetIdsApproveDriveDialogComponent implements OnInit  {
-  FiledLabels = FieldLabelsConstant.LABELS;
-  Titles = FieldLabelsConstant.TITLE;  
-    dailyProgressIdFormGroup: FormGroup;
-    assetIdList: any;
-    displayedColumns = ['sno', 'assetId', 'actions'];
-    dataSource: MatTableDataSource<DriveProgressIdModel>;
-    facilityId: any;
-    selectedAssetIdList: any [] = [];
-    assetIdsExists: boolean;
-    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
-    DDProgressId: any;
-    driveId: any;
-    performedDate : any;
-    resp: any;
-    DDProgress: any;
-    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-    performedCount: any;
-    depotType: any;
-    hideFields: boolean;
-    assetType: any;
-    driveData: any;
-    driveName: any;
-    fromDate: any;
-    toDate: any;
-    enableSubmit: boolean;
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private spinnerService: Ng4LoadingSpinnerService,  
-    private sendAndRequestService:SendAndRequestService,
-    private dialog: MatDialog,
-    private commonService: CommonService,
-    private dialogRef: MatDialogRef<AddAssetIdsApproveDriveDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private datePipe: DatePipe
-    ) {
-      
-      if(data) {
-          this.facilityId = data.facilityId;
-          this.driveId = data.driveId;
-          this.performedDate = data.performedDate;
-          this.depotType = data.depotType;
-          this.assetType = data.assetType;
-      }
-  }
-    
-    ngOnInit() {
-        this.dailyProgressIdFormGroup = this.formBuilder.group({
-            fromKilometer:[null],
-            toKilometer: [null],
-            assetId: [null],
-            manual: [null],
-            assetType: [null]
-        })
-        this.getDriveProgressIdData();
-        if('TSS' === this.depotType || 'SSP' === this.depotType ||  'SP' === this.depotType){
-            this.hideFields = false;
-            this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETID_BASED_ON_ASSETTYPE_FACILITYID + this.assetType + '/'+this.facilityId).subscribe((data) => {
-              this.assetIdList = data;
-            }, error => {
-              this.spinnerService.hide();
-            });
-        }else {
-            this.hideFields = true;    
-        }
-        this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVE_ID+this.driveId)
-	    .subscribe((resp) => {
-	        this.driveData = resp;
-	        this.driveName = this.driveData.name;
-	        this.fromDate = this.datePipe.transform(this.driveData.fromDate,'dd-MM-yyyy');
-	        this.toDate = this.datePipe.transform(this.driveData.toDate,'dd-MM-yyyy');
-	    });
-    }
-    
-    getDriveProgressIdData() {
-        const driveProgressId: DriveProgressIdModel[] = [];
-        this.sendAndRequestService.requestForGET(Constants.app_urls.PROGRESS_RECORD.GET_DDPROGRESS_BASED_ON_DRIVE_FROM_DATE
-              +this.driveId+'/'+this.performedDate
-                  ).subscribe((data) =>{
-                      this.DDProgress = data;
-                      if(this.DDProgress != null) {
-                          this.DDProgressId = this.DDProgress.id;
-                          this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE_PROGRESS_ID.GET_DRIVE_PROGRESS_ID_DATA_BASED_ON_DRIVE_DAILY_PROGRESS
-                                  +this.DDProgressId
-                                      ).subscribe((data) =>{
-                                          this.resp = data;
-                                          if(this.resp){
-                                              this.performedCount = this.resp.length;
-                                              for (let i = 0; i < this.resp.length; i++) {
-                                                this.resp[i].sno = i + 1;
-                                                driveProgressId.push(this.resp[i]);
-                                              }
-                                            }
-                                          this.dataSource = new MatTableDataSource(driveProgressId);
-                                          });
-                          }else {
-             				this.performedCount = 0;
- 				          }
-                      });    
-    }
-    
-    addAssetIdsFormSubmit() {
-        this.enableSubmit = false;
-        this.assetIdsExists = false;
-        this.performedCount = this.performedCount + this.selectedAssetIdList.length;
-        let saveDriveDailyProgress = {
-            id: 0,
-            driveId: this.driveId,
-            performedDate: this.performedDate,
-            depot: this.facilityId,
-            createdBy : this.loggedUserData.username,
-            performedCount: this.performedCount
-        }
-        this.sendAndRequestService.requestForPOST(Constants.app_urls.PROGRESS_RECORD.SAVE_DRIVE_DAILY_PROGRESS_RECORD ,saveDriveDailyProgress, false).subscribe(response => {
-            this.spinnerService.hide();
-            this.resp = response;
-            if(this.resp) {
-                this.DDProgressId = this.resp.id;
-                let currentDate = new Date();
-                let formdata: FormData = new FormData();
-                for(var i=0;i<this.selectedAssetIdList.length;i++){
-                    formdata.append('assetIds', this.selectedAssetIdList[i]);
-                }
-                formdata.append('createdBy', this.loggedUserData.username);
-                formdata.append('createdOn', new Date().toLocaleDateString());
-                formdata.append('driveDailyProgressId',this.DDProgressId);
-                this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE_PROGRESS_ID.SAVE, formdata, true).subscribe(data => {
-                        this.spinnerService.hide();
-                        this.selectedAssetIdList = [];
-                        this.getDriveProgressIdData();
-                        
-                    }, error => {
-                        console.log('ERROR >>>');
-                        this.spinnerService.hide();
-                    })
+    selectAll(event) {
+        for (var i = 0; i < this.drivesList.length; i++) {
+            if (event.target.checked) {
+                this.drivesList[i].checked = true;
+                this.drivesList[i].approvedStatus = "Approve";
+                this.drivesList[i].approveBy = this.loggedUserData.username;
+                this.selectedItems.push(this.drivesList[i]);
+                this.enableSave = true;   
+            } else {
+                this.drivesList[i].checked = false;
+                this.selectedItems = [];
+                this.enableSave = false;
             }
-            
-          });
-        
-    }
-    
-    addAssetIds() {
-        let assetIds = this.dailyProgressIdFormGroup.value.assetId;
-        if (assetIds) {
-             this.assetIdsExists = true;
-             this.enableSubmit = true;
-            for (var i = 0; i < assetIds.length; i++) {
-                this.selectedAssetIdList.push(assetIds[i]);
-            }
-        }
-        let manualEnteredData = this.dailyProgressIdFormGroup.value.manual;
-        if(manualEnteredData) {
-            this.assetIdsExists = true;
-            this.enableSubmit = true;
-            let manualArray = manualEnteredData.split(";");
-            for (var i = 0 ; i < manualArray.length; i++) {
-                if(manualArray[i]) {
-                    this.selectedAssetIdList.push(manualArray[i]);
-                }
-            }
-        }
 
-        Object.keys(this.dailyProgressIdFormGroup.controls).forEach(key => {
-            this.dailyProgressIdFormGroup.get(key).setValue(null) ;
-        });
-    }
-    
-    removeAssetId(id) {
-        this.selectedAssetIdList.splice(id, 1);
-        if(this.selectedAssetIdList.length === 0) {
-            this.assetIdsExists = false;
-            this.enableSubmit = false;
         }
     }
-    
-    
-    selectedFromKm(fKM) {
-      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETIDS_BY_FACILITYID_FROMKM_TOKM + this.facilityId + '/'+this.dailyProgressIdFormGroup.controls['fromKilometer'].value + '/'+this.dailyProgressIdFormGroup.controls['fromKilometer'].value).subscribe((data) => {
-        this.assetIdList = data;
-      }, error => {
-        this.spinnerService.hide();
-      });
-  }
-    
-    selectedToKm(tKM) {
-      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETIDS_BY_FACILITYID_FROMKM_TOKM + this.facilityId + '/' +this.dailyProgressIdFormGroup.controls['fromKilometer'].value + '/'+this.dailyProgressIdFormGroup.controls['toKilometer'].value).subscribe((data) => {
-        this.assetIdList = data;
-      }, error => {
-        this.spinnerService.hide();
-      });
-  }
-    
-  delete(id) {
-    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
-      disableClose: false
-    });
-    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
-    this.confirmDialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.spinnerService.show();
-        this.sendAndRequestService.requestForDELETE(Constants.app_urls.DRIVE_PROGRESS_ID.DELETE ,id).subscribe(data => {
-          this.spinnerService.hide();
-          this.commonService.showAlertMessage("Asset Id Deleted Successfully");
-          this.getDriveProgressIdData();
-        }, error => {
-          console.log('ERROR >>>');
-          this.spinnerService.hide();
-          this.commonService.showAlertMessage("Asset Id Deletion Failed.");
-        })
-      }
-      this.confirmDialogRef = null;
-    });
-  }
-    
-  onGoBack(): void {
-    this.dialogRef.close();
-  }
 
-  
-
+    
 }

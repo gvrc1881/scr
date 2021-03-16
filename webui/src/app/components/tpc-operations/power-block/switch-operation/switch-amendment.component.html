@@ -1,0 +1,109 @@
+<div class="row-fluid">
+	<div class="panel panel-primary">
+    	<div class="panel-heading">{{Titles.SWITCH_AMENDMENT}}</div>
+        	<div class="panel-body">
+        		<form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" fxLayout="column"
+                                fxLayoutAlign="start" fxFlex="1 0 auto" name="form" [formGroup]="switchAmendmentFormGroup"
+                                (ngSubmit)="savePBAmendment();">
+	            	<div class="col-md-12">
+	            		<div class="col-md-3">
+                        	<mat-form-field fxFlex="30">
+                            	<input matInput [owlDateTime]="dt1" style="width: 80%;"
+                                	[owlDateTimeTrigger]="dt1" placeholder="{{FiledLabels.OPEN_DATE}}"                                                                
+                                   	[max]="maxDate"
+                                        	[formControl]="switchAmendmentFormGroup.controls['ioOpenedDateTime']" >                                                                
+                                            <owl-date-time #dt1 [showSecondsTimer]=true></owl-date-time>
+                                            <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
+							</mat-form-field>
+                        </div>
+                        <div class="col-md-1">
+                        	<mat-form-field fxFlex="30">
+                            	<input matInput placeholder="{{FiledLabels.TPC_NO}}"
+                                	[formControl]="switchAmendmentFormGroup.controls['tpcNoIoOpen']">                                                               
+							</mat-form-field>
+                     	</div>
+                     	<div class="col-md-1">
+                        	<mat-form-field fxFlex="30">
+                            	<input matInput placeholder="{{FiledLabels.FIELD_NO}}"
+                                	[formControl]="switchAmendmentFormGroup.controls['fieldNoIoOpen']">                                                               
+							</mat-form-field>
+                     	</div>
+                     	<div class="col-md-3">
+                        	<mat-form-field fxFlex="30">
+                            	<input matInput [owlDateTime]="dt2" style="width: 80%;"
+                                	[owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.OPEN_DONE}}"                                                                
+                                   	[max]="maxDate"
+                                        	[formControl]="switchAmendmentFormGroup.controls['ioOpenedDateTimeDone']" >                                                                
+                                            <owl-date-time #dt2 [showSecondsTimer]=true></owl-date-time>
+                                            <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
+							</mat-form-field>
+                        </div>
+                        <div class="col-md-1">
+                        	<mat-form-field fxFlex="30">
+                            	<input matInput placeholder="{{FiledLabels.TPC_NO}}"
+                                	[formControl]="switchAmendmentFormGroup.controls['tpcNoIoOpenDone']">                                                               
+							</mat-form-field>
+                     	</div>
+                     	<div class="col-md-1">
+                        	<mat-form-field fxFlex="30">
+                            	<input matInput placeholder="{{FiledLabels.FIELD_NO}}"
+                                	[formControl]="switchAmendmentFormGroup.controls['fieldNoIoOpenDone']">                                                               
+							</mat-form-field>
+                     	</div>
+                     	<div class="col-md-3">
+                        	<mat-form-field fxFlex="30">
+                            	<input matInput [owlDateTime]="dt3" style="width: 80%;"
+                                	[owlDateTimeTrigger]="dt3" placeholder="{{FiledLabels.CLOSE}}"                                                                
+                                   	[max]="maxDate"
+                                        	[formControl]="switchAmendmentFormGroup.controls['ioClosedDateTime']" >                                                                
+                                            <owl-date-time #dt3 [showSecondsTimer]=true></owl-date-time>
+                                            <span [owlDateTimeTrigger]="dt3"><i class="fa fa-calendar"></i></span>
+							</mat-form-field>
+                        </div>
+                        <div class="col-md-1">
+                        	<mat-form-field fxFlex="30">
+                            	<input matInput placeholder="{{FiledLabels.TPC_NO}}"
+                                	[formControl]="switchAmendmentFormGroup.controls['tpcNoIoClose']">                                                               
+							</mat-form-field>
+                     	</div>
+                     	<div class="col-md-1">
+                        	<mat-form-field fxFlex="30">
+                            	<input matInput placeholder="{{FiledLabels.FIELD_NO}}"
+                                	[formControl]="switchAmendmentFormGroup.controls['fieldNoIoClose']">                                                               
+							</mat-form-field>
+                     	</div>
+                     	<div class="col-md-3">
+                        	<mat-form-field fxFlex="30">
+                            	<input matInput [owlDateTime]="dt4" style="width: 80%;"
+                                	[owlDateTimeTrigger]="dt4" placeholder="{{FiledLabels.CLOSE_DONE}}"                                                                
+                                   	[max]="maxDate"
+                                        	[formControl]="switchAmendmentFormGroup.controls['ioClosedDateTimeDone']" >                                                                
+                                            <owl-date-time #dt4 [showSecondsTimer]=true></owl-date-time>
+                                            <span [owlDateTimeTrigger]="dt4"><i class="fa fa-calendar"></i></span>
+							</mat-form-field>
+                        </div>
+                        <div class="col-md-1">
+                        	<mat-form-field fxFlex="30">
+                            	<input matInput placeholder="{{FiledLabels.TPC_NO}}"
+                                	[formControl]="switchAmendmentFormGroup.controls['tpcNoIoCloseDone']">                                                               
+							</mat-form-field>
+                     	</div>
+                     	<div class="col-md-1">
+                        	<mat-form-field fxFlex="30">
+                            	<input matInput placeholder="{{FiledLabels.FIELD_NO}}"
+                                	[formControl]="switchAmendmentFormGroup.controls['fieldNoIoCloseDone']">                                                               
+							</mat-form-field>
+                     	</div>
+                     	
+                     	<div class="col-md-2 mt-15">
+							<div class="float-right" style="float: right;">
+								<button class="mat-raised-button mat-accent" color="accent"
+									class="d-inline" mat-raised-button="" type="submit"
+										[disabled]="switchAmendmentFormGroup.invalid">Save</button>
+							</div>
+						</div>
+	            	</div>
+	            </form>	
+	        </div>
+	 </div>
+</div>	              

@@ -43,6 +43,7 @@
 				            	<th>PTW Return</th>
 					        	<th>Tpc No</th>
 				            	<th>Field No</th>
+				            	<th>Action</th>
 			                </thead>
 			                <tbody>
 						        <tr>
@@ -89,6 +90,14 @@
 							        	<mat-form-field style="width:50px !important; text-align: left">
 	                            			<input matInput type="text" [(ngModel)]="fieldNoPtwReturn"  >
   										</mat-form-field>
+							        </td>
+							        <td>
+										<button class="mat-raised-button mat-accent" color="accent"
+													class="d-inline" mat-raised-button="" (click)="ptwAmendment()"
+														>amendment</button>&nbsp;&nbsp;
+										<button class="mat-raised-button mat-accent" color="accent"
+											class="d-inline" mat-raised-button="" (click)="addSwitchDialog()"
+												>Add Switch</button>
 							        </td>
 						        </tr>
 					        </tbody>
@@ -156,6 +165,13 @@
              			</mat-table>
              		
              		</div> -->
+             		<!-- <div class="col-md-2 mt-15">
+									<div class="float-right" style="float: right;">
+										<button class="mat-raised-button mat-accent" color="accent"
+											class="d-inline" mat-raised-button="" (click)="addSwitchDialog()"
+												>Add Switch</button>
+									</div>
+								</div> -->
              		<div class="clear"> </div>
              		<div class="mat-elevation-z8">
              			<mat-table [dataSource]="dataSource" matSort>
@@ -398,6 +414,9 @@
 	                        					<mat-icon style="color: rgb(0, 145, 234);">save</mat-icon>
 	                        				</button>
 	                        			</a>
+	                        			<button class="mat-raised-button mat-accent" color="accent" *ngIf="row.ioOpenedOnlyTime"
+											class="d-inline" mat-raised-button="" (click)="switchAmendment(row)"
+												>SA</button>
 	                        		</mat-cell> 
 	                        </ng-container>
 	                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

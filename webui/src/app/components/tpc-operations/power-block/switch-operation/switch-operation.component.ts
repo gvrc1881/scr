@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
@@ -10,6 +10,8 @@ import { PbSwitchControl, SwitchMaintenenceHistory , PowerBlockModel } from 'src
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 import { DatePipe } from '@angular/common';
+import { OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
+import { MY_CUSTOM_FORMATS } from 'src/app/common/date-filter.pipe';
 
 
 @Component({
@@ -76,7 +78,8 @@ export class SwitchOperationComponent implements OnInit {
 	    private route: ActivatedRoute,
 	    private router: Router,
         private datePipe: DatePipe,
-	    private sendAndRequestService:SendAndRequestService
+	    private sendAndRequestService:SendAndRequestService,
+        private dialog: MatDialog
 	  ) {
 	  }
 	  
@@ -404,5 +407,333 @@ export class SwitchOperationComponent implements OnInit {
         var max = 99;
         return Math.floor(Math.random() * (max + 1));
     }
-	
+    
+    addSwitchDialog(row){
+         const dialogRef = this.dialog.open(AddSwitchDialogComponent, {
+          height: '300px',
+          width: '80%', 
+          data: {}
+        });
+        
+        dialogRef.afterClosed().subscribe(result => {
+            
+            if(result){
+                let switchRecord = { ioLocation: result.data.switchName, ioType: result.data.switchType,ioOpenedDateTime:'',fieldNoIoOpen:'',
+                ioOpenedDateTimeDone:'',fieldNoIoOpenDone:'',ioClosedDateTime:'',fieldNoIoClose:'',
+                ioClosedDateTimeDone:'',fieldNoIoCloseDone:'',ioOpenedBy:'',ioClosedBy:'',pbOperationSeqId: this.pbId,
+                tpcNoIoClose:'',tpcNoIoCloseDone:'',tpcNoIoOpen:'',tpcNoIoOpenDone:''
+                    
+                }
+                if(this.SMHDetails.length === this.pbSwitchControl.length){
+                   this.SMHDetails.push(switchRecord);
+                    this.dataSource = new MatTableDataSource(this.SMHDetails);
+                }else {
+                   this.orginalSMHData.push(switchRecord);
+                   this.dataSource = new MatTableDataSource(this.orginalSMHData); 
+                }                
+            }
+        });
+    }
+    
+    ptwAmendment(){
+         const dialogRef = this.dialog.open(PTWIssueReturnAmendmentDialogComponent, {
+          height: '300px',
+          width: '80%', 
+          data: {PBDetails:this.powerBlockData}
+        });
+        
+        dialogRef.afterClosed().subscribe(result => {
+                       
+        });
+    }
+    
+    switchAmendment(row){
+        
+        const dialogRef = this.dialog.open(SwitchAmendmentDialogComponent, {
+          height: '300px',
+          width: '80%', 
+          data: {switchDetails:row}
+        });
+        
+        dialogRef.afterClosed().subscribe(result => {
+                       
+        });
+        
+    }
+    
+}
+
+
+@Component({
+  selector: 'add-switch-dialog',
+  templateUrl: 'add-switch.component.html',
+})
+export class AddSwitchDialogComponent implements OnInit  {
+        
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
+    addSwitchFormGroup: FormGroup;
+    switchTypes = ['REMOTE','MANUAL'];
+    
+    constructor(
+    private formBuilder: FormBuilder,
+    private spinnerService: Ng4LoadingSpinnerService,  
+    private sendAndRequestService:SendAndRequestService,
+    private dialog: MatDialog,
+    private commonService: CommonService,
+    private dialogRef: MatDialogRef<AddSwitchDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private datePipe: DatePipe
+    ) {
+      
+      if(data) {
+         
+      }
+  }
+    
+    ngOnInit() {
+        
+        this.addSwitchFormGroup = this.formBuilder.group({
+            switchType:[null ,  Validators.required ],
+            switchName: [null,  Validators.required  ],
+        });
+        
+    }
+    
+    addSwitch(){
+        let switchDetails = {
+            switchType: this.addSwitchFormGroup.controls['switchType'].value,
+            switchName: this.addSwitchFormGroup.controls['switchName'].value
+        }
+        this.dialogRef.close({data:switchDetails});   
+    }
+
+}
+
+
+@Component({
+  selector: 'ptw-amendment-dialog',
+  templateUrl: 'ptw-issue-return-amendment.component.html',
+})
+export class PTWIssueReturnAmendmentDialogComponent implements OnInit  {
+        
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
+    pbAmendmentFormGroup: FormGroup;
+    pbOperationSeqId: any;
+    resp: any;
+    PBAmendmentId: any;
+    
+    constructor(
+    private formBuilder: FormBuilder,
+    private spinnerService: Ng4LoadingSpinnerService,  
+    private sendAndRequestService:SendAndRequestService,
+    private dialog: MatDialog,
+    private commonService: CommonService,
+    private dialogRef: MatDialogRef<PTWIssueReturnAmendmentDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private datePipe: DatePipe
+    ) {
+      
+      if(data) {
+         this.pbOperationSeqId = data.PBDetails.id
+      }
+  }
+    
+    ngOnInit() {
+        
+        this.pbAmendmentFormGroup = this.formBuilder.group({
+            id: [null],
+            pbOperationSeqId: [null],
+            pbAmendmentSeqId: [null],
+            ptwAvailedFromDateTime:[null],
+            ptwAvailedThruDateTime: [null],
+            tpcNoPtwIssue:[null],
+            tpcNoPtwReturn:[null],
+            fieldNoPtwIssue:[null],
+            fieldNoPtwReturn:[null]
+        });
+        this.getPowerBlocksAmendmentData();   
+    }
+    
+    getPowerBlocksAmendmentData() {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.POWER_BLOCKS_AMENDMENT.GET_PB_AMENDMENT_BASED_ON_PB_OPERATION_ID +  this.pbOperationSeqId)
+          .subscribe((resp) => {
+            this.resp = resp;
+              //console.log('*** values are ***'+JSON.stringify(this.resp));
+              if(this.resp){
+                  this.PBAmendmentId = this.resp.id;
+                this.pbAmendmentFormGroup.patchValue({
+                      id: this.resp.id,
+                      pbOperationSeqId: this.pbOperationSeqId,
+                      pbAmendmentSeqId: this.resp.pbAmendmentSeqId,
+                      ptwAvailedFromDateTime: !! this.resp.ptwAvailedFromDateTime ? new Date(this.resp.ptwAvailedFromDateTime) : '',
+                      ptwAvailedThruDateTime: !! this.resp.ptwAvailedThruDateTime ? new Date(this.resp.ptwAvailedThruDateTime) : '',
+                      tpcNoPtwIssue: this.resp.tpcNoPtwIssue,
+                      tpcNoPtwReturn: this.resp.tpcNoPtwReturn,
+                      fieldNoPtwIssue: this.resp.fieldNoPtwIssue,
+                      fieldNoPtwReturn: this.resp.fieldNoPtwReturn,
+                    });
+              }
+            this.spinnerService.hide();
+       });
+            
+    }
+    
+    savePBAmendment(){
+        let svaePBAmendment = {
+            id: this.PBAmendmentId,
+            //pbAmendmentSeqId: this.resp.pbAmendmentSeqId,
+            ptwAvailedFromDateTime: this.pbAmendmentFormGroup.controls['ptwAvailedFromDateTime'].value,
+            ptwAvailedThruDateTime: this.pbAmendmentFormGroup.controls['ptwAvailedThruDateTime'].value,
+            tpcNoPtwIssue: this.pbAmendmentFormGroup.controls['tpcNoPtwIssue'].value,
+            tpcNoPtwReturn: this.pbAmendmentFormGroup.controls['tpcNoPtwReturn'].value,
+            fieldNoPtwIssue: this.pbAmendmentFormGroup.controls['fieldNoPtwIssue'].value,
+            fieldNoPtwReturn: this.pbAmendmentFormGroup.controls['fieldNoPtwReturn'].value,
+            pbOperationSeqId: this.pbOperationSeqId
+        }
+        this.sendAndRequestService.requestForPOST(Constants.app_urls.OPERATIONS.POWER_BLOCKS_AMENDMENT.SAVE_PB_AMENDMENT ,svaePBAmendment, false).subscribe(response => {
+            this.spinnerService.hide();
+            this.resp = response;
+            if (this.resp.code == Constants.CODES.SUCCESS) {
+            this.commonService.showAlertMessage("Power Block Amendment Data saved Successfully");
+                this.dialogRef.close();
+            }else{
+              this.commonService.showAlertMessage("Power Block Amendment Data saving Failed.");
+            }
+          }, error => {
+            console.log('ERROR >>>');
+            this.spinnerService.hide();
+            this.commonService.showAlertMessage("Power Block Amendment Data saving Failed.");
+          });
+        
+    }
+
+}
+
+@Component({
+  selector: 'switch-amendment-dialog',
+  templateUrl: 'switch-amendment.component.html',
+})
+export class SwitchAmendmentDialogComponent implements OnInit  {
+        
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
+    switchAmendmentFormGroup: FormGroup;
+    switchSeqId: any;
+    resp: any;
+    switchAmendmentId: any;
+    
+    constructor(
+    private formBuilder: FormBuilder,
+    private spinnerService: Ng4LoadingSpinnerService,  
+    private sendAndRequestService:SendAndRequestService,
+    private dialog: MatDialog,
+    private commonService: CommonService,
+    private dialogRef: MatDialogRef<SwitchAmendmentDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private datePipe: DatePipe
+    ) {
+      
+      if(data) {
+          console.log("switch Details ***"+JSON.stringify(data));
+         this.switchSeqId = data.switchDetails.id
+          console.log("switch seq Id ***"+this.switchSeqId);
+      }
+  }
+    
+    ngOnInit() {
+        
+        this.switchAmendmentFormGroup = this.formBuilder.group({
+            id: [null],
+            seqId: [null],
+            amendmentSeqId: [null],
+            ioOpenedDateTime: [null],
+            fieldNoIoOpen: [null],
+            ioOpenedDateTimeDone: [null],
+            fieldNoIoOpenDone: [null],
+            ioClosedDateTime: [null],
+            fieldNoIoClose: [null],
+            ioClosedDateTimeDone: [null],
+            fieldNoIoCloseDone: [null],
+            ioOpenedBy: [null],
+            ioClosedBy: [null],
+            tpcNoIoClose: [null],
+            tpcNoIoCloseDone: [null],
+            tpcNoIoOpen: [null],
+            tpcNoIoOpenDone: [null]
+        });
+        this.getSMHDetails();
+    }
+    
+   getSMHDetails() {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.SWITCH_MAINTENENCE_HISTORY_AMENDMENT.GET_SWITCH_AMENDMENT_BASED_ON_SMH_ID +  this.switchSeqId)
+          .subscribe((resp) => {
+            this.resp = resp;
+             // console.log('*** values are ***'+JSON.stringify(this.resp));
+              if(this.resp){
+                  this.switchAmendmentId = this.resp.id;
+                this.switchAmendmentFormGroup.patchValue({
+                      id: this.resp.id,
+                    seqId: this.switchSeqId,
+                    amendmentSeqId: this.resp.amendmentSeqId,
+                    ioOpenedDateTime: !! this.resp.ioOpenedDateTime ? new Date(this.resp.ioOpenedDateTime) : '',
+                    fieldNoIoOpen: this.resp.fieldNoIoOpen,
+                    ioOpenedDateTimeDone: !! this.resp.ioOpenedDateTimeDone ? new Date(this.resp.ioOpenedDateTimeDone) : '',
+                    fieldNoIoOpenDone: this.resp.fieldNoIoOpenDone,
+                    ioClosedDateTime: !! this.resp.ioClosedDateTime ? new Date(this.resp.ioClosedDateTime) : '',
+                    fieldNoIoClose: this.resp.fieldNoIoClose,
+                    ioClosedDateTimeDone: !! this.resp.ioClosedDateTimeDone ? new Date(this.resp.ioClosedDateTimeDone) : '',
+                    fieldNoIoCloseDone: this.resp.fieldNoIoCloseDone,
+                    ioOpenedBy: this.resp.ioOpenedBy,
+                    ioClosedBy: this.resp.ioClosedBy,
+                    tpcNoIoClose: this.resp.tpcNoIoClose,
+                    tpcNoIoCloseDone: this.resp.tpcNoIoCloseDone,
+                    tpcNoIoOpen: this.resp.tpcNoIoOpen,
+                    tpcNoIoOpenDone: this.resp.tpcNoIoOpenDone,
+                    });
+              }
+            this.spinnerService.hide();
+       });
+            
+    }
+    
+    savePBAmendment(){
+        let svaeSMHAmendment = {
+             id: this.switchAmendmentId,
+             seqId: this.switchSeqId,
+           // amendmentSeqId:  this.resp.amendmentSeqId,
+            ioOpenedDateTime:  this.switchAmendmentFormGroup.controls['ioOpenedDateTime'].value,
+            fieldNoIoOpen: this.switchAmendmentFormGroup.controls['fieldNoIoOpen'].value,
+            ioOpenedDateTimeDone: this.switchAmendmentFormGroup.controls['ioOpenedDateTimeDone'].value,
+            fieldNoIoOpenDone: this.switchAmendmentFormGroup.controls['fieldNoIoOpenDone'].value,
+            ioClosedDateTime: this.switchAmendmentFormGroup.controls['ioClosedDateTime'].value,
+            fieldNoIoClose: this.switchAmendmentFormGroup.controls['fieldNoIoClose'].value,
+            ioClosedDateTimeDone: this.switchAmendmentFormGroup.controls['ioClosedDateTimeDone'].value,
+            fieldNoIoCloseDone: this.switchAmendmentFormGroup.controls['fieldNoIoCloseDone'].value,
+            ioOpenedBy: this.switchAmendmentFormGroup.controls['ioOpenedBy'].value,
+            ioClosedBy: this.switchAmendmentFormGroup.controls['ioClosedBy'].value,
+            tpcNoIoClose: this.switchAmendmentFormGroup.controls['tpcNoIoClose'].value,
+            tpcNoIoCloseDone: this.switchAmendmentFormGroup.controls['tpcNoIoCloseDone'].value,
+            tpcNoIoOpen: this.switchAmendmentFormGroup.controls['tpcNoIoOpen'].value,
+            tpcNoIoOpenDone: this.switchAmendmentFormGroup.controls['tpcNoIoOpenDone'].value,
+            
+        }
+        this.sendAndRequestService.requestForPOST(Constants.app_urls.OPERATIONS.SWITCH_MAINTENENCE_HISTORY_AMENDMENT.SAVE_SMH_AMENDMENT ,svaeSMHAmendment, false).subscribe(response => {
+            this.spinnerService.hide();
+            this.resp = response;
+            if (this.resp.code == Constants.CODES.SUCCESS) {
+            this.commonService.showAlertMessage("Switch Amendment Data saved Successfully");
+                this.dialogRef.close();   
+            }else{
+              this.commonService.showAlertMessage("Switch Amendment Data saving Failed.");
+            }
+          }, error => {
+            console.log('ERROR >>>');
+            this.spinnerService.hide();
+            this.commonService.showAlertMessage("Switch Amendment Data saving Failed.");
+          });
+        
+    }
+
 }

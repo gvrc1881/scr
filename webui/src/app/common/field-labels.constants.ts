@@ -634,7 +634,11 @@ export const FieldLabelsConstant = {
       SEQUENCE_ID:"Sequence Id",
       LEVEL:"Level",
       ALERT_GROUP_ID:"Alert Group Id",
-      RECEIPENTS_ID:"Receipents Id"
+      RECEIPENTS_ID:"Receipents Id",
+      TPC_NO: "Tpc NO",
+      FIELD_NO: "Field NO",
+      PTW_ISSUE:"PTW Issue",
+      PTW_RETURN:"PTW Return"
    },
    TITLE:{
      FAILURE_ANALYSIS :"Failure Analysis",
@@ -754,5 +758,9 @@ export const FieldLabelsConstant = {
     ALERT_GROUP_MEMBER_DATA:"Alert Group Data",
     APPROVE_PSI_THERMOVISION_MEASUREMENT_INFORMATION: 'Approve PSI Thermovision Measurements',
     APPROVE_OHE_THERMOVISION_MEASUREMENT_INFORMATION: 'Approve OHE Thermovision Measurements',
+    ADD_SWITCH:"Add Switch",
+    PTW_AMENDMENT:"PTW Amendment",
+    APPROVE_DRIVE_DAILY_PROGRESS:"Approve Drive Daily Progress",
+    SWITCH_AMENDMENT:"Switch Amendment"
    }
 };

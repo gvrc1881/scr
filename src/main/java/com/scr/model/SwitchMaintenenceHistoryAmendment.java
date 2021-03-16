@@ -16,6 +16,7 @@ public class SwitchMaintenenceHistoryAmendment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name="amendment_seq_id")

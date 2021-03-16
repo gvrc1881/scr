@@ -9,6 +9,21 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
 import { AddPowerBlockComponent } from './add-power-block/add-power-block.component';
 import { SwitchOperationComponent } from './switch-operation/switch-operation.component';
+import { AddSwitchDialogComponent } from '../power-block/switch-operation/switch-operation.component';
+import { PTWIssueReturnAmendmentDialogComponent } from '../power-block/switch-operation/switch-operation.component';
+import { SwitchAmendmentDialogComponent } from '../power-block/switch-operation/switch-operation.component';
+
+import { DateFilterPipe } from 'src/app/common/date-filter.pipe';
+import { DateFnsDateTimeAdapter } from 'src/app/common/date-fns-date-time-adapter.class';
+const DATEFNS_FORMATS_EN_LOCALE = {
+    parseInput: "dd-MM-yyyy HH:mm || dd/MM/yyyy", // multiple date input types separated by ||
+    fullPickerInput: "dd-MM-yyyy HH:mm:ss",
+    datePickerInput: "dd/MM/yyyy",
+    timePickerInput: "HH:mm",
+    monthYearLabel: "MMM yyyy",
+    dateA11yLabel: "dd/MM/yyyy",
+    monthYearA11yLabel: "MMMM yyyy"
+  };
 
 const routes: Routes = [
     {
@@ -35,7 +50,10 @@ const routes: Routes = [
     declarations: [
         PowerBlockComponent,
         AddPowerBlockComponent,
-        SwitchOperationComponent
+        SwitchOperationComponent,
+        AddSwitchDialogComponent,
+        PTWIssueReturnAmendmentDialogComponent,
+        SwitchAmendmentDialogComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -55,6 +73,7 @@ const routes: Routes = [
     	PowerBlockComponent,
     	SwitchOperationComponent
     ],
+    entryComponents: [ AddSwitchDialogComponent,PTWIssueReturnAmendmentDialogComponent, SwitchAmendmentDialogComponent ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PowerBlockModule {

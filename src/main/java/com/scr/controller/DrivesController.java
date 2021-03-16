@@ -2085,42 +2085,46 @@ public ResponseEntity<List<ContentManagement>> getDocumentsList( @PathVariable("
 	}	
 }
 
-@RequestMapping(value = "/getNonApprovedDrivesBasedOnFromDateAndDepot/{fromDate}/{facilityId}/{loggedUser}", method = RequestMethod.GET , headers = "Accept=application/json")
-public ResponseEntity<List<DrivesResponse>> getNonApprovedDrivesBasedOnFromDateAndDepot(@PathVariable("fromDate") Date fromDate , @PathVariable("facilityId") String facilityId, @PathVariable("loggedUser") String loggedUser  ) throws JSONException {
-logger.info("Enter into getDrivesBasedOnFromDateAndDepotType function");
-logger.info("** formdate ***"+fromDate+"** facility Id***"+facilityId+"** category  Name **"+loggedUser);
-List<DrivesResponse> drivesList = null;
-//Date toDate = fromDate;
-//String driveCategoryName = null;
-List<String> fac = new ArrayList<>();
-try {	
-	
-	if( !fromDate.equals(null) && facilityId.equals("null") && !loggedUser.equals(null)) {
-		
-		List<Facility> facility = commonUtility.findUserHierarchy(loggedUser);
-		
-		
-		
-		for (Facility facility2 : facility) {
-			
-			fac.add(facility2.getFacilityId());					
-			
+	@RequestMapping(value = "/getNonApprovedDrivesBasedOnFromDateAndDepot/{fromDate}/{facilityId}/{loggedUser}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<List<DriveDailyProgress>> getNonApprovedDrivesBasedOnFromDateAndDepot(
+			@PathVariable("fromDate") Date fromDate, @PathVariable("facilityId") String facilityId,
+			@PathVariable("loggedUser") String loggedUser) throws JSONException {
+		logger.info("Enter into getNonApprovedDrivesBasedOnFromDateAndDepot function");
+		logger.info("** formdate ***" + fromDate + "** facility Id***" + facilityId + "** user **" + loggedUser);
+		List<DriveDailyProgress> driveDailyProg = null;
+
+		List<String> facilities = new ArrayList<>();
+		try {
+			if (!fromDate.equals(null) && facilityId.equals("null")) {
+				List<Facility> facilityList = commonUtility.findUserHierarchy(loggedUser);
+				for (Facility facility : facilityList) {
+					facilities.add(facility.getFacilityId());
+				}
+				driveDailyProg = service.findByPerformedDateAndDepotIn(fromDate, facilities);
+			} else {
+				driveDailyProg = service.findByPerformedDateAndDepot(fromDate, facilityId);
+			}
+
+		} catch (NullPointerException e) {
+			logger.error("ERROR >>> while fetching the drive daily progress data = " + e.getMessage());
+		} catch (Exception e) {
+			logger.error("ERROR >>> while fetching the drive datily progress data = " + e.getMessage());
 		}
-		drivesList = service.findByPerformedDateAndDepotIn(fromDate,fac);
-	}else {
-		drivesList = service.findByPerformedDateAndDepot(fromDate,facilityId);
+		logger.info("Exit from getNonApprovedDrivesBasedOnFromDateAndDepot function");
+
+		return ResponseEntity.ok((driveDailyProg));
 	}
 	
-}
-	
-catch (NullPointerException e) {			
-	logger.error("ERROR >>> while fetching the drives data = "+e.getMessage());
-} catch (Exception e) {			
-	logger.error("ERROR >>> while fetching the drives data = "+e.getMessage());
-}
-logger.info("Exit from getDrivesBasedOnFromDateAndDepotType function");
+	@RequestMapping(value = "/updateDriveDailyProgressRecord", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseStatus updateDriveDailyProgressRecord(@Valid @RequestBody List<DriveDailyProgress> driveDailyProgressList) throws JSONException {		
+		logger.info("Enter into updateDriveDailyProgressRecord function");
+		try {			
+			service.updateDriveDailyProgress(driveDailyProgressList);
+			return Helper.findResponseStatus("Drive Daily  Progress Saved Successfully", Constants.SUCCESS_CODE);
+		}catch (Exception e) {
+			logger.error("ERROR >> While adding Drive Daily Progress data. "+e.getMessage());
+			return Helper.findResponseStatus("Drive Daily Progressr save is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
 
-return ResponseEntity.ok((drivesList));
-}
-	
 }

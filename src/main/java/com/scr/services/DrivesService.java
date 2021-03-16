@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,6 @@ import com.scr.message.request.DriveRequest;
 import com.scr.message.response.DriveTargetResponse;
 import com.scr.message.response.DrivesResponse;
 import com.scr.message.response.ResponseStatus;
-import com.scr.model.AssetScheduleActivityAssoc;
 import com.scr.model.ContentManagement;
 import com.scr.model.CrsEigInspections;
 import com.scr.model.Division;
@@ -37,16 +36,12 @@ import com.scr.model.DriveTarget;
 import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
 import com.scr.model.Facility;
-import com.scr.model.Failure;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.FunctionalLocationTypes;
-import com.scr.model.GuidenceItem;
 import com.scr.model.InspectionType;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
-import com.scr.model.WorkPhaseActivity;
-import com.scr.model.WorkPhases;
 import com.scr.repository.ChecklistRepository;
 import com.scr.repository.ContentManagementRepository;
 import com.scr.repository.DivisionRepository;
@@ -60,11 +55,11 @@ import com.scr.repository.DriveProgressRecordRepository;
 import com.scr.repository.DriveStipulationRepository;
 import com.scr.repository.DriveTargetRepository;
 import com.scr.repository.DrivesRepository;
+import com.scr.repository.FacilityRepository;
 import com.scr.repository.FunctionalLocationTypesRepository;
 import com.scr.repository.InspectionTypeRepository;
 import com.scr.repository.MeasureOrActivityListRepository;
 import com.scr.repository.ProductRepository;
-import com.scr.repository.FacilityRepository;
 import com.scr.util.Constants;
 
 @Service
@@ -1316,50 +1311,38 @@ public List<Drives> findByFunctionalUnit(List<String> fac) {
 }
 
 
-public List<DrivesResponse> findByPerformedDateAndDepotIn(Date fromDate, List<String> fac) {
+public List<DriveDailyProgress> findByPerformedDateAndDepotIn(Date fromDate, List<String> fac) {
 	
-	List<DrivesResponse> drivesResponseList = new ArrayList<>();
+	List<DriveDailyProgress> DDP = new ArrayList<>();
 	
-	List<DriveDailyProgress> drivesResponse = driveProgressRecordRepository.findByPerformedDateAndDepotIn(fromDate,fac) ;
-	
-	/*//Optional<Drives> drive = driveRepository.findById(drivesResponse.)
-	DrivesResponse driveResponse = new DrivesResponse();
-	
-	driveResponse.setDescription(description);
-	driveResponse.setFacilityId(facilityId);
-	
-	
-	drivesResponseList.*/
-	
-	
-	
-	return drivesResponseList;
-}
-
-public List<DrivesResponse> findByPerformedDateAndDepot(Date fromDate, String facilityId) {
-	
-	List<DrivesResponse> drivesResponseList = new ArrayList<>();
-	
-	Optional<DriveDailyProgress>  dprogress = driveProgressRecordRepository.findByPerformedDateAndDepot(fromDate,facilityId) ;
-	
-	if(dprogress.isPresent()) {
-	
-		Optional<Drives> drive = driveRepository.findById(dprogress.get().getDriveId());
-		
-	DrivesResponse driveResponse = new DrivesResponse();
-	
-	driveResponse.setName(drive.get().getName());
-	driveResponse.setDescription(drive.get().getDescription());
-	driveResponse.setPerformedCount(dprogress.get().getPerformedCount());
-	drivesResponseList.add(driveResponse);
+	List<DriveDailyProgress> dprogress = driveProgressRecordRepository.findByPerformedDateAndDepotInAndApprovedStatusIsNull(fromDate,fac) ;
+	for (DriveDailyProgress driveDailyProgress : dprogress) {
+		driveDailyProgress.setDepot(facilityRepository.findByFacilityId(driveDailyProgress.getDepot()).get().getFacilityName());
+		DDP.add(driveDailyProgress);
 	}
-	return drivesResponseList;
+	return DDP;
 }
 
+	public List<DriveDailyProgress> findByPerformedDateAndDepot(Date fromDate, String facilityId) {
+		List<DriveDailyProgress> DDP = new ArrayList();
+		List<DriveDailyProgress> dprogress = driveProgressRecordRepository.findByPerformedDateAndDepotAndApprovedStatusIsNull(fromDate, facilityId);
+		for (DriveDailyProgress driveDailyProgress : dprogress) {
+			driveDailyProgress.setDepot(facilityRepository.findByFacilityId(driveDailyProgress.getDepot()).get().getFacilityName());
+			DDP.add(driveDailyProgress);
+		}
+		return DDP;
+	}
 
-
-
-
+	public void updateDriveDailyProgress(@Valid List<DriveDailyProgress> driveDailyProgressList) {
+		for (DriveDailyProgress driveDailyProgress : driveDailyProgressList) {
+			Optional<DriveDailyProgress> ddp = driveProgressRecordRepository.findById(driveDailyProgress.getId());
+			if (ddp.isPresent()) {
+				ddp.get().setApproveBy(driveDailyProgress.getApproveBy());
+				ddp.get().setApprovedStatus(driveDailyProgress.getApprovedStatus());
+				driveProgressRecordRepository.save(ddp.get());
+			}
+		}
+	}
 
 }
 

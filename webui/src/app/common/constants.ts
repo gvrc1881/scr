@@ -655,6 +655,7 @@ export const Constants = {
             GET_DDPROGRESS_BASED_ON_DRIVE_FROM_DATE:'/getDDProgressBasedOnDirveAndFromDate/',
             GET_ALREADY_DONE_COUNT_BASED_ON_DRIVE_FROM_DATE: '/getAlreadyDoneCountBasedOnDiveAndFromDate/',
             GET_DDPROGRESS_DATA_BASED_ON_DRIVE:'/getDDProgressDataBasedOnDrive/',
+            UPDATE_DRIVE_DAILY_PROGRESS_RECORD:"/updateDriveDailyProgressRecord"
             
         },
         DRIVE_PROGRESS_ID:{
@@ -810,6 +811,15 @@ export const Constants = {
                 GET_TOWERCAR_ID:"/findAssetStatusById/",
                 DELETE:"/deleteAssetStatus/",
                 GET_BY_ASSETID:"/getByAssetId/"
+            },
+            POWER_BLOCKS_AMENDMENT:{
+                SAVE_PB_AMENDMENT:"/savePBAmendment",
+                GET_PB_AMENDMENT_BASED_ON_PB_OPERATION_ID:"/getPBAmendmentBasedOnPBOperationId/"
+            },
+            SWITCH_MAINTENENCE_HISTORY_AMENDMENT:{
+                GET_SWITCH_AMENDMENT_BASED_ON_SMH_ID:"/getSwitchAmendmentBasedOnSMHId/",
+                SAVE_SMH_AMENDMENT:"/saveSMHAmendment"
+                
             }
         },
         ASSET_REGISTER:{

@@ -1,5 +1,5 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ApproveDriveDailyProgressComponent, AddAssetIdsApproveDriveDialogComponent } from './approve-drive-daily-progress.component';
+import { ApproveDriveDailyProgressComponent } from './approve-drive-daily-progress.component';
 import { Routes, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,7 +19,6 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         ApproveDriveDailyProgressComponent,
-        AddAssetIdsApproveDriveDialogComponent,
         ViewApproveDriveDailyProgressComponent
     ],
     imports: [
@@ -38,7 +37,7 @@ const routes: Routes = [
     exports:[
         ApproveDriveDailyProgressComponent
     ],
-    entryComponents: [ AddAssetIdsApproveDriveDialogComponent,ViewApproveDriveDailyProgressComponent ],
+    entryComponents: [ ViewApproveDriveDailyProgressComponent ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class ApproveDriveDailyProgressModule{
