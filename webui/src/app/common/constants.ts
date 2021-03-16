@@ -297,7 +297,9 @@ export const Constants = {
                 DELETE_PRE_MEA_MAS:"/deletePrecautionaryMeasureMaster/",
                 EXIST_PRE_MEA:"/existPrecautionaryMeasure/",
                 EXIST_PRE_MEA_ID:"/existPrecautionaryMeasureById/",
-                GET_SPECIAL_WORKS_BASED_ON_DIV:"/findAllPrecaMeasureBasedOnDivision/"
+                GET_SPECIAL_WORKS_BASED_ON_DIV:"/findAllPrecaMeasureBasedOnDivision/",
+                SAVE_APPROVE_SPECIAL_WORKS:"/saveApprovedPrecauMeasure",
+                GET_NON_APPROVED_SPECIAL_WORKS_BASED_ON_FACILITY_DATE:"/getNonApprovedPrecaMeas/"
 
             },
             SUBSECTOR:{

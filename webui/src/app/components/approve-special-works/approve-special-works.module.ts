@@ -1,58 +1,55 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModel, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApproveSpecialWorksComponent } from './approve-special-works.component';
-import { Routes, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
 import { MaterialModule } from 'src/app/modules/material.modules';
-import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
-import { AddApproveSpecialWorksComponent } from './add-approve-special-works/add-approve-special-works.component';
-import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
+import { OwlDateTimeModule, OwlNativeDateTimeModule, DateTimeAdapter , OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+import { DateFnsDateTimeAdapter } from 'src/app/common/date-fns-date-time-adapter.class';
 
+const DATEFNS_FORMATS_EN_LOCALE = {
+    parseInput: "dd-MM-yyyy HH:mm || dd/MM/yyyy", // multiple date input types separated by ||
+    fullPickerInput: "dd-MM-yyyy HH:mm:ss",
+    datePickerInput: "dd/MM/yyyy",
+    timePickerInput: "HH:mm",
+    monthYearLabel: "MMM yyyy",
+    dateA11yLabel: "dd/MM/yyyy",
+    monthYearA11yLabel: "MMMM yyyy"
+  };
 
 const routes: Routes = [
     {
-        path: '',
+        path:'',
         component: ApproveSpecialWorksComponent,
-    },   
-    {
-        path     : ':id',
-        component: AddApproveSpecialWorksComponent 
-    },
-    {
-        path        : 'add-approve-special-works',
-        component:   AddApproveSpecialWorksComponent
-    },
-];
+    }
+]
 
 @NgModule({
     declarations: [
-        ApproveSpecialWorksComponent,
-        AddApproveSpecialWorksComponent,
+        ApproveSpecialWorksComponent
     ],
     imports: [
         RouterModule.forChild(routes),
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        MaterialModule,      
-        Ng4LoadingSpinnerModule.forRoot(),
-        NumberValidationsModule,
+        DecimalValidationsModule,
+        MaterialModule,
+        OwlDateTimeModule, 
         OwlNativeDateTimeModule,
-        OwlDateTimeModule,
-        CommonDirectivesModule,
-        DecimalValidationsModule
-    ],
-    providers: [
+        Ng4LoadingSpinnerModule.forRoot()
         
     ],
-    exports:[
-        ApproveSpecialWorksComponent
+    providers: [
+        { provide: DateTimeAdapter, useClass: DateFnsDateTimeAdapter },
+        { provide: OWL_DATE_TIME_FORMATS, useValue: DATEFNS_FORMATS_EN_LOCALE }
     ],
-    schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+    exports: [
+        ApproveSpecialWorksComponent
+    ]
 })
-export class ApproveSpecialWorksModule {
+export class ApproveSpecialWorksModule{
 
 }

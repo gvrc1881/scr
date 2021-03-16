@@ -1,6 +1,7 @@
 package com.scr.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.apache.log4j.LogManager;
@@ -12,15 +13,20 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.jobs.CommonUtility;
+import com.scr.message.response.AshDailyProgressResponse;
+import com.scr.message.response.PrecautionaryMeasureResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Facility;
 import com.scr.model.PrecautionaryMeasure;
 import com.scr.model.PrecautionaryMeasuresMaster;
+import com.scr.model.ThermovisionMeasures;
 import com.scr.model.WPADailyProgress;
 import com.scr.model.WPASectionPopulation;
 import com.scr.model.WPASectionTargets;
@@ -352,6 +358,45 @@ public class PrecautionaryMeasureController {
 			return false;
 		}
 	}
-	
+	@RequestMapping(value = "/getNonApprovedPrecaMeas/{dateOfWork}/{facilityId}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public List<PrecautionaryMeasure> getNonApprovedOheThermoMeasures(
+				@PathVariable("dateOfWork") Date dateOfWork,
+				@PathVariable("facilityId") String facilityId) throws JSONException {
+		logger.info("Enter into getNonApprovedPrecaMeas function");
+		logger.info("date Of Work = "+dateOfWork +" facilityId = "+facilityId);
+		List<PrecautionaryMeasure> precautionaryMeasureList = null;
+		try {			
+			logger.info("Calling service for Precautionary Measure data");
+			precautionaryMeasureList = precautionaryMeasureService.getNonApprovedPrecaMeasures(dateOfWork,facilityId);	
+			logger.info("Fetched Precautionary Measure data = "+precautionaryMeasureList);
+			//return thermovisionMeasureList;
+		} catch (NullPointerException e) {			
+			logger.error("ERROR >>> while fetching the Precautionary Measure data = "+e.getMessage());
+		} catch (Exception e) {			
+			logger.error("ERROR >>> while fetching the Precautionary Measure data = "+e.getMessage());
+		}
+		logger.info("Exit from getNonApprovedPrecaMeas function");
+		return precautionaryMeasureList;
+	}
+
+
+	@PostMapping(value="/saveApprovedPrecauMeasure")
+	@ResponseBody
+	public ResponseStatus saveApprovedPrecauMeasure(@RequestBody List<PrecautionaryMeasure> precautionaryMeasureResponse) {
+		logger.info("*** Enter into saveApprovedPrecauMeasure function ***");
+		logger.info("save list===="+precautionaryMeasureResponse.toString());
+		try {			
+			precautionaryMeasureService.saveApprovedAshDailyProgress(precautionaryMeasureResponse);
+			logger.info("Preparing the return response and saveApprovedPrecauMeasure function end ");
+			return Helper.findResponseStatus("Precautionary Measure Data Added Successfully", Constants.SUCCESS_CODE);
+		}catch(NullPointerException npe) {
+			logger.error("ERROR >> While adding Precautionary Measure Data. "+npe.getMessage());
+			return Helper.findResponseStatus("Precautionary Measure Addition is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			logger.error("ERROR >> While adding Precautionary Measure Data. "+e.getMessage());
+			return Helper.findResponseStatus("Precautionary Measure  Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
 	
 }

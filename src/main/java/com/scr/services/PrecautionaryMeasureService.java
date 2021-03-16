@@ -2,6 +2,7 @@ package com.scr.services;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.apache.log4j.LogManager;
@@ -9,8 +10,12 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.scr.mapper.PrecautionaryMeasureMapper;
+import com.scr.model.Facility;
 import com.scr.model.PrecautionaryMeasure;
 import com.scr.model.PrecautionaryMeasuresMaster;
+import com.scr.model.TcpSchedule;
+import com.scr.model.ThermovisionCheckPoints;
+import com.scr.model.ThermovisionMeasures;
 import com.scr.model.WorkPhaseActivity;
 import com.scr.repository.PrecautionaryMeasureMasterRepository;
 import com.scr.repository.PrecautionaryMeasureRepository;
@@ -113,5 +118,14 @@ public class PrecautionaryMeasureService {
 	
 	public Optional<PrecautionaryMeasuresMaster> findByPrecautionaryMeasure(String precautionaryMeasure) {
 		return precautionaryMeasureMasterRepository.findByPrecautionaryMeasure(precautionaryMeasure);
+	}
+	public List<PrecautionaryMeasure> getNonApprovedPrecaMeasures(Date dateOfWork,String facilityId) {
+ 		return precautionaryMeasureRepository.findByDateOfWorkAndFacilityIdAndApprovedStatusIsNull(dateOfWork,facilityId);
+ 	}
+	
+	public void saveApprovedAshDailyProgress(List<PrecautionaryMeasure> precautionaryMeasureList) {
+		for (PrecautionaryMeasure precautionaryMeasure : precautionaryMeasureList) {
+			precautionaryMeasureRepository.save(precautionaryMeasure);
+		}
 	}
 }
