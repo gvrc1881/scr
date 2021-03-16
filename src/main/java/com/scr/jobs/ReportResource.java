@@ -154,6 +154,7 @@ public class ReportResource {
 		parameters.put("depot", report.getCheckPointsDepot());
 		parameters.put("", report.getCheckPointsDepot());
 		parameters.put("equipmentno", report.getEquipmentno());
+		parameters.put("location",report.getLocation());
 		
 		parameters.put("tempDiff", report.getTempDiff());
 		

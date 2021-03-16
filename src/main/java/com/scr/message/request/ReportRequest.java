@@ -62,6 +62,7 @@ public class ReportRequest {
 	private String equipmentno;
 	private String tempDiff;
     private String feederName;
+    private String location;
 	
 	public ObservationsCheckList getObservationCategory() {
 		return observationCategory;
@@ -429,6 +430,14 @@ public class ReportRequest {
 
 	public void setFeederName(String feederName) {
 		this.feederName = feederName;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	

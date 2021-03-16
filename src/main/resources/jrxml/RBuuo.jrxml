@@ -18,31 +18,31 @@ union
 select 2 sn ,  'Railway :  ' subhead , zone
 from failures f1 , facility fac
 where type_of_failure='UNUSUAL_OCCURENCE'
-and  f1.from_date_time::date= '2021-03-05'--param
+and  f1.from_date_time::date= $P{fromDate}--param
 and fac.facility_id = f1.sub_station
 union
 select 3 sn    ,  ' Division:   ' subhead , division
 from failures f1 , facility fac
 where type_of_failure='UNUSUAL_OCCURENCE'
-and  f1.from_date_time::date= '2021-03-05'--param
+and  f1.from_date_time::date= $P{fromDate}--param
 and fac.facility_id = f1.sub_station
 union
 select 4 sn  ,  ' Major section:  ' subhead , f1.major_section
 from failures f1 , facility fac
 where type_of_failure='UNUSUAL_OCCURENCE'
-and  f1.from_date_time::date= '2021-03-05'--param
+and  f1.from_date_time::date= $P{fromDate}--param
 and fac.facility_id = f1.sub_station
 union
 select 5 sn  ,  ' Minor section:   ' subhead , f1.minor_section
 from failures f1 , facility fac
 where type_of_failure='UNUSUAL_OCCURENCE'
-and  f1.from_date_time::date= '2021-03-05'--param
+and  f1.from_date_time::date= $P{fromDate}--param
 and fac.facility_id = f1.sub_station
 union
 select 6 sn  ,  ' Date of incident:  ' subhead , to_char(from_date_time, 'DD-MM-yyyy')
 from failures f1 , facility fac
 where type_of_failure='UNUSUAL_OCCURENCE'
-and  f1.from_date_time::date= '2021-03-05'--param
+and  f1.from_date_time::date= $P{fromDate}--param
 and fac.facility_id = f1.sub_station
 union
 select  6+sequence_id::integer sn , 	upper(failure_activity) , special_remarks
@@ -50,8 +50,8 @@ select  6+sequence_id::integer sn , 	upper(failure_activity) , special_remarks
 --f1.sub_station,fac.facility_id, fac.facility_name, f1.location
 	from 	 failure_actions_causes_impact faci,  failures f1 , status_item s, facility fac
 	where type_of_failure='UNUSUAL_OCCURENCE'
-	and  f1.from_date_time::date= '2021-03-05'--param
-	and f1.location = '159'
+	and  f1.from_date_time::date= $P{fromDate}--param
+	and f1.location = $P{location}
 	and faci.failure_seq_id::bigint = f1.id
 	and status_type_id in ( 'UUO_ACTIVITY' )
 	and Upper(faci.failure_activity) = status_code

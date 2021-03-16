@@ -10,48 +10,48 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select 1 sn,  ' ' subhead  , 'One unsusal occurence happened in ' ||major_section ||' , '||' due to '|| '-- failure reason' ||' on '||from_date_time::date
+		<![CDATA[select  0 sn,' ' subhead  , 'One unsusal occurence happened in ' ||major_section ||' , '||' due to '|| cause_of_failure ||' on '||from_date_time::date
 from failures f1
 where type_of_failure='UNUSUAL_OCCURENCE'
 and  f1.from_date_time::date= $P{fromDate}::date --param
 union
-select 2 sn ,  'Railway :  ' subhead , zone
+select 1 sn ,  'Railway :' subhead , zone
+from failures f1 , facility fac
+where type_of_failure='UNUSUAL_OCCURENCE'
+and  f1.from_date_time::date=$P{fromDate} ::date --param
+and fac.facility_id = f1.sub_station
+union
+select 2 sn    ,  'Division :' subhead , division
 from failures f1 , facility fac
 where type_of_failure='UNUSUAL_OCCURENCE'
 and  f1.from_date_time::date= $P{fromDate}::date --param
 and fac.facility_id = f1.sub_station
 union
-select 3 sn    ,  ' Division:   ' subhead , division
+select 3 sn  ,  'Major section :' subhead , f1.major_section
 from failures f1 , facility fac
 where type_of_failure='UNUSUAL_OCCURENCE'
-and  f1.from_date_time::date= $P{fromDate}::date --param
+and  f1.from_date_time::date=$P{fromDate}::date --param
 and fac.facility_id = f1.sub_station
 union
-select 4 sn  ,  ' Major section:  ' subhead , f1.major_section
+select 4 sn  ,  'Minor section :' subhead , f1.minor_section
 from failures f1 , facility fac
 where type_of_failure='UNUSUAL_OCCURENCE'
-and  f1.from_date_time::date= $P{fromDate}::date --param
+and  f1.from_date_time::date=$P{fromDate}::date --param
 and fac.facility_id = f1.sub_station
 union
-select 5 sn  ,  ' Minor section:   ' subhead , f1.minor_section
+select 5 sn  ,  'Date of incident :' subhead , to_char(from_date_time, 'DD-MM-yyyy')
 from failures f1 , facility fac
 where type_of_failure='UNUSUAL_OCCURENCE'
-and  f1.from_date_time::date= $P{fromDate}::date --param
+and  f1.from_date_time::date=$P{fromDate}::date --param
 and fac.facility_id = f1.sub_station
 union
-select 6 sn  ,  ' Date of incident:  ' subhead , to_char(from_date_time, 'DD-MM-yyyy')
-from failures f1 , facility fac
-where type_of_failure='UNUSUAL_OCCURENCE'
-and  f1.from_date_time::date= $P{fromDate}::date --param
-and fac.facility_id = f1.sub_station
-union
-select  6+sequence_id::integer sn , 	upper(failure_activity) , special_remarks
+select  5+sequence_id::integer sn , 	upper(failure_activity)|| ' :', special_remarks
 -- --status_type_id , status_code,sequence_id , fac.zone, fac.division, f1.major_section, f1.minor_section,
 --f1.sub_station,fac.facility_id, fac.facility_name, f1.location
 	from 	 failure_actions_causes_impact faci,  failures f1 , status_item s, facility fac
 	where type_of_failure='UNUSUAL_OCCURENCE'
-	and  f1.from_date_time::date= $P{fromDate}::date --param
-	and f1.location = $P{location}
+	and  f1.from_date_time::date=$P{fromDate}::date --param
+	and f1.location =$P{location}
 	and faci.failure_seq_id::bigint = f1.id
 	and status_type_id in ( 'UUO_ACTIVITY')
 	and Upper(faci.failure_activity) = status_code
@@ -82,59 +82,13 @@ select  6+sequence_id::integer sn , 	upper(failure_activity) , special_remarks
 			</staticText>
 		</band>
 	</title>
-	<pageHeader>
-		<band height="20">
-			<staticText>
-				<reportElement x="0" y="0" width="50" height="20" uuid="b8e195a9-4e14-4640-8587-3682058ca055"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[S No]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="50" y="0" width="200" height="20" uuid="d3eb64bd-4af4-4761-878e-a8477d5d01c0"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Actions]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="250" y="0" width="390" height="20" uuid="a346dbb1-ed1b-4129-8e8a-07c83cae5ee9"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Description]]></text>
-			</staticText>
-		</band>
-	</pageHeader>
 	<columnHeader>
 		<band/>
 	</columnHeader>
 	<detail>
 		<band height="33">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="50" y="0" width="200" height="33" uuid="1241b832-4679-4d4e-8604-4ccd3914f45c"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="50" y="0" width="138" height="33" uuid="1241b832-4679-4d4e-8604-4ccd3914f45c"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -145,10 +99,10 @@ select  6+sequence_id::integer sn , 	upper(failure_activity) , special_remarks
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[" "+$F{subhead}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{subhead}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="250" y="0" width="390" height="33" uuid="13ed0403-18a5-45ef-b9d8-d7dbb7aa81b6"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="188" y="0" width="452" height="33" uuid="13ed0403-18a5-45ef-b9d8-d7dbb7aa81b6"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -157,10 +111,10 @@ select  6+sequence_id::integer sn , 	upper(failure_activity) , special_remarks
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA[" "+$F{?column?}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{?column?}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="50" height="33" uuid="d58cc3ee-6183-4214-bd42-9faba8668ef2"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="50" height="33" uuid="d58cc3ee-6183-4214-bd42-9faba8668ef2"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -179,7 +133,7 @@ select  6+sequence_id::integer sn , 	upper(failure_activity) , special_remarks
 	<pageFooter>
 		<band height="20">
 			<staticText>
-				<reportElement x="363" y="0" width="100" height="20" uuid="01acc029-f5ba-4a9b-8967-d780e1f1d1a6"/>
+				<reportElement x="358" y="0" width="105" height="20" uuid="01acc029-f5ba-4a9b-8967-d780e1f1d1a6"/>
 				<textElement textAlignment="Right">
 					<font isBold="true"/>
 				</textElement>
