@@ -71,6 +71,7 @@ select string_agg(code||','||unit_name||','||poulation||','||target||','||progre
 		from v_drive_daily_progress ddp, v_now_dd_mm_fy_data vn
 		where drv_from_date >= fy_start_date
 		and (drv_to_date is null or drv_to_date <= fy_end_date)
+		and   upper(approved_status) = 'APPROVED'
 		group by drive_id, drv_name , division
 		) c on (b.code = division and b.drv_id = c.drive_id and b.drv_name =c.drv_name)
 

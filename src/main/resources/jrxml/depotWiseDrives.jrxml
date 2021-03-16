@@ -58,7 +58,8 @@ from
 		from v_drive_daily_progress ddp, v_now_dd_mm_fy_data vn
 		where drv_from_date >= fy_start_date
 		and (drv_to_date is null or drv_to_date <= fy_end_date)
-	    	and case when $P{depot} != '' then depot = $P{depot} else depot is not null or depot is not null end
+	    and case when $P{depot} != '' then depot = $P{depot} else depot is not null or depot is not null end
+		and   upper(approved_status) = 'APPROVED'
 		group by drive_id, drv_name , division , depot
 		) c on (b.facility_id = depot and b.drv_id = c.drive_id and b.drv_name =c.drv_name) --and  b.drv_name =c.depot )
 		where poulation is not null
