@@ -9,15 +9,16 @@ import com.scr.model.DriveCategory;
 import com.scr.model.Drives;
 
 public class CopyDrivesRequest implements Serializable {
-	private List<Drives> drives;
+	
+	private List<DriveRequest> drivesRequest;
 	private DriveCategory driveCategory;
 
-	public List<Drives> getDrives() {
-		return drives;
+	public List<DriveRequest> getDrivesRequest() {
+		return drivesRequest;
 	}
 
-	public void setDrives(List<Drives> drives) {
-		this.drives = drives;
+	public void setDrivesRequest(List<DriveRequest> drivesRequest) {
+		this.drivesRequest = drivesRequest;
 	}
 
 	public DriveCategory getDriveCategory() {

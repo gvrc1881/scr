@@ -1515,7 +1515,7 @@ public ResponseEntity<List<FailureAnalysis>> failureAnalysisBasedOnDivision(
 	public ResponseStatus copyDrives(@RequestBody CopyDrivesRequest copyDrivesRequest) {
 		ResponseStatus responseStatus = new ResponseStatus();
 		
-		logger.info("*** drive category **"+copyDrivesRequest.getDriveCategory()+"*** drives size **"+copyDrivesRequest.getDrives().size());
+		logger.info("*** drive category **"+copyDrivesRequest.getDriveCategory()+"*** drives size **"+copyDrivesRequest.getDrivesRequest().size());
 
 		try {			
 			logger.info("Calling service with request parameters.");

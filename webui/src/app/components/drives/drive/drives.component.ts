@@ -528,19 +528,24 @@ export class CopyDrivesComponent implements OnInit {
       disableClose: false
 
     });
-    this.confirmDialogRef.componentInstance.confirmMessage = 'Do you want to copy existing documents to new Drives ?';
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Do you want to copy existing documents and population to new Drives ?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {}
           for (var i = 0; i < this.selectedDrives.length; i++) {
+            this.selectedDrives[i].driveId.oldDriveId = this.selectedDrives[i].driveId.id ;
             this.selectedDrives[i].driveId.id = 0;
             this.selectedDrives[i].driveId.name = this.selectedDrives[i].newDriveName;
+            //console.log()
+            this.selectedDrives[i].driveId.functionalLocationTypes = this.selectedDrives[i].driveId.depotType; 
+            this.selectedDrives[i].driveId.depotType = '';
               if(!result){
                   this.selectedDrives[i].driveId.contentLink = null;
+                  this.selectedDrives[i].driveId.oldDriveId = '';
               }
             drives.push(this.selectedDrives[i].driveId);
           }
             let copyObject = {
-              drives: drives,
+              drivesRequest: drives,
               driveCategory: this.driveCategory
             };
             if (this.selectedDrives.length > 0) {

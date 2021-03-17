@@ -61,6 +61,9 @@ public interface DriveCategoryAssoRepository extends JpaRepository<DriveCategory
 	Optional<DriveCategoryAsso> getByDriveIdAndDriveCategoryIdAndStatusId(Drives drives, DriveCategory driveCategory,
 			int activeStatusId);
 
+	Optional<DriveCategoryAsso> findByDriveIdAndDriveCategoryIdAndStatusId(Drives drive, DriveCategory driveCategory,
+			int activeStatusId);
+
 	
 
 	

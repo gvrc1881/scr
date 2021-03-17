@@ -84,6 +84,8 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 
 	Optional<Drives> findById(Drives driveId);
 
+	Optional<Drives> findByNameAndDepotType(String name, FunctionalLocationTypes functionalLocationTypes);
+
 
 	
 

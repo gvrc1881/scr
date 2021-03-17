@@ -6,6 +6,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 
+import com.scr.model.FunctionalLocationTypes;
+
 public class DriveRequest {
 
 	private Long id;
@@ -138,6 +140,10 @@ public class DriveRequest {
 	
 	// DRIVE CATEGORY ASS
 	private String driveCategoryId;
+	
+	private Long oldDriveId;
+	private String contentLink;
+	private FunctionalLocationTypes functionalLocationTypes;
 
 	public String getName() {
 		return name;
@@ -892,6 +898,30 @@ public class DriveRequest {
 
 	public void setFrequency(String frequency) {
 		this.frequency = frequency;
+	}
+
+	public Long getOldDriveId() {
+		return oldDriveId;
+	}
+
+	public String getContentLink() {
+		return contentLink;
+	}
+
+	public void setContentLink(String contentLink) {
+		this.contentLink = contentLink;
+	}
+
+	public void setOldDriveId(Long oldDriveId) {
+		this.oldDriveId = oldDriveId;
+	}
+
+	public FunctionalLocationTypes getFunctionalLocationTypes() {
+		return functionalLocationTypes;
+	}
+
+	public void setFunctionalLocationTypes(FunctionalLocationTypes functionalLocationTypes) {
+		this.functionalLocationTypes = functionalLocationTypes;
 	}
 
 	

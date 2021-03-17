@@ -61,6 +61,7 @@ import com.scr.repository.InspectionTypeRepository;
 import com.scr.repository.MeasureOrActivityListRepository;
 import com.scr.repository.ProductRepository;
 import com.scr.util.Constants;
+import com.scr.util.Helper;
 
 @Service
 public class DrivesService {
@@ -833,17 +834,80 @@ public class DrivesService {
 	}
 
 	public void saveDrives(CopyDrivesRequest copyDrivesRequest) {
-		List<Drives> drives = copyDrivesRequest.getDrives();
-		DriveCategory driveCategory = driveCategoryRepository.save(copyDrivesRequest.getDriveCategory());
-		for (Drives drive : drives) {
-			drive = driveRepository.save(drive);
-			DriveCategoryAsso DCAsso = new DriveCategoryAsso();
-			DCAsso.setDriveCategoryId(driveCategory);
-			DCAsso.setDriveId(drive);
-			DCAsso.setCreatedBy(drive.getCreatedBy());
-			DCAsso.setActive("Yes");
-			DCAsso.setStatusId(Constants.ACTIVE_STATUS_ID);
-			driveCategoryAssoRepository.save(DCAsso);
+		List<DriveRequest> drivesRequest = copyDrivesRequest.getDrivesRequest();
+		Optional<DriveCategory> DCategory = driveCategoryRepository
+				.findByDriveCategoryName(copyDrivesRequest.getDriveCategory().getDriveCategoryName());
+		DriveCategory driveCategory = null;
+		if (DCategory.isPresent())
+			driveCategory = DCategory.get();
+		else
+			driveCategory = driveCategoryRepository.save(copyDrivesRequest.getDriveCategory());
+		// DriveCategory driveCategory =
+		// driveCategoryRepository.save(copyDrivesRequest.getDriveCategory());
+		for (DriveRequest driveRequest : drivesRequest) {
+			Optional<Drives> existsDrive = driveRepository.findByNameAndDepotType(driveRequest.getName(),
+					driveRequest.getFunctionalLocationTypes());
+			Drives drive = new Drives();
+			if (existsDrive.isPresent()) {
+				drive = existsDrive.get();
+			} else {
+				drive.setActive(driveRequest.getActive());
+				drive.setAssetDescription(driveRequest.getAssetDescription());
+				drive.setAssetType(driveRequest.getAssetType());
+				drive.setChecklist(driveRequest.getChecklist());
+				drive.setContentLink(driveRequest.getContentLink());
+				drive.setCreatedBy(driveRequest.getCreatedBy());
+				drive.setCreatedOn(driveRequest.getCreatedOn());
+				drive.setCriteria(driveRequest.getCriteria());
+				drive.setDepotType(driveRequest.getFunctionalLocationTypes());
+				drive.setDescription(driveRequest.getDescription());
+				drive.setFrequency(driveRequest.getFrequency());
+				drive.setFromDate(driveRequest.getFromDate());
+				drive.setFunctionalUnit(driveRequest.getFunctionalUnit());
+				drive.setIsIdRequired(driveRequest.getIsIdRequired());
+				drive.setName(driveRequest.getName());
+				drive.setStatusId(new Integer(1));
+				drive.setTarget_qty(driveRequest.getTarget_qty());
+				drive.setToDate(driveRequest.getToDate());
+				drive.setUpdatedBy(driveRequest.getUpdatedBy());
+				drive.setUpdatedOn(driveRequest.getUpdatedOn());
+				drive = driveRepository.save(drive);
+			}
+			if(driveRequest.getOldDriveId() != null && !"null".equals(driveRequest.getOldDriveId())) {
+				Optional<Drives> oldDrive = driveRepository.findById(driveRequest.getOldDriveId());
+				if (oldDrive.isPresent()) {
+					Optional<DriveTarget> oldDriveTarget = driveTargetRepository.findByDriveIdAndUnitTypeAndUnitName(
+							oldDrive.get(), oldDrive.get().getDepotType().getCode(), oldDrive.get().getFunctionalUnit());
+					if (oldDriveTarget.isPresent()) {
+						Optional<DriveTarget> exsitsDriveTarget = driveTargetRepository.findByDriveIdAndUnitTypeAndUnitName(
+								drive, oldDrive.get().getDepotType().getCode(), oldDrive.get().getFunctionalUnit());
+						if(!exsitsDriveTarget.isPresent()) {
+							DriveTarget newDriveTarget = new DriveTarget();
+							newDriveTarget.setCreatedBy(oldDriveTarget.get().getCreatedBy());
+							newDriveTarget.setCreatedOn(Helper.getCurrentTimestamp());
+							newDriveTarget.setDriveId(drive);
+							newDriveTarget.setPoulation(oldDriveTarget.get().getPoulation());
+							newDriveTarget.setStatusId(new Integer(1));
+							//newDriveTarget.setTarget(oldDriveTarget.get().getTarget());
+							newDriveTarget.setUnitName(oldDriveTarget.get().getUnitName());
+							newDriveTarget.setUnitType(oldDriveTarget.get().getUnitType());
+							driveTargetRepository.save(newDriveTarget);
+						}
+					}
+				}
+			}
+			
+			Optional<DriveCategoryAsso> DCA = driveCategoryAssoRepository.findByDriveIdAndDriveCategoryIdAndStatusId(drive, driveCategory,Constants.ACTIVE_STATUS_ID);
+			if (!DCA.isPresent()) {
+				DriveCategoryAsso DCAsso = new DriveCategoryAsso();
+				DCAsso.setDriveCategoryId(driveCategory);
+				DCAsso.setDriveId(drive);
+				DCAsso.setCreatedBy(drive.getCreatedBy());
+				DCAsso.setActive("Yes");
+				DCAsso.setStatusId(Constants.ACTIVE_STATUS_ID);
+				driveCategoryAssoRepository.save(DCAsso);
+			}
+			
 		}
 
 	}
