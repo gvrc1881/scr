@@ -10,13 +10,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.scr.mapper.PrecautionaryMeasureMapper;
-import com.scr.model.Facility;
 import com.scr.model.PrecautionaryMeasure;
 import com.scr.model.PrecautionaryMeasuresMaster;
-import com.scr.model.TcpSchedule;
-import com.scr.model.ThermovisionCheckPoints;
-import com.scr.model.ThermovisionMeasures;
-import com.scr.model.WorkPhaseActivity;
 import com.scr.repository.PrecautionaryMeasureMasterRepository;
 import com.scr.repository.PrecautionaryMeasureRepository;
 import com.scr.util.Constants;
@@ -103,7 +98,7 @@ public class PrecautionaryMeasureService {
 			 
 			return Constants.JOB_SUCCESS_MESSAGE;
 		}else {
-			return "Invalid precautionaryMeasureMasterRepository Id";
+			return "Invalid precautionaryMeasureMaster Repository Id";
 		}
 		
 	}
@@ -120,7 +115,14 @@ public class PrecautionaryMeasureService {
 		return precautionaryMeasureMasterRepository.findByPrecautionaryMeasure(precautionaryMeasure);
 	}
 	public List<PrecautionaryMeasure> getNonApprovedPrecaMeasures(Date dateOfWork,String facilityId) {
- 		return precautionaryMeasureRepository.findByDateOfWorkAndFacilityIdAndApprovedStatusIsNull(dateOfWork,facilityId);
+		logger.info("Calling mapper for preparing to get PrecautionaryMeasure Allmodel object");
+		List<PrecautionaryMeasure> pm = new ArrayList<>();
+		List<PrecautionaryMeasure> precautionaryMeasures = precautionaryMeasureRepository.findByDateOfWorkAndFacilityIdAndApprovedStatusIsNull(dateOfWork,facilityId);
+		for (PrecautionaryMeasure precautionaryMeasure : precautionaryMeasures) {
+			precautionaryMeasure = precautionaryMeasureMapper.preparePreacutionaryMeasureData(precautionaryMeasure);
+			pm.add(precautionaryMeasure);
+		}
+		 return pm;
  	}
 	
 	public void saveApprovedAshDailyProgress(List<PrecautionaryMeasure> precautionaryMeasureList) {

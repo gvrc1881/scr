@@ -42,7 +42,6 @@ export class AddAlertGroupMemberComponent implements OnInit {
     this.alertGroupMemberFormErrors = {            
       name:{},
       description:{},
-      level:{},
       alertGroupId:{}
     };
   }
@@ -86,7 +85,6 @@ export class AddAlertGroupMemberComponent implements OnInit {
       id: 0,
       'name':[null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateName.bind(this)],
       'description': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateDescription.bind(this)],
-      'level': [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
       'alertGroupId':[null],
       'receipentsId':[null]
 
@@ -97,7 +95,6 @@ export class AddAlertGroupMemberComponent implements OnInit {
       id: 0,
       'name':[null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateNameAndId.bind(this)],
       'description': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateDescriptionAndId.bind(this)],
-      'level': [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
       'alertGroupId':[null],
       'receipentsId':[null],
     });
@@ -115,8 +112,8 @@ export class AddAlertGroupMemberComponent implements OnInit {
           name: this.resp.name,
           description: this.resp.description,
           level: this.resp.level,
-          alertGroupId:this.resp.alertGroupId.id,
-          receipentsId:this.resp.receipentsId.id
+          alertGroupId:this.resp.alertData.id,
+          receipentsId:this.resp.receipentsIdData.id
         });
         this.spinnerService.hide();
         this.getAlertGroupData();
@@ -134,9 +131,8 @@ export class AddAlertGroupMemberComponent implements OnInit {
       var saveAlertGroupMemberModel = {
         "name": this.addAlertGroupMemberFormGroup.value.name,
         "description": this.addAlertGroupMemberFormGroup.value.description, 
-        "level": this.addAlertGroupMemberFormGroup.value.level,
         "alertGroupId":this.alertData,
-        "receipentsId":this.receipentsData
+        "receipentsId":this.receipentsIdData
         
       }
       this.sendAndRequestService.requestForPOST(Constants.app_urls.ALERTS.ALERT_GROUP_MEMBER.SAVE_ALERT_GROUP_MEMBER, saveAlertGroupMemberModel, false).subscribe(response => {
@@ -159,9 +155,8 @@ export class AddAlertGroupMemberComponent implements OnInit {
         "id": this.id,
         "name": this.addAlertGroupMemberFormGroup.value.name,
         "description": this.addAlertGroupMemberFormGroup.value.description, 
-        "level": this.addAlertGroupMemberFormGroup.value.level,  
         "alertGroupId":this.alertData,
-        "receipentsId":this.receipentsData
+        "receipentsId":this.receipentsIdData
       }
       this.sendAndRequestService.requestForPUT(Constants.app_urls.ALERTS.ALERT_GROUP_MEMBER.UPDATE_ALERT_GROUP_MEMBER, updateAlertGroupMemberModel, false).subscribe(response => {
         this.spinnerService.hide();
@@ -245,7 +240,7 @@ receipentsIdpDetails()
   duplicateDescription() {
     const q = new Promise((resolve, reject) => {     
       let description: string = this.addAlertGroupMemberFormGroup.controls['description'].value;
-      this.sendAndRequestService.requestForGET(Constants.app_urls.ALERTS.ALERT_GROUP_MEMBER.EXIST_DESCRIPTION +name)
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ALERTS.ALERT_GROUP_MEMBER.EXIST_DESCRIPTION +description)
       .subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateDescription': true });

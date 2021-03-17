@@ -113,7 +113,6 @@ getSpecialWorks() {
         row.approvedStatus = "Approve";
         row.approveBy = this.userdata.username;
       this.selectedItems.push(row);
-      this.selectedItems.push(row.approvedBy = this.userdata.username);
       this.enableSave = true;
     } else {
       this.selectedItems.splice(row.index, 1);

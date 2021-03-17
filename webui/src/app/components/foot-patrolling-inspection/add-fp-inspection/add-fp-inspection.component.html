@@ -70,13 +70,11 @@
                                                           </mat-error>
                                                         </mat-form-field>
                                                       </div>
-
                                                       <!-- FROM DATE -->
                           <div class="col-md-3">
                             <mat-form-field>
                                 <input matInput [owlDateTime]="dt1" style="width: 94%;"
-                                    [owlDateTimeTrigger]="dt1" placeholder="{{FiledLabels.FROM_DATE}}" 
-                                    [max]="toMinDate" (dateTimeChange)="addEvent($event)" 
+                                    [owlDateTimeTrigger]="dt1" placeholder="{{FiledLabels.FROM_DATE}}"  (dateTimeChange)="addEvent($event)" 
                                     [formControl]="fpInspectionItemFormGroup.controls['startTime']" >                                                                
                                     <owl-date-time #dt1 [showSecondsTimer]=true
                                         ></owl-date-time>

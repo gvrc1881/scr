@@ -25,7 +25,7 @@ export class AlertGroupMemberComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  displayedColumns = ['sno', 'name','level','alertGroupId','receipentsId','actions'];
+  displayedColumns = ['sno', 'name','alertGroupId','receipentsId','actions'];
   dataSource: MatTableDataSource<AlertGroupMemberModel>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
   filterData;
@@ -51,14 +51,12 @@ export class AlertGroupMemberComponent implements OnInit {
   	this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-
     this.spinnerService.show();
     this.getAlertGroupMemberData();
     this.filterData = {
       filterColumnNames: [
         { "Key": 'sno', "Value": " " },
         { "Key": 'name', "Value": " " },
-        { "Key": 'level', "Value": " " },
         { "Key": 'alertGroupId', "Value": " " },
         { "Key": 'receipentsId', "Value": " " },
 
@@ -125,11 +123,10 @@ export class AlertGroupMemberComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':this.Titles.ALERT_GROUP_DATA,
+      'title':this.Titles.ALERT_GROUP_MEMBER_DATA,
       'dataSource':[                                 
                     { label:FieldLabelsConstant.LABELS.NAME, value:data.name },
                     { label:FieldLabelsConstant.LABELS.DESCRIPTION, value:data.description },
-                    { label:FieldLabelsConstant.LABELS.LEVEL, value:data.level },
                     { label:FieldLabelsConstant.LABELS.ALERT_GROUP_ID, value:data.alertGroupId.alertGroupId },
                     { label:FieldLabelsConstant.LABELS.RECEIPENTS_ID, value:data.receipentsId.receipentsId },
 

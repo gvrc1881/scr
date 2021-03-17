@@ -201,7 +201,7 @@ export class AddAlertGroupComponent implements OnInit {
   duplicateDescription() {
     const q = new Promise((resolve, reject) => {     
       let description: string = this.addAlertGroupFormGroup.controls['description'].value;
-      this.sendAndRequestService.requestForGET(Constants.app_urls.ALERTS.ALERT_GROUP.EXIST_DESCRIPTION +name)
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ALERTS.ALERT_GROUP.EXIST_DESCRIPTION +description)
       .subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateDescription': true });

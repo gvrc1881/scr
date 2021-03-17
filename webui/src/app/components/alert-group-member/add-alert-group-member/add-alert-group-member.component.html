@@ -19,7 +19,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} {{Titles.ALERT_GROUP_FORM}}</div>
+                                <div class="panel-heading">{{title}} {{Titles.ALERT_GROUP_MEMBER_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -81,20 +81,7 @@
                                                   </mat-form-field>
                                               </div>
 
-                                                 
-                                                      
-
-                                                    <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                          <textarea matInput placeholder="Level"
-                                                            [formControl]="addAlertGroupMemberFormGroup.controls['level']" required></textarea>
-                                                          <mat-error
-                                                            *ngIf="addAlertGroupMemberFormGroup.controls['description'].hasError('maxlength') && addAlertGroupMemberFormGroup.controls['level'].touched"
-                                                            class="alert alert-danger">Max 250 characters only
-                                                          </mat-error>
-                                                          
-                                                        </mat-form-field>
-                                                      </div>
+                                                
                                                       <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                           <mat-select placeholder="Alert Group Id" 
