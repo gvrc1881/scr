@@ -8,6 +8,16 @@
 			<style/>
 		</conditionalStyle>
 	</style>
+	<style name="diff" backcolor="#F21111">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[5 <= $F{f_diff}]]></conditionExpression>
+			<style mode="Opaque" backcolor="#D62525"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[5 > $F{f_diff}]]></conditionExpression>
+			<style mode="Opaque" backcolor="#1E9015"/>
+		</conditionalStyle>
+	</style>
 	<parameter name="division" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -497,7 +507,7 @@ order by tcps_facility_name ,  tcps_date]]>
 				<textFieldExpression><![CDATA[$F{tcpm_date_of_retest}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="1005" y="0" width="51" height="20" uuid="f97a62fa-6762-4686-b022-d02ac22d7e14"/>
+				<reportElement style="diff" stretchType="RelativeToTallestObject" x="1005" y="0" width="51" height="20" uuid="f97a62fa-6762-4686-b022-d02ac22d7e14"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
