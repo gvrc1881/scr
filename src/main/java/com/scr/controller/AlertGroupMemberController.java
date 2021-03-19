@@ -110,7 +110,7 @@ static Logger log = Logger.getLogger(AlertGroupController.class);
 			log.info("Selected Alert Group Member Id = " + id);
 			alertGroupMember = alertGroupMemberService.findAlertGroupMemberItemById(id);
 			if (alertGroupMember.isPresent()) {
-				log.info("Asset Master Data = " + alertGroupMember.get());
+				log.info("Alert Group Member Data = " + alertGroupMember.get());
 				return new ResponseEntity<AlertGroupMember>(alertGroupMember.get(), HttpStatus.OK);
 			} else
 				return new ResponseEntity<AlertGroupMember>(alertGroupMember.get(), HttpStatus.CONFLICT);
