@@ -5,6 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import com.scr.model.PrecautionaryMeasure;
+import com.scr.model.PrecautionaryMeasuresMaster;
+import com.scr.model.Product;
 import com.scr.model.ProductCategoryMember;
 
 
@@ -27,6 +31,7 @@ public interface ProductCategoryMemberRepository extends JpaRepository<ProductCa
     @Query(value = "select  productId from ProductCategoryMember  where productCategoryId = :depotType Order by productId Asc ")
 	List<String> findByProductCategoryIdOrderByProductIdAsc(@Param("depotType") String depotType);
     
-   
+	List<ProductCategoryMember> getByProductId(Product productId);
+
 
 }

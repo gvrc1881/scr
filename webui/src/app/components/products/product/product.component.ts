@@ -9,6 +9,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import{ProductModel} from 'src/app/models/product.model'
 import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+import { FuseConfirmPopupComponent } from '../../confirm-popup/confirm-popup.component';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class ProductComponent implements OnInit {
   	@ViewChild(MatSort, { static: true }) sort: MatSort;
   	@ViewChild('filter', { static: true }) filter: ElementRef;  	
     dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
+    resp: any; 
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -97,25 +99,40 @@ export class ProductComponent implements OnInit {
   delete(id) {
     this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
       disableClose: false
-      
     });
-    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to Delete?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
+
         this.spinnerService.show();
-        this.sendAndRequestService.requestForDELETE(Constants.app_urls.PRODUCTS.PRODUCT.DELETE_PRODUCT, id).subscribe(data => {
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.PRODUCTS.PRODUCT.DELETE_PRODUCT ,id).subscribe((data) => {
+          this.resp = data;
+
+          if (this.resp.code === 200) {
+
+            this.confirmDialogRef = this.dialog.open(FuseConfirmPopupComponent, {
+              disableClose: false
+
+            });
+            this.confirmDialogRef.componentInstance.confirmMessage = this.resp.message;
+          } else {
+            this.confirmDialogRef = this.dialog.open(FuseConfirmPopupComponent, {
+              disableClose: false
+            });
+            this.confirmDialogRef.componentInstance.confirmMessage = this.resp.message;
+          }
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Deleted product Successfully");
           this.getProductData();
         }, error => {
           console.log('ERROR >>>');
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("product Deletion failed.");
+          this.commonService.showAlertMessage("Product Deletion Failed.");
         })
       }
       this.confirmDialogRef = null;
     });
   }
+  
   updatePagination() {
     this.filterData.dataSource = this.filterData.dataSource;
     this.filterData.dataSource.paginator = this.paginator;

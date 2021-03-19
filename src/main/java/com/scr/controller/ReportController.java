@@ -192,12 +192,12 @@ public class ReportController {
 		
 	}
 	
-	@RequestMapping(value = "/getscheduleCodesBasedonAssetType" ,method = RequestMethod.POST , headers= "accept=application/json")
-	public ResponseEntity<List<AssetScheduleAssoc>> getSchCodeBasedOnAssetType(@RequestBody ProductCategoryMember productCategoryMemObj){
-		List<AssetScheduleAssoc> assetSch = reportService.findAllScheduleCodes(productCategoryMemObj.getProductId());
-		return new ResponseEntity<List<AssetScheduleAssoc>>(assetSch,HttpStatus.OK);
-		
-	}
+//	@RequestMapping(value = "/getscheduleCodesBasedonAssetType" ,method = RequestMethod.POST , headers= "accept=application/json")
+//	public ResponseEntity<List<AssetScheduleAssoc>> getSchCodeBasedOnAssetType(@RequestBody ProductCategoryMember productCategoryMemObj){
+//		List<AssetScheduleAssoc> assetSch = reportService.findAllScheduleCodes(productCategoryMemObj.getProductId());
+//		return new ResponseEntity<List<AssetScheduleAssoc>>(assetSch,HttpStatus.OK);
+//		
+//	}
 	@RequestMapping(value = "/getscheduleCodesBasedonAssetType/{assetType}",method = RequestMethod.GET  , headers="accept=application/json" )
 	public ResponseEntity<List<AssetScheduleAssoc>> getSchCodeBasedOnAssetType(@PathVariable("assetType") String assetType){
 		List<AssetScheduleAssoc> assetSch= reportService.findAllScheduleCodes(assetType);

@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.scr.model.PrecautionaryMeasuresMaster;
 import com.scr.model.Product;
 import com.scr.repository.ProductRepository;
+import com.scr.util.Constants;
 
 @Service
 public class ProductService {
@@ -27,9 +30,17 @@ public class ProductService {
 
 	}
 
-	public void deleteProductById(Long id) {
-		// TODO Auto-generated method stub
-		productRepository.deleteById(id);
+   public String deleteProductById(Long id) {	
+		
+		Optional<Product> product = productRepository.findById(id);
+		if (product.isPresent()) {
+			productRepository.deleteById(id);
+			 
+			return Constants.JOB_SUCCESS_MESSAGE;
+		}else {
+			return "Invalid product Repository Id";
+		}
+		
 	}
 	public Boolean existsByProductId(String productId) {
 		// TODO Auto-generated method stub
