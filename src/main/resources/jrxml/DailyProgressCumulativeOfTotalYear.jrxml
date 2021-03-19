@@ -12,7 +12,7 @@ sum(case when  internal_external='TRUE' then 1 else 0 end) as extern
 from failures f
 LEFT OUTER JOIN facility FAC ON (f.sub_station = fac.facility_id )
 where
-f.created_date = $P{fromDate}::date
+f.created_date::date = $P{fromDate}::date
 
  group by FAC.division,type_of_failure,train_no]]>
 	</queryString>

@@ -152,7 +152,6 @@ public class ReportResource {
 		parameters.put("driveName", report.getDriveName());
 		parameters.put("checkPointsDepot", report.getCheckPointsDepot());
 		parameters.put("depot", report.getCheckPointsDepot());
-		parameters.put("", report.getCheckPointsDepot());
 		parameters.put("equipmentno", report.getEquipmentno());
 		parameters.put("location",report.getLocation());
 		

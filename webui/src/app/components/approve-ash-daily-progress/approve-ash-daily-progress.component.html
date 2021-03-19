@@ -15,7 +15,7 @@
             <div class="clear"> </div>
             <div class="row-fluid">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Asset Schedule Progress</div>
+                    <div class="panel-heading">Approve Asset Schedule Progress</div>
                     <div class="panel-body">
                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
                     		<form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" fxLayout="column"
@@ -64,56 +64,65 @@
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                         </ng-container>
-
                                        
-                                        <ng-container matColumnDef="facility">
+                                        <ng-container matColumnDef="depot">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DEPOT}}</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.facility}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.facility.facilityName}}</mat-cell>
                                         </ng-container>
                                         
-                                        <ng-container matColumnDef="schedule">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SCHEDULE}}</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.columnName}}</mat-cell>
+                                        <ng-container matColumnDef="atd-aoh">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ATD_AOH}}</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.atdAoh}}</mat-cell>
                                         </ng-container>
                                         
-                                        <ng-container matColumnDef="progress">
-		                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.DAY_PROGRESS}}</span></mat-header-cell>
-		                                    	<mat-cell *matCellDef="let row">
-		                                        	<!-- <mat-form-field floatLabel="never" [style.width.px]="100">
-														<input matInput autocomplete="off"  [value]="row.dailyProgress" decimalNumber
-													    	[(ngModel)]="row.dailyProgress">
-                                                    </mat-form-field> -->
-                                                    {{row.dailyProgress}}
-		                                        </mat-cell>
-		                                </ng-container>
-		                                
-		                                <ng-container matColumnDef="monthlyProgress">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.MONTHLY_PROGRESS}}</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.monthlyProgress}}</mat-cell>
+                                        <ng-container matColumnDef="atd-poh">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ATD_POH}}</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.atdPoh}}</mat-cell>
                                         </ng-container>
-                                        
-		                                <ng-container matColumnDef="cumProgress">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CUM_PROGRESS}}</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.cumProgress}}</mat-cell>
+                                        <ng-container matColumnDef="crossover-aoh">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CROSSOVER_AOH}}</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.crossoverAoh}}</mat-cell>
                                         </ng-container>
-                                        
-                                        <ng-container matColumnDef="monthlyTarget">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.MONTHLY_TARGET}}</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.monthlyTarget}}</mat-cell>
+                                        <ng-container matColumnDef="gantry-aoh">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.GANTRY_AOH}}</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.gantryAoh}}</mat-cell>
                                         </ng-container>
-                                        
-		                                <ng-container matColumnDef="cumTarget">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CUM_TARGET}}</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.cumTarget}}</mat-cell>
+                                        <ng-container matColumnDef="mcl-aoh">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.MCL_AOH}}</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.mclAoh}}</mat-cell>
                                         </ng-container>
-                                        <!-- <ng-container matColumnDef="approved">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.APPROVED}}</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.approved}}</mat-cell>
+                                        <ng-container matColumnDef="mcl-poh">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.MCL_POH}}</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.mclPoh}}</mat-cell>
                                         </ng-container>
-                                        <ng-container matColumnDef="notApprovedStatus">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.NOT_APPROVED}}</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.notApprovedStatus}}</mat-cell>
-                                        </ng-container> -->
+                                        <ng-container matColumnDef="overlap-aoh">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.OVERLAP_AOH}}</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.overlapAoh}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="ptfe-aoh">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.PTFE_AOH}}</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.ptfeAoh}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="scl-aoh">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SCL_AOH}}</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.sclAoh}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="scl-poh">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SCL_POH}}</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.sclPoh}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="si-aoh">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SI_AOH}}</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.siAoh}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="sm-aoh">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SM_AOH}}</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.smAoh}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="turnout-aoh">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TURNOUT_AOH}}</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.turnoutAoh}}</mat-cell>
+                                        </ng-container>
                                         <ng-container matColumnDef="check">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.CHECK}}</span>
                                                 <h6 class="viewStyle col-xs-4"><input type="checkbox"  [(ngModel)]="checked" (change)="selectAll($event)" /></h6>
@@ -123,22 +132,6 @@
                                                 </mat-cell>
                                         </ng-container>
 
-                                        <!-- <ng-container matColumnDef="actions">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
-                                            <mat-cell *matCellDef="let row">
-                                                <a mat-icon-button matTooltip="Edit" *ngIf="editPermission">
-                                                    <button mat-icon-button matTooltip="Edit"
-                                                        (click)="processEditAction(row.id)">
-                                                        <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
-                                                    </button>
-                                                </a>
-                                                <button mat-icon-button matTooltip="Delete"
-                                                    (click)="delete(row.id)"
-                                                   *ngIf="deletePermission">
-                                                    <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
-                                                </button>
-                                            </mat-cell>
-                                        </ng-container> -->
                                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                                         <mat-row *matRowDef="let row; columns: displayedColumns;">
                                         </mat-row>

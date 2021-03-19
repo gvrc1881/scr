@@ -1,0 +1,48 @@
+.mat-column-sno {
+  flex: 0 0 70px;
+}
+.mat-column-depot {
+  flex: 0 0 100px;
+}
+.mat-column-atd-aoh {
+  flex: 0 0 70px;
+}
+.mat-column-atd-poh {
+  flex: 0 0 70px;
+}
+.mat-column-crossover-aoh {
+  flex: 0 0 100px;
+}
+.mat-column-gantry-aoh {
+  flex: 0 0 100px;
+}
+.mat-column-mcl-poh {
+  flex: 0 0 70px;
+}
+.mat-column-mcl-aoh {
+  flex: 0 0 70px;
+}
+.mat-column-overlap-aoh {
+  flex: 0 0 100px;
+}
+.mat-column-ptfe-aoh {
+  flex: 0 0 70px;
+}
+.mat-column-scl-aoh {
+  flex: 0 0 70px;
+}
+.mat-column-scl-poh {
+  flex: 0 0 70px;
+}
+.mat-column-si-aoh {
+  flex: 0 0 70px;
+}
+.mat-column-sm-aoh {
+  flex: 0 0 70px;
+}
+.mat-column-turnout-aoh {
+  flex: 0 0 100px;
+}
+.mat-column-check {
+  flex: 0 0 90px;
+}

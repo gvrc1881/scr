@@ -11,7 +11,7 @@
 from failures f
 LEFT OUTER JOIN facility FAC ON (f.sub_station = fac.facility_id )
 where
-f.created_date =to_date( $P{fromDate},'yyyy-mm-dd') - interval '1 year'
+f.created_date = $P{fromDate}::date - interval '1 year'
 
  group by FAC.division,type_of_failure,train_no]]>
 	</queryString>

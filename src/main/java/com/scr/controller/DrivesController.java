@@ -133,11 +133,14 @@ public class DrivesController {
 			logger.info("facilities=="+facility.size());
 			for (Facility facility2 : facility) {
 				
-				fac.add(facility2.getFacilityName());
+				fac.add(facility2.getFacilityName());				
+				fac.add(facility2.getZone());				
+				fac.add(facility2.getDivision());				
+				fac.add(facility2.getSubDivision());
 				
 			}
 			logger.info("Calling service for dirves data");
-			usersList = service.findByFunctionalUnit(fac);	
+			usersList = service.findByFunctionalUnitAndStatusId(fac,Constants.ACTIVE_STATUS_ID);	
 			logger.info("Fetched drives data = "+usersList);
 		} catch (NullPointerException e) {			
 			logger.error("ERROR >>> while fetching the drives data = "+e.getMessage());
