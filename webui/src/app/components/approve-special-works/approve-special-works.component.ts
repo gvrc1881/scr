@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog,DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { SpecialWorksModel } from 'src/app/models/special-works.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
@@ -11,11 +11,19 @@ import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.co
 import { DatePipe } from '@angular/common';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 
 @Component({
   selector: 'app-approve-special-works',
   templateUrl: './approve-special-works.component.html',
-  styleUrls: []
+  providers: [
+    {
+        provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+    ]
 })
 export class ApproveSpecialWorksComponent implements OnInit {
 
@@ -48,6 +56,7 @@ export class ApproveSpecialWorksComponent implements OnInit {
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
+    private datePipe: DatePipe,
     private router: Router,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
@@ -97,6 +106,7 @@ getSpecialWorks() {
             console.log('*** data ***'+JSON.stringify(data));
          for (let i = 0; i < this.specialWorksData.length; i++) {
             this.specialWorksData[i].sno = i + 1;
+            this.specialWorksData[i].dateOfWork = this.datePipe.transform(this.specialWorksData[i].dateOfWork, 'dd-MM-yyyy');
             this.specialWorksList.push(this.specialWorksData[i]);
          }
           //this.enableSave = true;

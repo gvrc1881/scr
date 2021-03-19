@@ -104,14 +104,14 @@ export class AddAlertGroupMemberComponent implements OnInit {
    public get f() { return this.addAlertGroupMemberFormGroup.controls; } 
    
   getAlertGroupMemberDataById(id) {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ALERTS.ALERT_GROUP.GET_ALERT_GROUP_ID+id)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ALERTS.ALERT_GROUP_MEMBER.GET_ALERT_GROUP_MEMBER_ID+id)
     .subscribe((resp) => {
         this.resp = resp;
+        let alertGroupId=this.resp.alertGroupId
         this.addAlertGroupMemberFormGroup.patchValue({
           id: this.resp.id,
           name: this.resp.name,
           description: this.resp.description,
-          level: this.resp.level,
           alertGroupId:this.resp.alertData.id,
           receipentsId:this.resp.receipentsIdData.id
         });

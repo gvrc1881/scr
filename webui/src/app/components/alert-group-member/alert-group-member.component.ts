@@ -127,8 +127,8 @@ export class AlertGroupMemberComponent implements OnInit {
       'dataSource':[                                 
                     { label:FieldLabelsConstant.LABELS.NAME, value:data.name },
                     { label:FieldLabelsConstant.LABELS.DESCRIPTION, value:data.description },
-                    { label:FieldLabelsConstant.LABELS.ALERT_GROUP_ID, value:data.alertGroupId.alertGroupId },
-                    { label:FieldLabelsConstant.LABELS.RECEIPENTS_ID, value:data.receipentsId.receipentsId },
+                    { label:FieldLabelsConstant.LABELS.ALERT_GROUP_ID, value:data.alertGroupId.name},
+                    { label:FieldLabelsConstant.LABELS.RECEIPENTS_ID, value:data.receipentsId.userName },
 
                   ]
     }
