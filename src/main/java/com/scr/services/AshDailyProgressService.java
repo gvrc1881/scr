@@ -45,7 +45,9 @@ public class AshDailyProgressService {
 		Date monthStartDate = Helper.getMonthStartDate(fromDate);
 		String financialYear = Helper.getFinancialYear(fromDate);
 		String[] monthlyProgress = ashDailyProgressRepository.monthSumBasedOnFacilityAndDateBetween(facility.get(),monthStartDate,fromDate).split(",");
+		String[] approvedMonthProgress = ashDailyProgressRepository.approveMonthSumBasedOnFacilityAndDateBetween(facility.get(),monthStartDate,fromDate).split(",");
 		String[] cumProgress = ashDailyProgressRepository.findBySumBasedOnFacilityAndDateBetween(facility.get(),financialDate,fromDate).split(",");
+		String[] approveFinancialYearProgress = ashDailyProgressRepository.approveFinancialYearSumBasedOnFacilityAndDateBetween(facility.get(),financialDate,fromDate).split(",");
 		List<AshDailyProgressResponse> ashDailyProgressList = new ArrayList();
 		Field[] fields= AshDailyProgress.class.getDeclaredFields();
 		Calendar cal = Calendar.getInstance();
@@ -102,56 +104,56 @@ public class AshDailyProgressService {
 					}
 				}
 				if("ATD-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-					ashDailyProgressResponse.setCumProgress(cumProgress[0]);
-					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[0]);
+					ashDailyProgressResponse.setCumProgress(cumProgress[0]+" ("+approveFinancialYearProgress[0]+")");
+					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[0]+" ("+approvedMonthProgress[0]+")");
 					this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
 				}else if ("ATD-POH".equals(ashDailyProgressResponse.getColumnName())) {
-					ashDailyProgressResponse.setCumProgress(cumProgress[1]);
-					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[1]);
+					ashDailyProgressResponse.setCumProgress(cumProgress[1]+" ("+approveFinancialYearProgress[1]+")");
+					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[1]+" ("+approvedMonthProgress[1]+")");
 					this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
 				}else if ("CROSSOVER-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-					ashDailyProgressResponse.setCumProgress(cumProgress[2]);
-					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[2]);
+					ashDailyProgressResponse.setCumProgress(cumProgress[2]+" ("+approveFinancialYearProgress[2]+")");
+					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[2]+" ("+approvedMonthProgress[2]+")");
 					this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
 				}else if ("GANTRY-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-					ashDailyProgressResponse.setCumProgress(cumProgress[3]);
-					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[3]);
+					ashDailyProgressResponse.setCumProgress(cumProgress[3]+" ("+approveFinancialYearProgress[3]+")");
+					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[3]+" ("+approvedMonthProgress[3]+")");
 					this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
 				}else if ("MCL-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-					ashDailyProgressResponse.setCumProgress(cumProgress[4]);
-					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[4]);
+					ashDailyProgressResponse.setCumProgress(cumProgress[4]+" ("+approveFinancialYearProgress[4]+")");
+					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[4]+" ("+approvedMonthProgress[4]+")");
 					this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
 				}else if ("MCL-POH".equals(ashDailyProgressResponse.getColumnName())) {
-					ashDailyProgressResponse.setCumProgress(cumProgress[5]);
-					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[5]);
+					ashDailyProgressResponse.setCumProgress(cumProgress[5]+" ("+approveFinancialYearProgress[5]+")");
+					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[5]+" ("+approvedMonthProgress[5]+")");
 					this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
 				}else if ("OVERLAP-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-					ashDailyProgressResponse.setCumProgress(cumProgress[6]);
-					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[6]);
+					ashDailyProgressResponse.setCumProgress(cumProgress[6]+" ("+approveFinancialYearProgress[6]+")");
+					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[6]+" ("+approvedMonthProgress[6]+")");
 					this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
 				}else if ("PTFE-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-					ashDailyProgressResponse.setCumProgress(cumProgress[7]);
-					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[7]);
+					ashDailyProgressResponse.setCumProgress(cumProgress[7]+" ("+approveFinancialYearProgress[7]+")");
+					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[7]+" ("+approvedMonthProgress[7]+")");
 					this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
 				}else if ("SCL-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-					ashDailyProgressResponse.setCumProgress(cumProgress[8]);
-					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[8]);
+					ashDailyProgressResponse.setCumProgress(cumProgress[8]+" ("+approveFinancialYearProgress[8]+")");
+					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[8]+" ("+approvedMonthProgress[8]+")");
 					this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
 				}else if ("SCL-POH".equals(ashDailyProgressResponse.getColumnName())) {
-					ashDailyProgressResponse.setCumProgress(cumProgress[9]);
-					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[9]);
+					ashDailyProgressResponse.setCumProgress(cumProgress[9]+" ("+approveFinancialYearProgress[9]+")");
+					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[9]+" ("+approvedMonthProgress[9]+")");
 					this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
 				}else if ("SI-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-					ashDailyProgressResponse.setCumProgress(cumProgress[10]);
-					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[10]);
+					ashDailyProgressResponse.setCumProgress(cumProgress[10]+" ("+approveFinancialYearProgress[10]+")");
+					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[10]+" ("+approvedMonthProgress[10]+")");
 					this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
 				}else if ("SM-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-					ashDailyProgressResponse.setCumProgress(cumProgress[11]);
-					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[11]);
+					ashDailyProgressResponse.setCumProgress(cumProgress[11]+" ("+approveFinancialYearProgress[11]+")");
+					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[11]+" ("+approvedMonthProgress[11]+")");
 					this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
 				}else if ("TURNOUT-AOH".equals(ashDailyProgressResponse.getColumnName())) {
-					ashDailyProgressResponse.setCumProgress(cumProgress[12]);
-					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[12]);
+					ashDailyProgressResponse.setCumProgress(cumProgress[12]+" ("+approveFinancialYearProgress[12]+")");
+					ashDailyProgressResponse.setMonthlyProgress(monthlyProgress[12]+" ("+approvedMonthProgress[12]+")");
 					this.prepareAssetMonthlyTargetsData(ashDailyProgressResponse,assetType,schCode,facility.get().getFacilityId(),financialYear ,targetMonth);
 				}
 				ashDailyProgressList.add(ashDailyProgressResponse);
