@@ -37,24 +37,6 @@ f.remarks,FAC.division,created_date]]>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<title>
-		<band height="47" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="0" width="880" height="25" uuid="a64148f1-a2b3-4ecd-aef9-32a93f68825d"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Power Supply Failures ]]></text>
-			</staticText>
-		</band>
-	</title>
 	<pageHeader>
 		<band height="20">
 			<staticText>
@@ -271,39 +253,14 @@ f.remarks,FAC.division,created_date]]>
 			</textField>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="20">
-			<textField>
-				<reportElement x="350" y="0" width="100" height="20" uuid="8b1a1966-7581-4423-9a7d-b516dcb1ea06"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement x="450" y="0" width="100" height="20" uuid="f3a71016-187d-4c82-ac89-c5a6a3baae0e"/>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="691" y="0" width="189" height="20" uuid="8094c2e4-787b-45bc-98b1-978cd10fa196"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="550" y="0" width="141" height="20" uuid="c3810f92-76f6-47e3-9a1a-295d9b39156e"/>
-				<textElement textAlignment="Right"/>
-				<text><![CDATA[Generated on : ]]></text>
-			</staticText>
-		</band>
-	</pageFooter>
 	<noData>
 		<band height="40">
 			<staticText>
-				<reportElement x="0" y="0" width="880" height="40" forecolor="#EF0F38" uuid="d0c0cbad-bb36-48cd-8ff9-672e553fe551"/>
+				<reportElement x="0" y="0" width="880" height="40" uuid="d0c0cbad-bb36-48cd-8ff9-672e553fe551"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[NO DATA FOUND]]></text>
+				<text><![CDATA[NILL]]></text>
 			</staticText>
 		</band>
 	</noData>
