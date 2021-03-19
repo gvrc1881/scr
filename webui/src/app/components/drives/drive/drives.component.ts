@@ -33,7 +33,11 @@ export class DrivesComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(sessionStorage.getItem('userData')); 
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
+  zoneData:any = JSON.parse(sessionStorage.getItem('zoneData'));
+  divisionData:any = JSON.parse(sessionStorage.getItem('divisionData'));   
+  subDivisionData:any = JSON.parse(sessionStorage.getItem('subDivData')); 
+  depotData :any = JSON.parse(sessionStorage.getItem('depotData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'name', 'description', 'fromDate', 'toDate', 'depoType', 'assetType', 'frequency',
    'functionalUnit', 'active', 'actions'];
@@ -244,7 +248,24 @@ export class DrivesComponent implements OnInit {
     const drive: DriveModel[] = [];
     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVES_BASEDON_DIVISION+this.userdata.username).subscribe((data) => {
       this.drivesList = data;
+      console.log("drives listt===="+JSON.stringify(this.drivesList))
       for (let i = 0; i < this.drivesList.length; i++) {
+        // if(this.zoneData.length == 0)
+        // {   
+        //   if(this.drivesList[i].depotType == '') 
+        //    { 
+        //     console.log("log in if zone depot")     
+        //     this.drivesList[i].editPermission = false; 
+        //    }
+        //     else{
+        //       console.log("log in else zone depot")
+        //       this.drivesList[i].editPermission = true; 
+        //     }       
+         
+        // }
+        // else{
+        //         this.drivesList[i].editPermission = true;
+        // }
         this.drivesList[i].sno = i + 1;
         this.drivesList[i].targetQuantity = this.drivesList[i].target_qty;
         this.drivesList[i].status = this.drivesList[i].active;
@@ -338,10 +359,10 @@ export class DrivesComponent implements OnInit {
             // this.commonService.showAlertMessage(this.resp.message);
             // this.confirmDialogRef.componentInstance.confirmMessage=this.resp.message;
           }
+          this.getDrivesData();
           this.spinnerService.hide();
           // this.commonService.showAlertMessage("Deleted Drive Successfully");
-          this.getDrivesData();
-        }, error => {
+          }, error => {
           console.log('ERROR >>>');
           this.spinnerService.hide();
           this.commonService.showAlertMessage("Drive Deletion Failed.");

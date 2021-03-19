@@ -1369,9 +1369,9 @@ public ResponseStatus storeUploadedFile(List<MultipartFile> file, String content
 	return responseStatus;
 }
 
-public List<Drives> findByFunctionalUnit(List<String> fac) {
+public List<Drives> findByFunctionalUnitAndStatusId(List<String> fac, int activeStatusId) {
 	
-	return driveRepository.findByFunctionalUnitInOrFunctionalUnitIsNullAndStatusIdOrderByCreatedOnDesc(fac,Constants.ACTIVE_STATUS_ID);
+	return driveRepository.findByFunctionalUnitInOrFunctionalUnitIsNullAndStatusIdOrderByCreatedOnDesc(fac,activeStatusId);
 }
 
 
@@ -1407,6 +1407,8 @@ public List<DriveDailyProgress> findByPerformedDateAndDepotIn(Date fromDate, Lis
 			}
 		}
 	}
+
+	
 
 }
 
