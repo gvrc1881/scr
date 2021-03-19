@@ -133,7 +133,7 @@ export class ProductCategoryMemberComponent implements OnInit {
       'title':this.Titles.PRODUCT_CATEGORY_MEMBER_DATA,
       'dataSource':[                                 
                     { label:FieldLabelsConstant.LABELS.PRODUCT_CATEGORY_ID, value:data.productCategoryId },
-                    { label:FieldLabelsConstant.LABELS.PRODUCT_ID, value:data.productId },
+                    { label:FieldLabelsConstant.LABELS.PRODUCT_ID, value:data.productId.productId },
                     { label:FieldLabelsConstant.LABELS.QUANTITY, value:data.quantity },
                     { label:FieldLabelsConstant.LABELS.FROM_DATE, value:data.fromDate },
                     { label:FieldLabelsConstant.LABELS.TO_DATE, value:data.thruDate },
