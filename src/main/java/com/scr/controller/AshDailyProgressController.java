@@ -20,6 +20,7 @@ import com.scr.jobs.CommonUtility;
 import com.scr.message.response.AshDailyProgressResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.message.response.ThermovisionMeasureResponse;
+import com.scr.model.AshDailyProgress;
 import com.scr.model.AssetMasterData;
 import com.scr.model.Facility;
 import com.scr.services.AshDailyProgressService;
@@ -78,10 +79,10 @@ public class AshDailyProgressController {
 
 
 @RequestMapping(value = "/getAshDailyProgressBasedOnApprovedStatus/{fromDate}/{depotId}/{loggedUserData}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public List<AshDailyProgressResponse> getAshDailyProgressDataBasedOnApprovedStatus(@PathVariable("fromDate") Date fromDate , 
+	public List<AshDailyProgress> getAshDailyProgressDataBasedOnApprovedStatus(@PathVariable("fromDate") Date fromDate , 
 			@PathVariable("depotId") String depotId,@PathVariable("loggedUserData") String loggedUserData) {
 		log.info("Enter into getAshDailyProgressData function date***"+fromDate+"*** facilityId"+depotId);
-		List<AshDailyProgressResponse> assetMasterItem = null;
+		List<AshDailyProgress> ashDailyProgressList = null;
 		
 		List<Facility> fac= new ArrayList<>();
 		try {  
@@ -97,32 +98,32 @@ public class AshDailyProgressController {
 					fac.add(facility2);					
 					
 				}
-				assetMasterItem = ashDailyProgressService.findByDateAndFacilityIn(fromDate,fac);
+				ashDailyProgressList = ashDailyProgressService.findByDateAndFacilityIn(fromDate,fac);
 								
 				
 			}else {
 				log.info("in else");				
 				
 				
-				assetMasterItem = ashDailyProgressService.findByDateAndFacility(fromDate,new Long(depotId));
+				ashDailyProgressList = ashDailyProgressService.findByDateAndFacility(fromDate,new Long(depotId));
 			}
-			log.info("Fetched ash daily progress  data size ***" + assetMasterItem.size());
+			log.info("Fetched ash daily progress  data size ***" + ashDailyProgressList.size());
 		} catch (NullPointerException npe) {
 			log.error("ERROR >>> while fetching the ash daily progress data = " + npe.getMessage());
 		} catch (Exception e) {
 			log.error("ERROR >>> while fetching the ash daily progress data = " + e.getMessage());
 		}
 		log.info("Exit from getAshDailyProgressData function");
-		return assetMasterItem;
+		return ashDailyProgressList;
 	}
 	
 	@PostMapping(value="/saveApprovedAshDailyProgress")
 	@ResponseBody
-	public ResponseStatus saveApprovedAshDailyProgress(@RequestBody List<AshDailyProgressResponse> ashDailyProgressResponses) {
+	public ResponseStatus saveApprovedAshDailyProgress(@RequestBody List<AshDailyProgress> ashDailyProgresses) {
 		log.info("*** Enter into saveAshDailyProgress function ***");
-		log.info("save list===="+ashDailyProgressResponses.toString());
+		log.info("save list===="+ashDailyProgresses.toString());
 		try {			
-			ashDailyProgressService.saveApprovedAshDailyProgress(ashDailyProgressResponses);
+			ashDailyProgressService.saveApprovedAshDailyProgress(ashDailyProgresses);
 			log.info("Preparing the return response and saveAshDailyProgress function end ");
 			return Helper.findResponseStatus("Ash Daily Progress Data Added Successfully", Constants.SUCCESS_CODE);
 		}catch(NullPointerException npe) {

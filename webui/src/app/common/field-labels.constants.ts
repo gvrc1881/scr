@@ -1,5 +1,18 @@
 export const FieldLabelsConstant = {
    LABELS: {
+      ATD_AOH:"Atd-Aoh",
+       ATD_POH:"Atd-Poh",
+       CROSSOVER_AOH:"Crossover-Aoh",
+       GANTRY_AOH:"Gantry-Aoh",
+       MCL_AOH:"Mcl_Aoh",
+       TURNOUT_AOH:"Turnout-Aoh",
+       SM_AOH:"Sm-Aoh",
+       SI_AOH:"Si-Aoh",
+       SCL_AOH:"Scl-Aoh",
+       SCL_POH:"Scl-Poh",
+       PTFE_AOH:"Ptfe-Aoh",
+       OVERLAP_AOH:"Overlap-Aoh",
+       MCL_POH:"Mcl-Poh",
       ACTION: "Action",
       ACTION_COMPLETED_DATE: "Action Completed Date",
       ACTION_DESCRIPTION: "Action Description",

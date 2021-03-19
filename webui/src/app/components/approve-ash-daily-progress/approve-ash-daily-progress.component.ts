@@ -30,7 +30,7 @@ export class ApproveAshDailyProgressComponent implements OnInit{
     addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
-    displayedColumns = ['sno','facility','schedule', 'progress','monthlyProgress','cumProgress','monthlyTarget','cumTarget','check'];
+    displayedColumns = ['sno','depot','atd-aoh', 'atd-poh','crossover-aoh','gantry-aoh','mcl-aoh','mcl-poh','overlap-aoh','ptfe-aoh','scl-aoh','scl-poh','si-aoh','sm-aoh','turnout-aoh','check'];
     dataSource: MatTableDataSource<any>;
     ashDailyProgressData: any;
     ashDailyProgressList = [];
@@ -72,10 +72,11 @@ export class ApproveAshDailyProgressComponent implements OnInit{
         this.sendAndRequestService.requestForPOST(Constants.app_urls.ASH.ASH_DAILY_PROGRESS.SAVE_APPROVED_ASH_DAILY_PROGRESS,this.selectedItems,false).subscribe((response) => {
             this.spinnerService.hide();
             this.resp = response;
-            this.enableSave = false;
             if(this.resp.code == 200 && !!this.resp) {
                 this.commonService.showAlertMessage("Progress Data Updated Successfully");
-                   
+                this.enableSave = false;
+                this.checked = false;
+                this.getAshDailyProgress();               
             }else
                 this.commonService.showAlertMessage("Progress Data Updating Failed");
             
@@ -84,6 +85,7 @@ export class ApproveAshDailyProgressComponent implements OnInit{
     
     
     getAshDailyProgress() {
+        this.checked = false;
         this.spinnerService.show();
         this.enableSave = false;
         this.ashDailyProgressList = [];
@@ -112,7 +114,7 @@ export class ApproveAshDailyProgressComponent implements OnInit{
             row.approvedStatus = "Approve";
             row.approveBy = this.userdata.username;
           this.selectedItems.push(row);
-          this.selectedItems.push(row.approvedBy = this.userdata.username);
+          //this.selectedItems.push(row.approvedBy = this.userdata.username);
           this.enableSave = true;
         } else {
           this.selectedItems.splice(row.index, 1);
@@ -143,5 +145,9 @@ export class ApproveAshDailyProgressComponent implements OnInit{
     reset(){
         this.inputFormGroup.reset();       
         this.depotsList = [];
+        this.enableSave = false;
+        this.checked = false;
+        this.ashDailyProgressList = [];
+        this.dataSource = new MatTableDataSource(this.ashDailyProgressList);
     }
  }   
