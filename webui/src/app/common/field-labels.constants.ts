@@ -60,6 +60,7 @@ export const FieldLabelsConstant = {
       CHANGE_OF_STATUS:"New status",
       CRITICALITY: "Criticality",
       MANF_YEAR:"Mnf Year",
+      STANDBY:"Stand By",
       APPROVAL_DATE: "Approval Date",
       APPROVED_BY: "Approved By",
       APPROVED_DATE: "Approved Date",

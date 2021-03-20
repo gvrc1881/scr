@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scr.jobs.CommonUtility;
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.AssetMasterData;
 import com.scr.model.EnergyMeter;
 import com.scr.model.Facility;
 import com.scr.model.Make;
@@ -195,5 +196,15 @@ public class TssFeederMasterController {
 			return false;
 		}
 	}
+	@RequestMapping(value = "/findStandByFeeders/{tssName}", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<TssFeederMaster>> findStandByFeeders(@PathVariable("tssName") String tssName){
+		log.info("tss name"+tssName);
+		List<TssFeederMaster> standByFeeders = tssFeederMasterService.findByTssName(tssName);
+		log.info("Fetched tss data = "+standByFeeders.size());
+		return new ResponseEntity<List<TssFeederMaster>>(standByFeeders,HttpStatus.OK);	
+		
+	}
+	
+	
 
 }

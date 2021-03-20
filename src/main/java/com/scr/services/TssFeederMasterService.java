@@ -54,6 +54,10 @@ public class TssFeederMasterService {
 		
 		return tssFeederMasterRepository.getAllByDataDivIn(fac);
 	}
+	public List<TssFeederMaster> findByTssName(String tssName) {
+		
+		return tssFeederMasterRepository.findByTssName(tssName);
+	}
 
 
 }

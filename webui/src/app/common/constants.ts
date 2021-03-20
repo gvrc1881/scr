@@ -406,7 +406,8 @@ export const Constants = {
                 UPDATE_FEEDER:"/updateFeeder",
                 DELETE_FEEDER:"/deleteFeeder/",
                 EXIST_FEEDER_NAME:"/existsFeederName/",
-                EXIST_FEEDER_NAME_AND_ID:"/existsFeederNameAndId/"
+                EXIST_FEEDER_NAME_AND_ID:"/existsFeederNameAndId/",
+                GET_STANDBY_FEEDER:"/findStandByFeeders/"
             },
             ASSET_SCH_ASSOC:{
                 GET_SCH:"/findAllSchedule",

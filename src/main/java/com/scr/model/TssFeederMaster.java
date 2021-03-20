@@ -47,6 +47,9 @@ public class TssFeederMaster implements Serializable {
 
 	@Column(name="tss_name")
 	private String tssName;
+	
+	@Column(name="stand_by_feeder_name")
+	private String standByFeederName;
 
 	public TssFeederMaster() {
 	}
@@ -139,12 +142,23 @@ public class TssFeederMaster implements Serializable {
 		this.tssName = tssName;
 	}
 
+	public String getStandByFeederName() {
+		return standByFeederName;
+	}
+
+	public void setStandByFeederName(String standByFeederName) {
+		this.standByFeederName = standByFeederName;
+	}
+
 	@Override
 	public String toString() {
 		return "TssFeederMaster [id=" + id + ", createdStamp=" + createdStamp + ", createdTxStamp=" + createdTxStamp
 				+ ", dataDiv=" + dataDiv + ", description=" + description + ", feederId=" + feederId + ", feederName="
 				+ feederName + ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp
-				+ ", stateElectricityBoard=" + stateElectricityBoard + ", tssName=" + tssName + "]";
+				+ ", stateElectricityBoard=" + stateElectricityBoard + ", tssName=" + tssName + ", standByFeederName="
+				+ standByFeederName + "]";
 	}
+
+	
 
 }

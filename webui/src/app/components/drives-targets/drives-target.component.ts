@@ -147,7 +147,7 @@ export class DrivesTargetComponent implements OnInit {
     this.divisionList = [];
     this.subDivisionList = [];
     this.depotsList = [];
-
+    this.findFacility();
     this.zoneHierarchy.zoneList;
     this.enableZone = true;
        
@@ -171,7 +171,7 @@ export class DrivesTargetComponent implements OnInit {
     this.enableZone=false;
     this.enableDivision=false;  
     this.enableSubDivision=false;
-    this.enableDepot=true;
+    this.enableDepot=true;    
    }
 
    
@@ -221,6 +221,18 @@ findDepot(){
                 }
               }
               
+  findFacility(){
+    this.depotsList=[];    
+    for (let i = 0; i < this.depotHierarchy.length; i++) {    
+          
+          
+              this.depotsList.push(this.depotHierarchy[i]); 
+            // this.depotHierarchy.depotsList;
+              this.enableDepot = true;
+              
+          
+        }
+              }
   applyFilter(filterValue: string) {
       filterValue = filterValue.trim(); // Remove whitespace
       filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches

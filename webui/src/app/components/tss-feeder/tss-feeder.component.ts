@@ -48,11 +48,15 @@ export class TssFeederComponent implements OnInit{
     loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     userHierarchy:any = JSON.parse(sessionStorage.getItem('userHierarchy'));
     zoneHierarchy:any = JSON.parse(sessionStorage.getItem('zoneData'));
-    divisionHierarchy:any = JSON.parse(sessionStorage.getItem('divisionData'));   
+    divisionHierarchy:any = JSON.parse(sessionStorage.getItem('divisionData'));  
+    facilityHierarchy:any = JSON.parse(sessionStorage.getItem('depotData')); 
     zoneList: FacilityModel [] = [];
     divisionList:  FacilityModel [] = [];
+    facilityList:any;
+    standByFeederNameList:any;
     enableZone: boolean ;
-	enableDivision: boolean;
+  enableDivision: boolean;
+  enableDepot:boolean;
 
     constructor( 
         private formBuilder: FormBuilder,
@@ -64,6 +68,8 @@ export class TssFeederComponent implements OnInit{
         ){
                 this.feederErrors = {
                     feederName: {},
+                    tssName:{},
+                    standByFeederName:{}
                   
             
                 };
@@ -76,7 +82,7 @@ export class TssFeederComponent implements OnInit{
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-    
+       
         this.getAllFeedersData(); 
         this.displayHierarchyFields();  
         this.findBoardsList();
@@ -90,7 +96,9 @@ export class TssFeederComponent implements OnInit{
     tssFeederSubmit(){ 
         let dataDiv:String=this.tssFeederFormGroup.value.dataDiv;
         let feederName:String=this.tssFeederFormGroup.value.feederName;
+        let tssName:String =this.tssFeederFormGroup.value.tssName;
         let description:String=this.tssFeederFormGroup.value.description;
+        let standByFeederName:String = this.tssFeederFormGroup.value.standByFeederName;
         let stateElectricityBoard:String=this.tssFeederFormGroup.value.stateElectricityBoard;
               
    
@@ -100,7 +108,9 @@ export class TssFeederComponent implements OnInit{
                                 
                                 'dataDiv':dataDiv,
                                 'feederName': feederName,
+                                'tssName': tssName,
                                 'description':description,
+                                'standByFeederName': standByFeederName,
                                 'stateElectricityBoard':stateElectricityBoard,
                                 "createdBy" : this.loggedUserData.username
         }              
@@ -129,7 +139,9 @@ export class TssFeederComponent implements OnInit{
                                         'id':id,
                                         'dataDiv':dataDiv,
                                         'feederName': feederName,
+                                        'tssName': tssName,
                                         'description':description,
+                                        'standByFeederName':standByFeederName,
                                         'stateElectricityBoard':stateElectricityBoard,
                                         "updatedBy" : this.loggedUserData.username
                                      }    
@@ -196,6 +208,8 @@ export class TssFeederComponent implements OnInit{
             'dataDiv' : [null,Validators.compose([Validators.required,Validators.maxLength(255)]) ],
             'feederName' : [null,Validators.compose([Validators.required,Validators.maxLength(255)]) , this.duplicateFeederName.bind(this)],
             'description': [null,Validators.maxLength(255)],
+            'tssName' :[null],
+            'standByFeederName':[null],
             'stateElectricityBoard':[null]
         });
     }
@@ -245,6 +259,8 @@ export class TssFeederComponent implements OnInit{
             'dataDiv' : [null,Validators.compose([Validators.required,Validators.maxLength(255)])],
             'feederName' : [null,Validators.compose([Validators.required,Validators.maxLength(255)]) , this.duplicateFeederNameAndId.bind(this)],
             'description': [null,Validators.maxLength(255)],
+            'tssName' : [null],
+            'standByFeederName':[null],
             'stateElectricityBoard':[null]
         });
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TSS_FEEDER.GET_FEEDER_ID+id).subscribe((responseData) => {
@@ -255,6 +271,8 @@ export class TssFeederComponent implements OnInit{
                                 id: this.editFeederResponse.id,
                                 dataDiv:this.editFeederResponse.dataDiv,
                                 feederName: this.editFeederResponse.feederName,
+                                tssName : this.editFeederResponse.tssName,
+                                standByFeederName :this.editFeederResponse.standByFeederName,
                                 description: this.editFeederResponse.description,
                                 stateElectricityBoard:this.editFeederResponse.stateElectricityBoard
                  })
@@ -323,24 +341,33 @@ export class TssFeederComponent implements OnInit{
     displayHierarchyFields(){
         this.zoneList = [];
         this.divisionList = [];
-
+        this.facilityList =[];
+        this.findFacility();
         this.zoneHierarchy.zoneList;
         this.enableZone = true;
        
         if(!this.enableZone){
          
           this.enableDivision = true;
+          this.enableDepot = true;
           this.enableZone=false;
         }  
         if(this.zoneHierarchy.length>0)
         {
         
           this.enableZone=true;
-        }
-        else{
-         
+
+        } if(this.divisionHierarchy.length>0){
           this.enableZone=false;
           this.enableDivision=true;
+          this.enableDepot = true;
+        }
+        else{
+
+          this.enableDepot = true;
+          this.enableZone=false;
+          this.enableDivision=false;
+         
         }
     
        
@@ -359,6 +386,44 @@ findDivisions(){
                this.enableDivision = true;
            }
         }
+}
+
+findDepots(){
+  this.facilityList=[]; 
+  let division: string = this.tssFeederFormGroup.value.dataDiv;
+  for (let i = 0; i < this.facilityHierarchy.length; i++) {
+        
+    if(this.facilityHierarchy[i].division == division && this.facilityHierarchy[i].depotType == 'TSS'){
+       
+       this.facilityList.push(this.facilityHierarchy[i]);
+      
+       this.enableDepot = true;
+        
+    }
+ } 
+}
+findFacility(){
+  this.facilityList=[]; 
+  
+  for (let i = 0; i < this.facilityHierarchy.length; i++) {
+        
+    if(this.facilityHierarchy[i].depotType == 'TSS'){
+       
+       this.facilityList.push(this.facilityHierarchy[i]);
+      
+       this.enableDepot = true;
+        
+    }
+ } 
+}
+
+findStandByFeeders(){
+  let tssName: string = this.tssFeederFormGroup.controls['tssName'].value;
+  this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TSS_FEEDER.GET_STANDBY_FEEDER+tssName)
+  .subscribe((data) => {
+    console.log("list==="+JSON.stringify(data))
+    this.standByFeederNameList = data;
+  })
 }
 
 ViewData(data){

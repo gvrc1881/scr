@@ -22,4 +22,6 @@ public interface TssFeederMasterRepository extends JpaRepository<TssFeederMaster
 	Optional<TssFeederMaster> findByFeederId(String feederId);
 
 	List<TssFeederMaster> getAllByDataDivIn(List<String> fac);
+
+	List<TssFeederMaster> findByTssName(String tssName);
 }
