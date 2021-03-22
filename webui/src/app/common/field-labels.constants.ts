@@ -13,6 +13,7 @@ export const FieldLabelsConstant = {
        PTFE_AOH:"Ptfe-Aoh",
        OVERLAP_AOH:"Overlap-Aoh",
        MCL_POH:"Mcl-Poh",
+       ALREADY_DONE_APPROVE:"Already Done (Approve)",
       MONTHLY_PROGRESS_APPROVED:"Mon Progress (Approved)",
       CUM_PROGRESS_APPROVED:"Cum Progress (Approved)",
       ACTION: "Action",

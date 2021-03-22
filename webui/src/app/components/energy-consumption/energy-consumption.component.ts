@@ -67,12 +67,17 @@ pagination = Constants.PAGINATION_NUMBERS;
   feederId: string;
   zoneData: any = JSON.parse(sessionStorage.getItem('zoneData'));
   divisionData: any = JSON.parse(sessionStorage.getItem('divisionData'));
+  depotsData: any =   JSON.parse(sessionStorage.getItem('depotData'));
   zoneObject: any;
   zoneCode: string
   userDefaultData: any;
   loggedUser: any = JSON.parse(sessionStorage.getItem('loggedUser'));
   previousUrl: string;
   enableZone:boolean ;
+  depotsList: any;
+  depotName: any;
+  tssList: any;
+  feedersArray = [];
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -111,6 +116,7 @@ pagination = Constants.PAGINATION_NUMBERS;
           let query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + 0+ '/' + this.divisionCode : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision;
             this.selectedDivision = this.divisionCode;
             console.log(this.divisionCode)
+            this.getPSIDepots();
             this.findEnergyConsumptionData(query);
         }
       }
@@ -185,6 +191,39 @@ pagination = Constants.PAGINATION_NUMBERS;
       sort: this.sort
     };
   }
+    getTssFeeder()  {
+        this.feedersArray = [];
+        this.feedersList = [];
+        this.feederId = '';
+        this.tssList = this.depotsData.filter(value => {
+            return value.parentDepot == this.depotName && value.depotType == 'TSS' ;
+        });
+        if(this.tssList) {
+            this.feedersOriginalList.filter(tss => {
+                this.feedersList =     this.tssList.filter(value =>{
+                        var tssName = value.facilityName.split("_")
+                        if(tss.feederName == tssName[0]) {
+                            this.feedersArray.push(tss);
+                        }
+                 });
+              });
+            this.feedersList = this.feedersArray;
+        }
+    }
+    
+    getPSIDepots(){
+        this.depotsList = [];
+        if(this.depotsData) {
+            this.depotsList = this.depotsData.filter(value => {
+                if( value.dataDiv && this.selectedDivision ) {
+                    return value.dataDiv.toLowerCase() == this.selectedDivision.toLowerCase() && value.depotType == 'PSI';
+                }    
+              });
+            if(this.depotsList.length > 0 ){
+                this.depotName = this.depotsList[0].facilityName;
+            }
+        }
+    }
 
   getDivisions(zoneCode: any) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_OBJECT + zoneCode).subscribe((data) => {
@@ -316,14 +355,19 @@ pagination = Constants.PAGINATION_NUMBERS;
       query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision;
       this.findEnergyConsumptionData(query);
     } else {
+      console.log('*** depot name ***'+this.depotName);
       this.exactDate = false;
       this.selectedBWFrom = new Date();
       this.selectedBWTo = this.maxDate;
    //   console.log(this.selectedDivision)
       this.selectedFeederId = '';
+      this.getTssFeeder();
+      /*  
       this.feedersList = this.feedersOriginalList.filter(value => {
         return value.dataDiv.toLowerCase() == this.selectedDivision.toLowerCase();
       });
+        */
+        
      // console.log(this.feedersList[0]);
       this.feederId = this.feedersList != null && this.feedersList.length > 0 ? this.feedersList[0].feederId : '';
       var query = "";
@@ -355,10 +399,14 @@ pagination = Constants.PAGINATION_NUMBERS;
 
   updateDivision($event) {
     if (!this.exactDate) {
+         this.selectedDivision = $event.value;
+        this.getPSIDepots();
+        /*
       this.feedersList = this.feedersOriginalList.filter(value => {
         return value.dataDiv.toLowerCase() == $event.value.toLowerCase();
       });
-      this.selectedDivision = $event.value;
+        */
+     
     } else {
       this.selectedDivision = $event.value;
     }
@@ -367,6 +415,8 @@ pagination = Constants.PAGINATION_NUMBERS;
 
   }
   executeQuery() {
+    this.selectedFeederId = this.feederId;
+      console.log('*** feeder ***'+this.selectedFeederId);
     var query = "";
     query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision;
     sessionStorage.setItem('query', query);

@@ -124,9 +124,9 @@
 	                                            </mat-cell>
 	                                        </ng-container>
 	                                        <ng-container matColumnDef="alreadyDone" >
-	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ALREADY_DONE}}</mat-header-cell>
+	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ALREADY_DONE_APPROVE}}</mat-header-cell>
 	                                            <mat-cell *matCellDef="let row"> 
-	                                            	{{row.alreadyDone}}
+	                                            	{{row.alreadyDone}} ({{row.approveCount}})
 	                                            	<!-- <mat-form-field fxFlex="30">
 														<input matInput  [value]="row.alreadyDone" 
 												                 [(ngModel)]="row.alreadyDone" readonly>

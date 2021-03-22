@@ -59,6 +59,16 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
+                                <div class="col-md-3"  *ngIf="!exactDate">
+                                    <mat-form-field fxFlex="30" class="example-full-width">
+                                        <mat-select placeholder="{{FiledLabels.DEPOT}}" (selectionChange)="getTssFeeder()" [(ngModel)]="depotName">
+                                            <mat-option *ngFor="let depots of depotsList "
+                                                [value]="depots.facilityName">
+                                                {{ depots.facilityName}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
                                 <div class="col-md-3" *ngIf="exactDate">
                                     <mat-form-field>
                                         <input matInput [matDatepicker]="picker1" 

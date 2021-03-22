@@ -739,6 +739,12 @@ public class DrivesService {
 				}else
 					driveResponse.setPerformedCount(0);
 				List<DriveDailyProgress> alreadyDDProgressList = this.findByDriveIdAndPerformedDateLessThan(drives,fromDate);
+				List<DriveDailyProgress> approveDDProgressList = this.findByDriveIdAndPerformedDateLessThanAndApprovedStatus(drives,fromDate,"Approve");
+				double approvedCount = 0;
+				for (DriveDailyProgress driveDailyProgress : approveDDProgressList) {
+					approvedCount = approvedCount + driveDailyProgress.getPerformedCount();
+				}
+				driveResponse.setApproveCount(approvedCount);
 				double alreadyDoneCount = 0;
 				for (DriveDailyProgress driveDailyProgress : alreadyDDProgressList) {
 					alreadyDoneCount = alreadyDoneCount+driveDailyProgress.getPerformedCount();
@@ -773,6 +779,11 @@ public class DrivesService {
 		}
 		
 		return drivesResponseList;
+	}
+
+	private List<DriveDailyProgress> findByDriveIdAndPerformedDateLessThanAndApprovedStatus(Drives drives,
+			Date fromDate, String approveStatus) {
+		return driveProgressRecordRepository.findByDriveIdAndPerformedDateLessThanAndApprovedStatus(drives,fromDate,approveStatus);
 	}
 
 	public DriveDailyProgress saveDriveDailyProgressRecord(@Valid DriveRequest driveDailyProgressRequest) {

@@ -32,6 +32,7 @@ public class DrivesResponse {
 	private String facilityId;
 	private String population;
 	private double target;
+	private double approveCount;
 
 	public Long getId() {
 		return id;
@@ -231,6 +232,15 @@ public class DrivesResponse {
 
 	public void setTarget(double target) {
 		this.target = target;
+	}
+
+
+	public double getApproveCount() {
+		return approveCount;
+	}
+
+	public void setApproveCount(double approveCount) {
+		this.approveCount = approveCount;
 	}
 
 	@Override

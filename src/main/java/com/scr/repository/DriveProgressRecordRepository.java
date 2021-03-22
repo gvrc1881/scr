@@ -37,4 +37,7 @@ public interface DriveProgressRecordRepository extends JpaRepository<DriveDailyP
 
 	List<DriveDailyProgress> findByPerformedDateAndDepotInAndApprovedStatusIsNull(Date fromDate, List<String> fac);
 
+	List<DriveDailyProgress> findByDriveIdAndPerformedDateLessThanAndApprovedStatus(Drives drives, Date fromDate,
+			String approveStatus);
+
 }
