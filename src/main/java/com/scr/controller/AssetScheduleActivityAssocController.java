@@ -135,7 +135,7 @@ public class AssetScheduleActivityAssocController {
 			 logger.info("Exit from AssetScheActivityAssoc function");
 		return assetAssocList;	
 	}
-	 @RequestMapping(value = "/findAllAssetSchActAssocbasedOnDiv/{loggedUserData}", method = RequestMethod.GET , headers = "Accept=application/json")
+	 /*@RequestMapping(value = "/findAllAssetSchActAssocbasedOnDiv/{loggedUserData}", method = RequestMethod.GET , headers = "Accept=application/json")
 	 public ResponseEntity<List<AssetScheduleActivityAssoc>> findFailureByType(@PathVariable("loggedUserData") String loggedUserData) throws JSONException {
 	 	 	
 	 	logger.info("user=="+loggedUserData);
@@ -160,7 +160,7 @@ public class AssetScheduleActivityAssocController {
 	 	}
 	 	logger.info("Exit from failures function");
 	 	return ResponseEntity.ok((assocList));
-	 }
+	 }*/
 	/* @RequestMapping(value = "/findAllAssetSchActAssoc/{from}/{to}" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public List<AssetScheduleActivityAssoc> findAllAssetSchActAssoc(@PathVariable("from") int from,@PathVariable("to") int to)  {
 		 
