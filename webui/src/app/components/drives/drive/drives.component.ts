@@ -249,34 +249,32 @@ export class DrivesComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVES_BASEDON_DIVISION+this.userdata.username).subscribe((data) => {
       this.drivesList = data;
       console.log("drives listt===="+JSON.stringify(this.drivesList))
-      for (let i = 0; i < this.drivesList.length; i++) {
-        // if(this.zoneData.length == 0)
-        // {   
-        //   if(this.drivesList[i].depotType == '') 
-        //    { 
-        //     console.log("log in if zone depot")     
-        //     this.drivesList[i].editPermission = false; 
-        //    }
-        //     else{
-        //       console.log("log in else zone depot")
-        //       this.drivesList[i].editPermission = true; 
-        //     }       
+        for (let i = 0; i < this.drivesList.length; i++) {
+          
+         if(this.zoneData.length == 0 && this.drivesList[i].driveScope == 'ZONE' )
+         {   
+          this.drivesList[i].editPermission = false; 
          
-        // }
-        // else{
-        //         this.drivesList[i].editPermission = true;
-        // }
+         
+         } else if (this.divisionData.length == 0  && this.drivesList[i].driveScope == 'DIV'  ) {
+          this.drivesList[i].editPermission = false;  
+         }else if (this.subDivisionData.length == 0  && this.drivesList[i].driveScope == 'SUB_DIV'  ) {
+          this.drivesList[i].editPermission = false;  
+         } else {
+          this.drivesList[i].editPermission = true;   
+         }   
+        
         this.drivesList[i].sno = i + 1;
         this.drivesList[i].targetQuantity = this.drivesList[i].target_qty;
         this.drivesList[i].status = this.drivesList[i].active;
         this.drivesList[i].checkList = this.drivesList[i].checklist;
 
-        this.drivesList[i].depoType = !!this.drivesList[i].depotType ? this.drivesList[i].depotType['code'] : '';
-        this.drivesList[i].fromDate = this.datePipe.transform(this.drivesList[i].fromDate, 'dd-MM-yyyy ');
-        this.drivesList[i].toDate = this.datePipe.transform(this.drivesList[i].toDate, 'dd-MM-yyyy ');
+        this.drivesList[i].depoType = !!this.drivesList[i].depotTypes ? this.drivesList[i].depotTypes['code'] : '';
+        this.drivesList[i].fromDate = this.datePipe.transform(this.drivesList[i].frmDate, 'dd-MM-yyyy');
+        this.drivesList[i].toDate = this.datePipe.transform(this.drivesList[i].toDat, 'dd-MM-yyyy');
         drive.push(this.drivesList[i]);
       }
-
+      console.log("after for loop"+JSON.stringify(this.drivesList))
       this.dataSource = new MatTableDataSource(drive);
      this.dataSource.paginator = this.drivePaginator;
       this.dataSource.sort = this.sort;

@@ -687,6 +687,7 @@ export const Constants = {
                 },
                 ASSET_SCH_ACTIVITY_ASSOC:{  
                     GET_ASSET_SCH_ACT_ASSOC:"/findAllAssetSchActAssoc",
+                     GET_ASSET_SCH_ACT_ASSOC_BASEDON_DIVISON:"/findAllAssetSchActAssocbasedOnDiv/",
                     SAVE_ASSET_SCH_ACT_ASSOC:"/addAssetSchActAssoc",
                     GET_ASSET_SCH_ACT_ASSOC_ID:"/findAssetSchActAssocById/",
                     UPDATE_ASSET_SCH_ACT_ASSOC:"/updateAssetSchActAssoc",

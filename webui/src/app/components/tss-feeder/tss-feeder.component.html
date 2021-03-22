@@ -136,8 +136,8 @@
             <mat-select placeholder="{{FiledLabels.STANDBY}}" 
               [formControl]="tssFeederFormGroup.controls['standByFeederName']" >
               <mat-option *ngFor="let feederData of standByFeederNameList"
-                [value]="feederData.standByFeederName">
-                {{ feederData.standByFeederName }}
+                [value]="feederData.feederName">
+                {{ feederData.feederName }}
               </mat-option>
             </mat-select>
           </mat-form-field>

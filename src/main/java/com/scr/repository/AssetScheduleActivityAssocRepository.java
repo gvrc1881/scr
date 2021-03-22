@@ -38,4 +38,7 @@ public interface AssetScheduleActivityAssocRepository extends JpaRepository<Asse
 
 	Optional<AssetScheduleActivityAssoc> findByAsaSeqIdAndActivityIdAndDisplayOrderAndMakeCodeAndModelCode(
 			String asaSeqId, String activityId, BigDecimal displayOrder, String makeCode, String modelCode);
+
+	
+	//List<AssetScheduleActivityAssoc> findByDataDivInOrderByCreatedOnDesc(List<String> fac);
 }

@@ -342,7 +342,8 @@ export class TssFeederComponent implements OnInit{
         this.zoneList = [];
         this.divisionList = [];
         this.facilityList =[];
-        this.findFacility();
+        //this.findFacility();
+
         this.zoneHierarchy.zoneList;
         this.enableZone = true;
        
@@ -356,6 +357,9 @@ export class TssFeederComponent implements OnInit{
         {
         
           this.enableZone=true;
+          this.enableDivision=false;
+          this.enableDepot = false;
+
 
         } if(this.divisionHierarchy.length>0){
           this.enableZone=false;

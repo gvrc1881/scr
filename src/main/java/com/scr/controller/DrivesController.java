@@ -123,9 +123,9 @@ public class DrivesController {
 		return ResponseEntity.ok((usersList));
 	}
 	@RequestMapping(value = "/getDrivesBasedOnDivison/{loggedUserData}", method = RequestMethod.GET , headers = "Accept=application/json")
-	public ResponseEntity<List<Drives>> findAllDrives(@PathVariable("loggedUserData") String loggedUserData) throws JSONException {
+	public ResponseEntity<List<DriveRequest>> findAllDrives(@PathVariable("loggedUserData") String loggedUserData) throws JSONException {
 		logger.info("Enter into findAllDrives function");
-		List<Drives> usersList = null;
+		List<DriveRequest> usersList = null;
 		List<String> fac= new ArrayList<>();
 		logger.info("loggedUserData*****"+loggedUserData);
 		try {	

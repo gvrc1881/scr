@@ -19,6 +19,10 @@ public class DriveRequest {
 	private Timestamp fromDate;
 
 	private Timestamp toDate;
+	
+	private Date frmDate;
+
+	private Date toDat;
 
 	private String assetType;
 
@@ -46,6 +50,8 @@ public class DriveRequest {
 	private Timestamp updatedOn;
 
 	private String depotType;
+	
+	private String driveScope;
 
 	private String section;
 	private String guage;
@@ -144,6 +150,8 @@ public class DriveRequest {
 	private Long oldDriveId;
 	private String contentLink;
 	private FunctionalLocationTypes functionalLocationTypes;
+	private FunctionalLocationTypes depotTypes;
+	
 
 	public String getName() {
 		return name;
@@ -923,6 +931,44 @@ public class DriveRequest {
 	public void setFunctionalLocationTypes(FunctionalLocationTypes functionalLocationTypes) {
 		this.functionalLocationTypes = functionalLocationTypes;
 	}
+
+	public String getDriveScope() {
+		return driveScope;
+	}
+
+	public void setDriveScope(String driveScope) {
+		this.driveScope = driveScope;
+	}
+
+	public Date getFrmDate() {
+		return frmDate;
+	}
+
+	public void setFrmDate(Date frmDate) {
+		this.frmDate = frmDate;
+	}
+
+	public Date getToDat() {
+		return toDat;
+	}
+
+	public void setToDat(Date toDat) {
+		this.toDat = toDat;
+	}
+
+	public FunctionalLocationTypes getDepotTypes() {
+		return depotTypes;
+	}
+
+	public void setDepotTypes(FunctionalLocationTypes depotTypes) {
+		this.depotTypes = depotTypes;
+	}
+
+
+
+	
+
+	
 
 	
 

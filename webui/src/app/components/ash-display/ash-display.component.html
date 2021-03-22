@@ -249,7 +249,7 @@
                                                 
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
                                             </mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.scheduleDate | date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.scheduleDate | date :  "dd-MM-yyyy"}}</mat-cell>
                                         </ng-container>
                                         <ng-container matColumnDef="status">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>

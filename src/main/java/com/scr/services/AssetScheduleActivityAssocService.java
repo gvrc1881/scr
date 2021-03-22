@@ -139,4 +139,19 @@ public class AssetScheduleActivityAssocService {
 		 return asaa;
 	}
 
+
+
+
+/*	public List<AssetScheduleActivityAssoc> findByDataDivInAndOrderByCreatedOnDesc(List<String> fac) {
+		
+		List<AssetScheduleActivityAssoc> asaa = new ArrayList<>();
+		List<AssetScheduleActivityAssoc> assetScheduleActivityAssocs = assetSchActivityAssocRepository.findByDataDivInOrderByCreatedOnDesc(fac);
+		for (AssetScheduleActivityAssoc assetScheduleActivityAssoc : assetScheduleActivityAssocs) {
+			assetScheduleActivityAssoc = assetSchActivityAssocDataMapper.prepareAssetSchActivityData(assetScheduleActivityAssoc);
+			asaa.add(assetScheduleActivityAssoc);
+		}
+		//AssetScheduleActivityAssoc assetschassocData = assetSchActivityAssocDataMapper.prepareAssetSchActivityData(assetScheduleActivityAssocRequest,assetSchassDataRequest,measuresDataRequest);
+		 return asaa;
+	}*/
+
 }

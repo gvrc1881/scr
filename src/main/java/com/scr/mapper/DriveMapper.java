@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -668,6 +669,41 @@ logger.info("depot=="+driveRequest.getDepotType());
 		driveProgressId.setCreatedBy(createdBy);
 		driveProgressId.setCreatedOn(createdOn);
 		return driveProgressId;
+	}
+	
+
+	public DriveRequest preparesDrivesData(Drives drives2) {
+
+		DriveRequest driveRequest = new DriveRequest();
+			
+			
+			if (drives2.getFunctionalUnit() != null) {
+			
+				Optional<Facility> fac = facilityRepository.findByFacilityName(drives2.getFunctionalUnit());
+				
+				driveRequest.setDriveScope(fac.get().getDepotType());
+			}
+			
+			driveRequest.setId(drives2.getId());
+			driveRequest.setName(drives2.getName());
+			driveRequest.setDescription(drives2.getDescription());
+			driveRequest.setFrmDate(drives2.getFromDate());
+			driveRequest.setToDat(drives2.getToDate());
+			//driveRequest.setDepotType(drives2.getDepotType().getCode());
+			driveRequest.setDepotTypes(drives2.getDepotType());			
+			driveRequest.setAssetType(drives2.getAssetType());
+			driveRequest.setFrequency(drives2.getFrequency());
+			driveRequest.setAssetDescription(drives2.getAssetDescription());
+			driveRequest.setCriteria(drives2.getCriteria());
+			driveRequest.setTarget_qty(drives2.getTarget_qty());
+			driveRequest.setIsIdRequired(drives2.getIsIdRequired());
+			driveRequest.setFunctionalUnit(drives2.getFunctionalUnit());
+			driveRequest.setChecklist(drives2.getChecklist());
+			driveRequest.setActive(drives2.getActive());			
+		
+		
+		
+		return driveRequest;
 	}
 	
 }

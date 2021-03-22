@@ -2,6 +2,7 @@ package com.scr.controller;
 
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,13 +21,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scr.jobs.CommonUtility;
 import com.scr.message.request.AssetScheduleActivityAssocRequest;
 import com.scr.message.request.AssetScheduleAssocRequest;
+import com.scr.message.request.DriveRequest;
 import com.scr.message.request.MeasureOrActivityListRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetScheduleActivityAssoc;
 import com.scr.model.AssetScheduleAssoc;
+import com.scr.model.Facility;
+import com.scr.model.Failure;
 import com.scr.services.AssetScheduleActivityAssocService;
+import com.scr.services.FacilityService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
 
@@ -41,7 +47,10 @@ public class AssetScheduleActivityAssocController {
 	@Autowired 
 	AssetScheduleActivityAssocService assetScheduleActivityAssocService;
 	
-
+	@Autowired
+	private CommonUtility  commonUtility;
+	@Autowired
+	private FacilityService facilityService;
 	
 	@RequestMapping(value = "/addAssetSchActAssoc" , method = RequestMethod.POST , headers = "Accept=application/json")
 	public ResponseStatus addAssetSchActAssoc(@Valid @RequestBody AssetScheduleActivityAssocRequest assetScheduleActivityAssoc) throws JSONException {
@@ -126,7 +135,32 @@ public class AssetScheduleActivityAssocController {
 			 logger.info("Exit from AssetScheActivityAssoc function");
 		return assetAssocList;	
 	}
-	
+	 @RequestMapping(value = "/findAllAssetSchActAssocbasedOnDiv/{loggedUserData}", method = RequestMethod.GET , headers = "Accept=application/json")
+	 public ResponseEntity<List<AssetScheduleActivityAssoc>> findFailureByType(@PathVariable("loggedUserData") String loggedUserData) throws JSONException {
+	 	 	
+	 	logger.info("user=="+loggedUserData);
+	 	List<AssetScheduleActivityAssoc> assocList = null;
+	 	List<String> fac= new ArrayList<>();
+	 	try {			
+	 		logger.info("Calling service for getting relevent type data");
+	 		List<Facility> facility = commonUtility.findUserHierarchy(loggedUserData);
+	 		logger.info("facilities=="+facility.size());
+	 		for (Facility facility2 : facility) {
+	 			
+	 			fac.add(facility2.getDivision());
+	 			
+	 		}	 		
+	 			
+	 		assocList = assetScheduleActivityAssocService.findByDataDivInAndOrderByCreatedOnDesc(fac);	
+	 		logger.info("Fetched data = "+assocList);
+	 	} catch (NullPointerException e) {			
+	 		logger.error("ERROR >>> while fetching the assocList type data = "+e.getMessage());
+	 	} catch (Exception e) {			
+	 		logger.error("ERROR >>> while fetching the assocList type data = "+e.getMessage());
+	 	}
+	 	logger.info("Exit from failures function");
+	 	return ResponseEntity.ok((assocList));
+	 }
 	/* @RequestMapping(value = "/findAllAssetSchActAssoc/{from}/{to}" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public List<AssetScheduleActivityAssoc> findAllAssetSchActAssoc(@PathVariable("from") int from,@PathVariable("to") int to)  {
 		 

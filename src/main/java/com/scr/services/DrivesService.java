@@ -1380,9 +1380,21 @@ public ResponseStatus storeUploadedFile(List<MultipartFile> file, String content
 	return responseStatus;
 }
 
-public List<Drives> findByFunctionalUnitAndStatusId(List<String> fac, int activeStatusId) {
+
+public List<DriveRequest> findByFunctionalUnitAndStatusId(List<String> fac, int activeStatusId) {
 	
-	return driveRepository.findByFunctionalUnitInOrFunctionalUnitIsNullAndStatusIdOrderByCreatedOnDesc(fac,activeStatusId);
+	//List<Drives> drive = new ArrayList<>();
+	List<Drives> drives = driveRepository.findByFunctionalUnitInOrFunctionalUnitIsNullAndStatusIdOrderByCreatedOnDesc(fac,activeStatusId);;
+	List <DriveRequest> driveRequest = new ArrayList<>();
+	
+	for (Drives drives2 : drives) {
+		driveRequest.add(driveMapper.preparesDrivesData(drives2));
+		
+	}
+	
+		return driveRequest;
+	
+	//return driveRepository.findByFunctionalUnitInOrFunctionalUnitIsNullAndStatusIdOrderByCreatedOnDesc(fac,activeStatusId);
 }
 
 
