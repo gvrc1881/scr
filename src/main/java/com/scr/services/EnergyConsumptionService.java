@@ -29,8 +29,8 @@ public class EnergyConsumptionService {
 	@Autowired
 	private EnergyConsumptionMapper mapper;
 	
-	public List<EnergyConsumptionResponse> findEnergyConsumption(String fromDate, String toDate, String feederId, String division) {
-		return utilRepository.findEnergyConsumption(fromDate, toDate, feederId, division);
+	public List<EnergyConsumptionResponse> findEnergyConsumption(String fromDate, String toDate, String feederId, String division, String psiDepot) {
+		return utilRepository.findEnergyConsumption(fromDate, toDate, feederId, division,psiDepot);
 	}
 
 	public void saveEnergyConsumption(EnergyConsumptionResponse request) {

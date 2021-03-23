@@ -113,10 +113,10 @@ pagination = Constants.PAGINATION_NUMBERS;
         this.divisionCode = this.userDefaultData.division.toUpperCase();
        // commented by adiReddy  if(previousUrl != "/energy-consumption/"){
         if(previousUrl == "/energy-consumption"){
-          let query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + 0+ '/' + this.divisionCode : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision;
             this.selectedDivision = this.divisionCode;
             console.log(this.divisionCode)
             this.getPSIDepots();
+            let query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + 0+ '/' + this.divisionCode + '/' + this.depotName : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision + '/' + this.depotName;
             this.findEnergyConsumptionData(query);
         }
       }
@@ -146,20 +146,24 @@ pagination = Constants.PAGINATION_NUMBERS;
           this.radioList[1].checked = false;
           this.selectedExactDate = new Date(values[0]);
           this.divisionCode = values[3];
+          this.depotName = values[4];
           this.selectedDivision = this.divisionCode;
         } else {
+            console.log('test ');
           this.exactDate = false;
           this.radioList[0].checked = false;
           this.radioList[1].checked = true;
           this.selectedBWFrom = new Date(values[0]);
           this.selectedBWTo = new Date(values[1]);
           this.divisionCode = values[3];
-          this.feederId = values[2]
+          this.feederId = values[2];
+          this.depotName = values[4];
           this.selectedFeederId = this.feederId;
           this.selectedDivision = this.divisionCode;
         }
       }
-      query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision;
+        this.getPSIDepots();
+      query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision + '/' + this.depotName : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision + '/' + this.depotName;
       sessionStorage.setItem('query', query);
       this.findEnergyConsumptionData(query)
     }
@@ -192,6 +196,7 @@ pagination = Constants.PAGINATION_NUMBERS;
     };
   }
     getTssFeeder()  {
+        this.clearPreviousData();
         this.feedersArray = [];
         this.feedersList = [];
         this.feederId = '';
@@ -333,7 +338,7 @@ pagination = Constants.PAGINATION_NUMBERS;
       return item.feederId == id;
     })*/
     var query = "";
-    query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision;
+    query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision + '/' + this.depotName : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision +'/'+ this.depotName;
     sessionStorage.setItem('query', query);
     sessionStorage.setItem('ec', JSON.stringify(row));
     this.router.navigate([row.feederId], { relativeTo: this.route });
@@ -347,12 +352,13 @@ pagination = Constants.PAGINATION_NUMBERS;
   }
   radioChange(event: MatRadioChange) {
     this.filterData.dataSource = [];
+      this.getPSIDepots();
     if (event.value == 'Date') {
       this.exactDate = true;
       this.selectedExactDate = new Date();
       var query = "";
       this.maxDate = new Date();
-      query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision;
+      query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision + '/' + this.depotName : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision +'/'+ this.depotName;
       this.findEnergyConsumptionData(query);
     } else {
       console.log('*** depot name ***'+this.depotName);
@@ -372,7 +378,7 @@ pagination = Constants.PAGINATION_NUMBERS;
       this.feederId = this.feedersList != null && this.feedersList.length > 0 ? this.feedersList[0].feederId : '';
       var query = "";
       this.selectedFeederId = this.feederId;
-      query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.feederId + '/' + this.selectedDivision;
+      query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision + '/' + this.depotName : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.feederId + '/' + this.selectedDivision + '/' + this.depotName;
       //console.log(query)
       if(this.feederId){
          this.findEnergyConsumptionData(query);
@@ -398,9 +404,9 @@ pagination = Constants.PAGINATION_NUMBERS;
   }
 
   updateDivision($event) {
+      this.clearPreviousData();
     if (!this.exactDate) {
          this.selectedDivision = $event.value;
-        this.getPSIDepots();
         /*
       this.feedersList = this.feedersOriginalList.filter(value => {
         return value.dataDiv.toLowerCase() == $event.value.toLowerCase();
@@ -410,16 +416,31 @@ pagination = Constants.PAGINATION_NUMBERS;
     } else {
       this.selectedDivision = $event.value;
     }
+      this.getPSIDepots();
   }
   delete(id) {
 
   }
   executeQuery() {
-    this.selectedFeederId = this.feederId;
-      console.log('*** feeder ***'+this.selectedFeederId);
+      if(this.exactDate)
+          this.selectedFeederId = 'undefined';
+      else 
+        this.selectedFeederId = this.feederId;
     var query = "";
-    query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision;
+    query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision + '/' +this.depotName : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision + '/' + this.depotName;
     sessionStorage.setItem('query', query);
     this.findEnergyConsumptionData(query);
   }
+    
+    clearPreviousData() {
+        this.energyConsumptionData = [];
+        this.stipulations = [];
+        this.filterData = [];
+        this.filterData.gridData = this.stipulations;
+        this.dataSource = new MatTableDataSource(this.stipulations);
+        this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+        this.filterData.dataSource = this.dataSource;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;    
+    }
 }

@@ -485,7 +485,7 @@ public class EnergyConsumptionUtilRepository{
 			"						AND jr.feeder_id = cur.feeder_id )" +
 			"			) final  " + 
 			" order by requested_reading_date";
-	public List<EnergyConsumptionResponse> findEnergyConsumption(String fromDate, String toDate, String feederId, String division) {
+	public List<EnergyConsumptionResponse> findEnergyConsumption(String fromDate, String toDate, String feederId, String division, String psiDepot) {
 		List<EnergyConsumptionResponse> list = new ArrayList<EnergyConsumptionResponse>();
 		Connection con = null;
 		PreparedStatement psPreparedStatement = null;
@@ -495,10 +495,11 @@ public class EnergyConsumptionUtilRepository{
 			con = dataSource.getConnection();
 			if(toDate.equalsIgnoreCase("exact")) {
 				//psPreparedStatement = con.prepareStatement(datesQ);
-				callableStatement = con.prepareCall("{call day_div_tss_energy_consumption_v(?,?)}");
+				callableStatement = con.prepareCall("{call day_div_tss_energy_consumption_v(?,?,?)}");
 				callableStatement.setDate(1, Helper.convertStringToDate(fromDate));
 				//callableStatement.setString(2, fromDate);
 				callableStatement.setString(2, division);
+				callableStatement.setString(3, psiDepot);
 				//callableStatement.setString(4, fromDate);
 				//callableStatement.setString(5, fromDate);
 				//psPreparedStatement.setString(6, fromDate);

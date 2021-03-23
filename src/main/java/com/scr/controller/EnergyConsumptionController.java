@@ -30,18 +30,19 @@ public class EnergyConsumptionController{
 	@Autowired
 	private EnergyConsumptionService service;
 	
-	@RequestMapping(value = "/energyConsumption/{fromDate}/{toDate}/{feederId}/{division}", method = RequestMethod.GET , headers = "Accept=application/json")
+	@RequestMapping(value = "/energyConsumption/{fromDate}/{toDate}/{feederId}/{division}/{psiDepot}", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<EnergyConsumptionResponse>> findEnergyConsumption(
 				@PathVariable("fromDate") String fromDate,
 				@PathVariable("toDate") String toDate,
 				@PathVariable("feederId") String feederId,
-				@PathVariable("division") String division) throws JSONException {
+				@PathVariable("division") String division,
+				@PathVariable("psiDepot") String psiDepot) throws JSONException {
 		logger.info("Enter into Energy Consumption function");
-		logger.info("from date = "+fromDate +" todate = "+toDate+" feederId = "+feederId+" Division = "+division);
+		logger.info("from date = "+fromDate +" todate = "+toDate+" feederId = "+feederId+" Division = "+division+" PSI Depot"+psiDepot);
 		List<EnergyConsumptionResponse> usersList = null;
 		try {			
 			logger.info("Calling service for Energy Consumption data");
-			usersList = service.findEnergyConsumption(fromDate, toDate, feederId, division);	
+			usersList = service.findEnergyConsumption(fromDate, toDate, feederId, division,psiDepot);	
 			logger.info("Fetched Energy Consumption data = "+usersList);
 		} catch (NullPointerException e) {			
 			logger.error("ERROR >>> while fetching the Energy Consumption data = "+e.getMessage());
