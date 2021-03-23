@@ -1,4 +1,5 @@
 
+
 --1
 -- View: v_asset_count_by_depot
 
@@ -50,6 +51,7 @@ CREATE OR REPLACE VIEW public.v_asset_master_data AS
 
 ALTER TABLE public.v_asset_master_data
     OWNER TO postgres;
+    
 ----69
 
 
@@ -88,7 +90,7 @@ CREATE OR REPLACE VIEW public.v_drives AS
 ALTER TABLE public.v_drives
   OWNER TO postgres;
   
-  
+   
 --3
 -- View: v_asset_monthly_targets
 
@@ -201,6 +203,10 @@ drop cascades to view v_assets_schedule_counts
 drop cascades to view v_sch_all_days_done_run_count_fac_asstype_sch
 drop cascades to view v_sch_done_daily_run_count_fac_asstype_sch
 */
+
+
+
+
 
 
 
@@ -751,6 +757,62 @@ CREATE OR REPLACE VIEW public.v_failures_count_duration_daily
 		,fac.division,f.internal_external;
 
 ALTER TABLE public.v_failures_count_duration_daily
+    OWNER TO postgres;
+
+
+---13
+-- View: v_failures_count_duration_fy_mon_wk_daily
+-- View: public.v_failures_count_duration_fy_mon_wk_daily
+
+-- DROP VIEW public.v_failures_count_duration_fy_mon_wk_daily;
+
+CREATE OR REPLACE VIEW public.v_failures_count_duration_fy_mon_wk_daily AS
+ SELECT d.type_of_failure,
+    d.fy,
+    d.month1,
+    d.week1,
+    d.date1,
+    d.cum_delay_time_daily,
+    w.cum_delay_time_weekly,
+    m.cum_delay_time_monthly,
+    fy.cum_delay_time_fy,
+    d.daily_count,
+    w.w_count,
+    m.m_count,
+    fy.fy_count
+   FROM ( SELECT v_failures_count_duration_daily.type_of_failure,
+            v_failures_count_duration_daily.fy,
+            sum(v_failures_count_duration_daily.delay_time) AS cum_delay_time_fy,
+            sum(v_failures_count_duration_daily.daily_count) AS fy_count
+           FROM v_failures_count_duration_daily
+          GROUP BY v_failures_count_duration_daily.type_of_failure, v_failures_count_duration_daily.fy) fy,
+    ( SELECT v_failures_count_duration_daily.type_of_failure,
+            v_failures_count_duration_daily.fy,
+            v_failures_count_duration_daily.month1,
+            sum(v_failures_count_duration_daily.delay_time) AS cum_delay_time_monthly,
+            sum(v_failures_count_duration_daily.daily_count) AS m_count
+           FROM v_failures_count_duration_daily
+          GROUP BY v_failures_count_duration_daily.type_of_failure, v_failures_count_duration_daily.month1, v_failures_count_duration_daily.fy) m,
+    ( SELECT v_failures_count_duration_daily.type_of_failure,
+            v_failures_count_duration_daily.fy,
+            v_failures_count_duration_daily.month1,
+            v_failures_count_duration_daily.week1,
+            sum(v_failures_count_duration_daily.delay_time) AS cum_delay_time_weekly,
+            sum(v_failures_count_duration_daily.daily_count) AS w_count
+           FROM v_failures_count_duration_daily
+          GROUP BY v_failures_count_duration_daily.type_of_failure, v_failures_count_duration_daily.month1, v_failures_count_duration_daily.week1, v_failures_count_duration_daily.fy) w,
+    ( SELECT v_failures_count_duration_daily.type_of_failure,
+            v_failures_count_duration_daily.fy,
+            v_failures_count_duration_daily.month1,
+            v_failures_count_duration_daily.week1,
+            v_failures_count_duration_daily.date1,
+            sum(v_failures_count_duration_daily.delay_time) AS cum_delay_time_daily,
+            sum(v_failures_count_duration_daily.daily_count) AS daily_count
+           FROM v_failures_count_duration_daily
+          GROUP BY v_failures_count_duration_daily.type_of_failure, v_failures_count_duration_daily.month1, v_failures_count_duration_daily.week1, v_failures_count_duration_daily.date1, v_failures_count_duration_daily.fy) d
+  WHERE d.fy = w.fy AND d.fy = m.fy AND d.fy = fy.fy AND d.type_of_failure::text = fy.type_of_failure::text AND d.month1 = m.month1 AND d.month1 = w.month1 AND d.type_of_failure::text = m.type_of_failure::text AND d.week1 = w.week1 AND d.type_of_failure::text = w.type_of_failure::text;
+
+ALTER TABLE public.v_failures_count_duration_fy_mon_wk_daily
     OWNER TO postgres;
 
 
@@ -1552,7 +1614,6 @@ CREATE OR REPLACE VIEW v_switch_maintenence_history_message_final AS
    LEFT JOIN switch_maintenence_history_amendment swa ON (sw.seq_id::text = swa.seq_id::text  and swa.delete ='false'), 
     power_blocks pb, facility fac
   WHERE pb.facility_id::text = fac.facility_id::text AND pb.pb_operation_seq_id::text = sw.pb_operation_seq_id::text;
-
 
 
 --26
@@ -3784,6 +3845,7 @@ ALTER TABLE public.v_thermovision_measures
   
  ----------77 
 
+
 ---drop view v_ash_daily_progress;
 create view v_ash_daily_progress as
 SELECT adp.atd_aoh,
@@ -3832,5 +3894,6 @@ SELECT adp.atd_aoh,
    FROM ash_daily_progress adp,
     facility f
   WHERE f.id = adp.facility; 
+  
   
   
