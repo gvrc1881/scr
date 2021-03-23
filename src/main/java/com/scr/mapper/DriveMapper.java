@@ -689,6 +689,7 @@ logger.info("depot=="+driveRequest.getDepotType());
 			driveRequest.setDescription(drives2.getDescription());
 			driveRequest.setFrmDate(drives2.getFromDate());
 			driveRequest.setToDat(drives2.getToDate());
+			//driveRequest.setDepoTypes(drives2.getDepotType().getId());
 			//driveRequest.setDepotType(drives2.getDepotType().getCode());
 			driveRequest.setDepotTypes(drives2.getDepotType());			
 			driveRequest.setAssetType(drives2.getAssetType());

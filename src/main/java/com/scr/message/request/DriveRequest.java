@@ -151,6 +151,7 @@ public class DriveRequest {
 	private String contentLink;
 	private FunctionalLocationTypes functionalLocationTypes;
 	private FunctionalLocationTypes depotTypes;
+	private Long depoTypes;
 	
 
 	public String getName() {
@@ -962,6 +963,14 @@ public class DriveRequest {
 
 	public void setDepotTypes(FunctionalLocationTypes depotTypes) {
 		this.depotTypes = depotTypes;
+	}
+
+	public Long getDepoTypes() {
+		return depoTypes;
+	}
+
+	public void setDepoTypes(Long depoTypes) {
+		this.depoTypes = depoTypes;
 	}
 
 

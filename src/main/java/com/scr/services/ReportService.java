@@ -203,7 +203,7 @@ public class ReportService {
 		return reportRepositoryRepository.findByReportCategory(reportType);
 	}
 	public List<String> findAllAssetTypes(String depotType) {	
-		return productCategoryMemberRepository.findByProductCategoryIdOrderByProductIdAsc(depotType);
+		return productCategoryMemberRepository.findByProductCategoryId(depotType);
 	}
 	public List<String> findByProductId(List<String> depotTypes) {	
 		return productCategoryMemberRepository.findDistinctProductIdByProductCategoryIdInOrderByProductIdAsc(depotTypes);

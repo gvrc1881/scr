@@ -221,7 +221,7 @@
 			                                          	</button>
                                                         <button mat-icon-button matTooltip="Delete"
                                                             (click)="delete(row.id)"
-                                                             *ngIf="deletePermission">
+                                                             *ngIf="row.deletePermission">
                                                             <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
                                                         </button>
                                                     </mat-cell>

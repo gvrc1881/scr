@@ -254,14 +254,17 @@ export class DrivesComponent implements OnInit {
          if(this.zoneData.length == 0 && this.drivesList[i].driveScope == 'ZONE' )
          {   
           this.drivesList[i].editPermission = false; 
-         
+          this.drivesList[i].deletePermission=false;
          
          } else if (this.divisionData.length == 0  && this.drivesList[i].driveScope == 'DIV'  ) {
           this.drivesList[i].editPermission = false;  
+          this.drivesList[i].deletePermission=false;
          }else if (this.subDivisionData.length == 0  && this.drivesList[i].driveScope == 'SUB_DIV'  ) {
           this.drivesList[i].editPermission = false;  
+          this.drivesList[i].deletePermission=false;
          } else {
           this.drivesList[i].editPermission = true;   
+          this.drivesList[i].deletePermission = true; 
          }   
         
         this.drivesList[i].sno = i + 1;

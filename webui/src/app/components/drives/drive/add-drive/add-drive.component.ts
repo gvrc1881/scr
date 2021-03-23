@@ -171,6 +171,7 @@ export class AddDriveComponent implements OnInit {
       depoType: 5
     });
     this.depotCode = 'TRD';    
+    console.log("depot type==="+this.depotCode );
     this.findAssetTypeList(Constants.ASSERT_TYPE[this.depotCode]);
     //this.functionalUnitsList = [];
     //this.getFunctionalUnits(this.depotCode);
@@ -232,6 +233,8 @@ export class AddDriveComponent implements OnInit {
     this.toMinDate = new Date($event.value);
   }
   findAssetTypeList(assertType) {
+
+    console.log("assertType==="+assertType)
       this.assetTypeList = [];
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES+assertType)
       .subscribe((assetTypes) => {

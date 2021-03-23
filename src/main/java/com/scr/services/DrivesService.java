@@ -1039,7 +1039,7 @@ public List<Drives> getByCategoryId(DriveCategory driveCategory) {
 	logger.info("drives from assoc==="+driveCatAssocList.size());
 	for (DriveCategoryAsso driveCategoryAsso : driveCatAssocList) {		
 		
-		Optional<Drives> drive = driveRepository.findByIdAndToDateGreaterThanEqualOrToDateIsNull(driveCategoryAsso.getDriveId().getId(),date);
+		Optional<Drives> drive = driveRepository.findById(driveCategoryAsso.getDriveId().getId());
 		logger.info("drives from validations==="+drive);
 		/*	for (Drives drives : drive) {
 		logger.info("drives=="+drives.toString());
