@@ -47,7 +47,7 @@ public class ProductAssociationController {
 		} catch (Exception e) {
 			logger.error("ERROR >>> while fetching the ProductAssociation data = " + e.getMessage());
 		}
-		logger.info("Exit from findAll PrecautionaryMeasure function");
+		logger.info("Exit from findAll Product Association function");
 		return productAssociationList;
 	}
 	

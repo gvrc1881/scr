@@ -651,6 +651,11 @@ const routes: Routes = [
     loadChildren: './components/approve-special-works/approve-special-works.module#ApproveSpecialWorksModule',
      canActivate: [AuthGuard]
    },
+   {
+    path: 'bom-simulation',
+    loadChildren: './components/bom-simulation/bom-simulation.module#BomSimulationModule',
+     canActivate: [AuthGuard]
+   },
 ];
 
 @NgModule({

@@ -655,7 +655,8 @@ export const FieldLabelsConstant = {
       TPC_NO: "Tpc NO",
       FIELD_NO: "Field NO",
       PTW_ISSUE:"PTW Issue",
-      PTW_RETURN:"PTW Return"
+      PTW_RETURN:"PTW Return",
+      BOM_TYPE:"Bom Type"
    },
    TITLE:{
      FAILURE_ANALYSIS :"Failure Analysis",
@@ -778,6 +779,8 @@ export const FieldLabelsConstant = {
     ADD_SWITCH:"Add Switch",
     PTW_AMENDMENT:"PTW Amendment",
     APPROVE_DRIVE_DAILY_PROGRESS:"Approve Drive Daily Progress",
-    SWITCH_AMENDMENT:"Switch Amendment"
+    SWITCH_AMENDMENT:"Switch Amendment",
+    BOM_SIMULATION_FORM:"Bom Simulation Form",
+    BOM_SIMULATION_DATA:"Bom Simulation Data",
    }
 };

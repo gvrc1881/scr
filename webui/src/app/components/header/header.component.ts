@@ -646,7 +646,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         color: "#12E1EE",
         isSelected: true,
         permission: this.commonService.findPermission('MAT CONFIG', 'menu', 'view'),
-        currentTab: !!path && path.includes("make") || path.includes("model") || path.includes("product") || path.includes("product-category") || path.includes("product-category-member") || path.includes("status-item") ? "open" : "",
+        currentTab: !!path && path.includes("make") || path.includes("model") || path.includes("product") || path.includes("product-category")
+         || path.includes("product-category-member") || path.includes("status-item") || path.includes("bom-simulation")? "open" : "",
         subMenus: [
           {
             subMenuName: "Make",
@@ -695,6 +696,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             permission: true,
             rolePermission: this.rolePermission,
             currentSubMenu: !!path && path.includes("status-item") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Bom Simulation",
+            subMenuURL: "bom-simulation",
+            subMenuIcon: "fa fa-cogs",
+            rolePermission: this.rolePermission,
+            permission: true,
+            currentSubMenu: !!path && path.includes("bom-simulation") ? "active-item" : "",
           },
         ]
       },
@@ -1434,7 +1443,15 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         permission: this.commonService.findPermission('ALERTS', 'menu', 'view'),
         currentTab: !!path && path.includes("alert-group") || path.includes("alert-group-member") 
         || path.includes("event-alert-recipient") || path.includes("alert-message-template") ? "open" : "",
-        subMenus: [       
+        subMenus: [  
+          {
+            subMenuName: "Alert Group",
+            subMenuURL: "alert-group",
+            subMenuIcon: "",
+            rolePermission: this.rolePermission,
+            permission: this.commonService.findPermission('Alert Group', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("alert-group") ? "active-item" : "",
+          },     
           {
             subMenuName: "Alert Group Member",
             subMenuURL: "alert-group-member",
