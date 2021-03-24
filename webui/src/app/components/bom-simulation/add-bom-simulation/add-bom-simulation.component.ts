@@ -36,6 +36,8 @@ export class AddBomSimulationComponent implements OnInit {
   selectedProduct:any;
   onlyYes:boolean;
   productData:any;
+  toMinDate = new Date();
+  today=new Date();
   selectedproductIdTo:any;
   addBomSimulationFormGroup: FormGroup;
   pattern = "[a-zA-Z][a-zA-Z ]*";
@@ -70,6 +72,7 @@ export class AddBomSimulationComponent implements OnInit {
   }
   
   
+  public get f() { return this.addBomSimulationFormGroup.controls; } 
 
   createBomSimulationForm() {
     this.addBomSimulationFormGroup = this.formBuilder.group({
@@ -116,7 +119,9 @@ export class AddBomSimulationComponent implements OnInit {
         this.getProductIdName();
       })
   }
-  
+  addEvent($event) {
+    this.toMinDate = new Date($event.value);
+  }
   BomSimulationFormSubmit() {
     this.isSubmit = true;
     if (this.addBomSimulationFormGroup.invalid) {
