@@ -232,7 +232,7 @@ fileUpload(id) {
   this.failureAnalysisId = id;
   this.contentManagementFormGroup = this.formBuilder.group({
         contentCategory: [''],
-        description: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+        description: ['', Validators.compose([Validators.required])],
         uploadFiles: ['', Validators.required],
         contentTopic: [''],
     });

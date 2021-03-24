@@ -264,8 +264,9 @@ export class TssFeederComponent implements OnInit{
             'stateElectricityBoard':[null]
         });
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TSS_FEEDER.GET_FEEDER_ID+id).subscribe((responseData) => {
-            this.editFeederResponse = responseData;
+            this.editFeederResponse = responseData;           
              
+            this.displayHierarchyFields();
               this.tssFeederFormGroup.patchValue
               ({
                                 id: this.editFeederResponse.id,
@@ -276,8 +277,8 @@ export class TssFeederComponent implements OnInit{
                                 description: this.editFeederResponse.description,
                                 stateElectricityBoard:this.editFeederResponse.stateElectricityBoard
                  })
-                 this.displayHierarchyFields();
-            
+                 
+                 
         } ,error => {})
         this.id=id;
         if (!isNaN(this.id)) {
@@ -339,6 +340,7 @@ export class TssFeederComponent implements OnInit{
      }
 
     displayHierarchyFields(){
+     
         this.zoneList = [];
         this.divisionList = [];
         this.facilityList =[];
@@ -355,7 +357,7 @@ export class TssFeederComponent implements OnInit{
         }  
         if(this.zoneHierarchy.length>0)
         {
-        
+          
           this.enableZone=true;
           this.enableDivision=false;
           this.enableDepot = false;
@@ -380,7 +382,7 @@ export class TssFeederComponent implements OnInit{
 findDivisions(){
     let zone: string = this.tssFeederFormGroup.value.zone;
     this.divisionList=[];    
-
+    
     for (let i = 0; i < this.divisionHierarchy.length; i++) {
         
            if(this.divisionHierarchy[i].zone == zone&& this.divisionHierarchy[i].depotType == 'DIV'){
@@ -393,8 +395,9 @@ findDivisions(){
 }
 
 findDepots(){
+ 
   this.facilityList=[]; 
-  let division: string = this.tssFeederFormGroup.value.dataDiv;
+  let division: string = this.tssFeederFormGroup.controls['dataDiv'].value;
   for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
     if(this.facilityHierarchy[i].division == division && this.facilityHierarchy[i].depotType == 'TSS'){

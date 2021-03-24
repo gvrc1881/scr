@@ -31,7 +31,7 @@
                                             <mat-form-field fxFlex="30">
                                               <!-- <input matInput placeholder="Description" formControlName="description"
                                                 required /> -->
-                                              <textarea matInput placeholder="{{FiledLabels.DESCRIPTION}}" [formControl]="contentManagementFormGroup.controls['description']" required></textarea>
+                                              <textarea matInput placeholder="{{FiledLabels.DESCRIPTION}}" [formControl]="contentManagementFormGroup.controls['description']" required pattern="^[a-zA-Z0-9,\s._-,(,),/,\]+(\s[a-zA-Z0-9,._-,(,),/,\]+)?$"></textarea>
                                               <mat-error *ngIf="f.description.errors && f.description.errors.required"
                                                 class="alert alert-danger">Description required</mat-error>
                                               <mat-error *ngIf="f.description.errors && f.description.errors.pattern"

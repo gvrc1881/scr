@@ -73,7 +73,7 @@ export class DrivesComponent implements OnInit {
     uploadFile: boolean;
     driveId: any;
     contentManagementFormGroup: FormGroup;
-    pattern = "[a-zA-Z][a-zA-Z ]*";
+    pattern = "^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$";
     selectedFiles: File[] = [];
     filesExists: boolean = false;
     userDefaultData: any;
@@ -178,7 +178,7 @@ export class DrivesComponent implements OnInit {
         this.driveId = id;
         this.contentManagementFormGroup = this.formBuilder.group({
             contentCategory: [''],
-            description: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+            description: ['', Validators.compose([Validators.required])],
             uploadFiles: ['', Validators.required],
             contentTopic: [''],
         });
