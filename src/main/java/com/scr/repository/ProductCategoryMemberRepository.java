@@ -31,7 +31,7 @@ public interface ProductCategoryMemberRepository extends JpaRepository<ProductCa
     @Query(value = "select  productId from ProductCategoryMember  where productCategoryId = :depotType Order by productId Asc ")
 	List<String> findByProductCategoryIdOrderByProductIdAsc(@Param("depotType") String depotType);
     
-	List<ProductCategoryMember> getByProductId(Product productId);
+	//List<ProductCategoryMember> getByProductId(Product productId);
 
 
 }

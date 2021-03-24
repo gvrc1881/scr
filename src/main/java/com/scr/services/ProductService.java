@@ -30,7 +30,7 @@ public class ProductService {
 
 	}
 
-   public String deleteProductById(Long id) {	
+   /*public String deleteProductById(Long id) {	
 		
 		Optional<Product> product = productRepository.findById(id);
 		if (product.isPresent()) {
@@ -41,6 +41,10 @@ public class ProductService {
 			return "Invalid product Repository Id";
 		}
 		
+	}*/
+   public void deleteProductById(Long id) {
+		// TODO Auto-generated method stub
+	   productRepository.deleteById(id);
 	}
 	public Boolean existsByProductId(String productId) {
 		// TODO Auto-generated method stub

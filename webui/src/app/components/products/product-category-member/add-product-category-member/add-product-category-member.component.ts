@@ -150,7 +150,7 @@ export class AddProductCategoryMemberComponent implements OnInit {
         this.addProductCategoryMemberFormGroup.patchValue({
           id: this.resp.id,
           productCategoryId: this.resp.productCategoryId,
-          productId: this.resp.productId.id,
+          productId: this.resp.productId,
           quantity: this.resp.quantity,
           fromDate: new Date(this.resp.fromDate),
           thruDate: !!this.resp.thruDate ? new Date(this.resp.thruDate) : '',
@@ -158,7 +158,6 @@ export class AddProductCategoryMemberComponent implements OnInit {
           
           
         });
-        this.getProductName();
       this.toMinDate = new Date(this.resp.fromDate);
         this.spinnerService.hide();
       })
@@ -173,7 +172,7 @@ export class AddProductCategoryMemberComponent implements OnInit {
     if (this.save) {
       var saveProductCategoryMemberModel = {
         "productCategoryId": this.addProductCategoryMemberFormGroup.value.productCategoryId,
-        "productId": this.selectedProduct,
+        "productId": this.addProductCategoryMemberFormGroup.value.productId,
         "quantity": this.addProductCategoryMemberFormGroup.value.quantity,
         "fromDate": this.addProductCategoryMemberFormGroup.value.fromDate,
         "thruDate": this.addProductCategoryMemberFormGroup.value.thruDate,
@@ -200,7 +199,7 @@ export class AddProductCategoryMemberComponent implements OnInit {
       var updateProductModel = {
         "id": this.id,
         "productCategoryId": this.addProductCategoryMemberFormGroup.value.productCategoryId,
-        "productId": this.selectedProduct,
+        "productId": this.addProductCategoryMemberFormGroup.value.productId,
         "quantity": this.addProductCategoryMemberFormGroup.value.quantity,
         "fromDate": this.addProductCategoryMemberFormGroup.value.fromDate,
         "thruDate": this.addProductCategoryMemberFormGroup.value.thruDate,
@@ -235,11 +234,6 @@ export class AddProductCategoryMemberComponent implements OnInit {
       })
   }
 
-  getProductName(){
-    this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT.GET_PRODUCT_ID+this.addProductCategoryMemberFormGroup.value.productId).subscribe((data) => {
-         this.selectedProduct = data;
-     });
-  }
   
   findProductCategoryList() {
     this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY.GET_PRODUCT_CATEGORY)

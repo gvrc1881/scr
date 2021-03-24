@@ -15,11 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
-import com.scr.model.PrecautionaryMeasure;
 import com.scr.model.Product;
-import com.scr.model.ProductCategoryMember;
-import com.scr.repository.ProductCategoryMemberRepository;
-import com.scr.repository.ProductRepository;
 import com.scr.services.ProductService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -34,12 +30,6 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
-	
-	@Autowired
-	private ProductCategoryMemberRepository ProductCategoryMemberRepository;
-	
-	@Autowired
-	private ProductRepository productRepository;
 	
 	@RequestMapping(value="/findAllProducts", method=RequestMethod.GET, headers = "Accept=application/json")
 	public List<Product> findAllProducts(){
@@ -181,7 +171,7 @@ public class ProductController {
 			return false;
 		}
 	}
-	@RequestMapping(value = "/deleteProduct/{id}" ,method = RequestMethod.DELETE ,headers = "Accept=application/json")
+	/*@RequestMapping(value = "/deleteProduct/{id}" ,method = RequestMethod.DELETE ,headers = "Accept=application/json")
 	public ResponseStatus deleteProduct(@PathVariable Long id) {
 		log.info("Enter into delete Product  function");
 		log.info("Selected Product Id = "+id);
@@ -211,5 +201,20 @@ public class ProductController {
 		if(productList.size() > 0 )	
 			 result="This product Id is Associated with Product Category Member";
 		return Helper.findResponseStatus( result , Constants.FAILURE_CODE);	
+	}*/
+	@RequestMapping(value = "/deleteProduct/{id}" ,method = RequestMethod.DELETE , headers = "Accept=application/json")
+	public ResponseStatus deleteProduct(@PathVariable Long id) {
+		log.info("Enter into deleteProduct function");
+		log.info("Selected Product Id = "+id);
+		try {
+			productService.deleteProductById(id);
+			return Helper.findResponseStatus("Product deleted successfully", Constants.SUCCESS_CODE);
+		} catch (NullPointerException npe) {
+			log.error("ERROR >> While deleting Product data"+npe.getMessage());
+			return Helper.findResponseStatus("Product Deletion is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);			
+		} catch (Exception e) {
+			log.error("ERROR >> While deleting Product data"+e.getMessage());
+			return Helper.findResponseStatus("Product Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
 	}
 }

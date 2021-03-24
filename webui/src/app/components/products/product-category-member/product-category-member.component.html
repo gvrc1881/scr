@@ -70,7 +70,7 @@
                                                         <span>{{FiledLabels.PRODUCT_ID}}</span>
                                                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData">
                                                     </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row"> {{row.productId.productId}}</mat-cell>
+                                                    <mat-cell *matCellDef="let row"> {{row.productId}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="quantity">

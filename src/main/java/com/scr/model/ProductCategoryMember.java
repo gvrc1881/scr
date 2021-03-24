@@ -43,9 +43,8 @@ public class ProductCategoryMember implements Serializable {
 	@Column(name="product_category_id")
 	private String productCategoryId;
 
-	@ManyToOne
-	@JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "fk_product_id_Product"))
-	private Product productId;
+	@Column(name="product_id")
+	private String productId;
 	
 	private BigDecimal quantity;
 
@@ -132,11 +131,13 @@ public class ProductCategoryMember implements Serializable {
 
 	
 
-	public Product getProductId() {
+
+
+	public String getProductId() {
 		return productId;
 	}
 
-	public void setProductId(Product productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 
