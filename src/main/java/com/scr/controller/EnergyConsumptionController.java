@@ -38,10 +38,13 @@ public class EnergyConsumptionController{
 				@PathVariable("division") String division,
 				@PathVariable("psiDepot") String psiDepot) throws JSONException {
 		logger.info("Enter into Energy Consumption function");
-		logger.info("from date = "+fromDate +" todate = "+toDate+" feederId = "+feederId+" Division = "+division+" PSI Depot"+psiDepot);
+		logger.info("from date = "+fromDate +" todate = "+toDate+" feederId = "+feederId+" Division = "+division+" PSI Depot ="+psiDepot);
 		List<EnergyConsumptionResponse> usersList = null;
 		try {			
 			logger.info("Calling service for Energy Consumption data");
+			if ("undefined".equals(psiDepot)) {
+				psiDepot = null;
+			}
 			usersList = service.findEnergyConsumption(fromDate, toDate, feederId, division,psiDepot);	
 			logger.info("Fetched Energy Consumption data = "+usersList);
 		} catch (NullPointerException e) {			

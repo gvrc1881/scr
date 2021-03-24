@@ -43,12 +43,13 @@
                                 </div>
                                 </div>
                                 <ng-template #ZoneElseBlock>
-                                    <div class = "col-md-2" >
+                                    <div class = "col-md-3" >
                                         <mat-form-field fxFlex="30">
                                             <input matInput placeholder = "{{FiledLabels.ZONE}}" [(ngModel)]="zoneCode" readonly/>
                                         </mat-form-field>
                                       </div>
                               </ng-template>  
+                              <div *ngIf="enableDivision else divisionElseBlock">
                                 <div class="col-md-3">
                                     <mat-form-field fxFlex="30" class="example-full-width">
                                         <mat-select placeholder="{{FiledLabels.DIVISION}}" (selectionChange)="updateDivision($event)" [(ngModel)]="divisionCode">
@@ -59,6 +60,14 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
+                              </div>
+                                <ng-template #divisionElseBlock>
+	                                     <div class = "col-md-3" >
+	                                        <mat-form-field fxFlex="30">
+	                                            <input matInput placeholder = "{{FiledLabels.DIVISION}}" [(ngModel)]="divisionCode" readonly/>
+	                                        </mat-form-field>
+	                                      </div>
+                                </ng-template>
                                 <div class="col-md-3" >
                                     <mat-form-field fxFlex="30" class="example-full-width">
                                         <mat-select placeholder="{{FiledLabels.DEPOT}}" (selectionChange)="getTssFeeder()" [(ngModel)]="depotName">

@@ -78,6 +78,7 @@ pagination = Constants.PAGINATION_NUMBERS;
   depotName: any;
   tssList: any;
   feedersArray = [];
+    enableDivision: boolean;
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -92,7 +93,6 @@ pagination = Constants.PAGINATION_NUMBERS;
   }
 
   ngOnInit() {
-    
     const previousUrl = this.routerService.getPreviousUrl();
     console.log(previousUrl)
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_USER_DEFAULT_DATA + this.loggedUser.userName).subscribe((data) => {
@@ -109,6 +109,12 @@ pagination = Constants.PAGINATION_NUMBERS;
         this.enableZone = true;
       }
         this.divisionsList = this.divisionData;
+        
+        if(this.divisionData.length > 0)
+            this.enableDivision = true;
+        else
+            this.enableDivision = false;
+        
       if (this.userDefaultData.division) {
         this.divisionCode = this.userDefaultData.division.toUpperCase();
        // commented by adiReddy  if(previousUrl != "/energy-consumption/"){
@@ -206,8 +212,8 @@ pagination = Constants.PAGINATION_NUMBERS;
         if(this.tssList) {
             this.feedersOriginalList.filter(tss => {
                 this.feedersList =     this.tssList.filter(value =>{
-                        var tssName = value.facilityName.split("_")
-                        if(tss.feederName == tssName[0]) {
+                        //var tssName = value.facilityName.split("_")
+                        if( tss.tssName == value.facilityName ) {
                             this.feedersArray.push(tss);
                         }
                  });
@@ -224,7 +230,7 @@ pagination = Constants.PAGINATION_NUMBERS;
                     return value.dataDiv.toLowerCase() == this.selectedDivision.toLowerCase() && value.depotType == 'PSI';
                 }    
               });
-            if(this.depotsList.length > 0 ){
+            if(this.depotsList.length == 1 ) {
                 this.depotName = this.depotsList[0].facilityName;
             }
         }
@@ -352,8 +358,11 @@ pagination = Constants.PAGINATION_NUMBERS;
   }
   radioChange(event: MatRadioChange) {
     this.filterData.dataSource = [];
-      this.getPSIDepots();
+     // this.getPSIDepots();
     if (event.value == 'Date') {
+        if(this.enableDivision) {
+            this.depotName = undefined;
+        }
       this.exactDate = true;
       this.selectedExactDate = new Date();
       var query = "";
@@ -361,7 +370,10 @@ pagination = Constants.PAGINATION_NUMBERS;
       query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision + '/' + this.depotName : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision +'/'+ this.depotName;
       this.findEnergyConsumptionData(query);
     } else {
-      console.log('*** depot name ***'+this.depotName);
+      //console.log('*** depot name ***'+this.depotName);
+      if(this.depotsList.length > 0 ){
+            this.depotName = this.depotsList[0].facilityName;
+      }
       this.exactDate = false;
       this.selectedBWFrom = new Date();
       this.selectedBWTo = this.maxDate;
